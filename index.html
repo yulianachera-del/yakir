@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0B0D10">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Офлайн-самодопомога: скинути напругу після тривоги та допомогти заснути">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Якір">
+  <title>Якір</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- Тексти за замовчуванням — українською; app.js підставляє вибрану мову (UA / EN / RU)
+     в усі елементи з data-i18n та data-i18n-aria. -->
+<main id="app">
+
+  <!-- Екран 0: перший запуск -->
+  <section class="screen screen--center" id="s-intro" hidden>
+    <button class="lang-btn" type="button">Мова · UA</button>
+    <div class="intro-mark" aria-hidden="true"></div>
+    <p class="lead" data-i18n="intro">Працює повністю без інтернету. Допомагає швидко скинути напругу після тривоги або заснути</p>
+    <button class="btn btn--primary" id="btn-intro" type="button" data-i18n="start">Почати</button>
+  </section>
+
+  <!-- Екран 1: головний -->
+  <section class="screen" id="s-home" hidden>
+    <button class="card card--calm" id="btn-calm" type="button">
+      <span class="card__title" data-i18n="calmTitle">Скинути напругу</span>
+      <span class="card__sub" data-i18n="calmSub">Після тривоги, вибухів або паніки • 4 хвилини</span>
+    </button>
+    <button class="card card--sleep" id="btn-sleep" type="button">
+      <span class="card__title" data-i18n="sleepTitle">Допомогти заснути</span>
+      <span class="card__sub" data-i18n="sleepSub">Зворотний відлік і вимкнення думок</span>
+    </button>
+    <div class="home-bar">
+      <div class="segmented" id="feedback" role="radiogroup" data-i18n-aria="feedbackLabel">
+        <button type="button" role="radio" data-mode="sound" data-i18n="fbSound">Звук + Вібро</button>
+        <button type="button" role="radio" data-mode="vibro" data-i18n="fbVibro">Тільки Вібро</button>
+        <button type="button" role="radio" data-mode="visual" data-i18n="fbVisual">Тихий візуал</button>
+      </div>
+      <div class="home-row home-row--main">
+        <button class="pill-btn" id="btn-detox" type="button" data-i18n="detox">Детокс</button>
+        <button class="pill-btn" id="btn-near" type="button" data-i18n="near">Побути поруч</button>
+        <button class="pill-btn" id="btn-anchor" type="button" data-i18n="anchorTitle">Моя опора</button>
+      </div>
+      <div class="home-row home-row--minor">
+        <button class="pill-btn" id="btn-kid" type="button" data-i18n="kid">Для дитини</button>
+        <button class="lang-btn" type="button">Мова · UA</button>
+      </div>
+      <a class="policy-link" href="./privacy.html" data-i18n="privacy">Приватність</a>
+    </div>
+  </section>
+
+  <!-- «Побути поруч»: без завдань — тепле світло, що дихає, і ритм спокійного серця -->
+  <section class="screen screen--black" id="s-near" hidden>
+    <button class="close near-close" id="near-exit" type="button" data-i18n-aria="exit">✕</button>
+    <div class="near-glow" aria-hidden="true"></div>
+    <p class="near-text" data-i18n="nearText">Я поруч. Нічого не треба робити</p>
+    <p class="near-anchor" id="near-anchor"></p>
+    <button class="pill-btn near-sound" id="near-sound" type="button"></button>
+  </section>
+
+  <!-- «Моя опора»: фраза для себе або ім'я близької людини (лише на цьому телефоні) -->
+  <section class="screen screen--flow" id="s-anchor" hidden>
+    <header class="flow-head">
+      <h1 class="flow-title" data-i18n="anchorTitle">Моя опора</h1>
+      <button class="close" id="anchor-exit" type="button" data-i18n-aria="back">✕</button>
+    </header>
+    <div class="d-pane d-pane--pad">
+      <p class="muted soft-hint" data-i18n="anchorLead">Напиши фразу для себе або ім’я близької людини. Я покажу це у важку хвилину</p>
+      <textarea id="anchor-input" rows="3" maxlength="140" data-i18n-ph="anchorPh" placeholder="Наприклад: «Це мине. Я впораюся»"></textarea>
+      <p class="muted soft-hint" data-i18n="anchorNote">Зберігається лише на цьому телефоні</p>
+      <button class="btn btn--primary" id="anchor-save" type="button" data-i18n="anchorSave">Зберегти</button>
+      <button class="btn btn--ghost" id="anchor-clear" type="button" data-i18n="anchorClear">Прибрати</button>
+    </div>
+  </section>
+
+  <!-- Режим для дитини: дихання як гра, з підказкою для дорослого -->
+  <section class="screen screen--flow" id="s-kid" hidden>
+    <header class="flow-head">
+      <h1 class="flow-title" data-i18n="kid">Для дитини</h1>
+      <button class="close" id="kid-exit" type="button" data-i18n-aria="exit">✕</button>
+    </header>
+    <div class="stage kid-stage" id="kid-stage">
+      <svg class="kid-art" id="kid-balloon" viewBox="0 0 200 260" aria-hidden="true">
+        <g class="kb-fly">
+          <path d="M100 184q-10 20 0 38t0 34" stroke="#8B9099" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <g class="kb-scale">
+            <ellipse cx="100" cy="100" rx="62" ry="74" fill="var(--kid-color, #C88A55)"/>
+            <path d="M92 172l8 13 8-13z" fill="var(--kid-color, #C88A55)"/>
+            <path d="M74 66q10-20 30-22" stroke="#E2E4E9" stroke-width="5" fill="none" stroke-linecap="round" opacity=".35"/>
+          </g>
+        </g>
+      </svg>
+      <svg class="kid-art" id="kid-candle" viewBox="0 0 200 260" aria-hidden="true" hidden>
+        <g class="kc-candle">
+          <ellipse class="kc-glow" cx="100" cy="92" rx="50" ry="56" fill="#C88A55" opacity=".14"/>
+          <path class="kc-flame" d="M100 50q24 32 0 62q-24-30 0-62z" fill="#E0A45F"/>
+          <path d="M100 114v14" stroke="#3A2C22" stroke-width="3" stroke-linecap="round"/>
+          <rect x="78" y="126" width="44" height="104" rx="8" fill="#D9C7A8"/>
+          <rect x="62" y="228" width="76" height="12" rx="6" fill="#8B9099"/>
+        </g>
+        <g class="kc-flower">
+          <path d="M36 240v-34" stroke="#6B8E78" stroke-width="3" stroke-linecap="round"/>
+          <g fill="#C88A55"><circle cx="36" cy="190" r="8"/><circle cx="26" cy="198" r="8"/><circle cx="46" cy="198" r="8"/><circle cx="30" cy="209" r="8"/><circle cx="42" cy="209" r="8"/></g>
+          <circle cx="36" cy="200" r="6" fill="#D9C7A8"/>
+        </g>
+      </svg>
+      <p class="instruction" id="kid-text" aria-live="polite"></p>
+      <div class="muted" id="kid-count"></div>
+    </div>
+    <p class="muted soft-hint kid-tip" data-i18n="kidTip">Дорослому: дихайте разом із дитиною, повільно й уголос. Не виправляйте — хваліть за кожен видих</p>
+    <button class="pill-btn" id="kid-game" type="button"></button>
+  </section>
+
+  <!-- Детокс: спокійні заняття без цілей і оцінок (для затяжного стресу) -->
+  <section class="screen screen--flow" id="s-detox" hidden>
+    <header class="flow-head">
+      <h1 class="flow-title" data-i18n="detox">Детокс</h1>
+      <button class="close" id="detox-exit" type="button" data-i18n-aria="exit">✕</button>
+    </header>
+    <p class="muted detox-lead" data-i18n="detoxLead">Тут немає завдань і оцінок. Обери те, що зараз ближче</p>
+    <div class="tiles" id="detox-tiles">
+      <button type="button" data-act="draw">
+        <span class="tabs__title" data-i18n="dDraw">Малювання світлом</span>
+        <span class="tabs__sub" data-i18n="dDrawSub">Води пальцем — лінії світяться й тануть</span>
+      </button>
+      <button type="button" data-act="bubbles">
+        <span class="tabs__title" data-i18n="dBubbles">Бульбашки</span>
+        <span class="tabs__sub" data-i18n="dBubblesSub">Повільні бульбашки під дощ або хвилі</span>
+      </button>
+      <button type="button" data-act="garden">
+        <span class="tabs__title" data-i18n="dGarden">Звуковий сад</span>
+        <span class="tabs__sub" data-i18n="dGardenSub">Торкайся екрана — кожен дотик звучить м’яко</span>
+      </button>
+      <button type="button" data-act="smile">
+        <span class="tabs__title" data-i18n="dSmile">Про те, про се</span>
+        <span class="tabs__sub" data-i18n="dSmileSub">Знайоме ні про що</span>
+      </button>
+      <button type="button" data-act="thought">
+        <span class="tabs__title" data-i18n="dThought">Відпустити думку</span>
+        <span class="tabs__sub" data-i18n="dThoughtSub">Напиши те, що крутиться в голові, і дивись, як воно зникає</span>
+      </button>
+      <button type="button" data-act="step">
+        <span class="tabs__title" data-i18n="dStep">Маленький крок</span>
+        <span class="tabs__sub" data-i18n="dStepSub">Одна крихітна дія для себе</span>
+      </button>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <!-- Детокс: екран заняття (одна з чотирьох панелей) -->
+  <section class="screen screen--flow" id="s-d-act" hidden>
+    <header class="flow-head">
+      <h1 class="flow-title" id="d-title"></h1>
+      <button class="close" id="d-exit" type="button" data-i18n-aria="detoxBack">✕</button>
+    </header>
+
+    <div class="d-pane" id="d-draw" hidden>
+      <canvas id="draw-canvas"></canvas>
+      <button class="pill-btn d-toggle" id="kaleido" type="button" aria-pressed="true" data-i18n="kaleido">Калейдоскоп</button>
+    </div>
+
+    <div class="d-pane" id="d-garden" hidden>
+      <canvas id="garden-canvas"></canvas>
+      <p class="muted soft-hint d-float" id="garden-hint"></p>
+    </div>
+
+    <div class="d-pane" id="d-bubbles" hidden>
+      <canvas id="bubbles-canvas"></canvas>
+      <button class="pill-btn d-toggle" id="scene-btn" type="button"></button>
+    </div>
+
+    <div class="d-pane d-pane--pad" id="d-thought" hidden>
+      <textarea id="thought-input" rows="6" data-i18n-ph="thoughtPh" placeholder="Пиши сюди. Це ніхто не побачить"></textarea>
+      <p class="thought-ghost" id="thought-ghost" hidden></p>
+      <p class="muted soft-hint" data-i18n="thoughtNote">Нічого не зберігається</p>
+      <button class="btn btn--primary" id="thought-go" type="button" data-i18n="thoughtGo">Відпустити</button>
+    </div>
+
+    <!-- Панель карток: спільна для «Маленького кроку» та «Усмішки» -->
+    <div class="d-pane d-pane--pad" id="d-step" hidden>
+      <div class="step-pic" id="step-pic" hidden></div>
+      <p class="instruction" id="step-text" aria-live="polite"></p>
+      <p class="muted soft-hint" id="step-note"></p>
+      <button class="btn btn--ghost" id="step-next" type="button"></button>
+    </div>
+  </section>
+
+  <!-- Потік А: скинути напругу -->
+  <section class="screen screen--flow" id="s-flow-a" hidden>
+    <header class="flow-head">
+      <!-- Сегменти прогресу клікабельні: можна повернутися на будь-який етап -->
+      <nav class="progress" id="a-progress" data-i18n-aria="stagesLabel">
+        <button type="button"><i></i><span data-i18n="st1">Дихання</span></button>
+        <button type="button"><i></i><span data-i18n="st2">Тіло</span></button>
+        <button type="button"><i></i><span data-i18n="st3">Опора</span></button>
+        <button type="button"><i></i><span data-i18n="st4">Обійми</span></button>
+      </nav>
+      <button class="close voice-btn" id="a-voice" type="button" aria-pressed="true" data-i18n-aria="voiceToggle">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z"/>
+          <path class="wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>
+          <path class="slash" d="M15 9.5l5 5M20 9.5l-5 5"/>
+        </svg>
+      </button>
+      <button class="close" id="a-exit" type="button" data-i18n-aria="exit">✕</button>
+    </header>
+
+    <!-- Коротка м'яка пауза-підводка перед кожним етапом -->
+    <div class="stage" id="a-note" hidden>
+      <p class="instruction instruction--soft" id="a-note-text" aria-live="polite"></p>
+    </div>
+
+    <!-- А1: фізіологічне зітхання -->
+    <div class="stage" id="a1" hidden>
+      <div class="breath">
+        <div class="breath__circle" id="breath-circle"></div>
+        <div class="breath__label">
+          <span class="breath__cmd" id="breath-cmd" aria-live="polite"></span>
+          <span class="breath__count" id="breath-count"></span>
+        </div>
+      </div>
+      <p class="muted soft-hint" data-i18n="breathHint">Не встигаєш у такт — нічого. Головне — довгий видих</p>
+    </div>
+
+    <!-- А2: м'язовий затиск -->
+    <div class="stage" id="a2" hidden>
+      <p class="instruction" id="a2-text" aria-live="polite"></p>
+      <div class="timer" id="a2-timer"></div>
+      <div class="muted" id="a2-count"></div>
+      <p class="muted soft-hint" data-i18n="muscleHint">Напружуй лише до комфортної межі</p>
+    </div>
+
+    <!-- А3: заземлення 5-4-3-2-1 -->
+    <button class="stage tap-area" id="a3" type="button" hidden>
+      <span class="instruction" id="a3-text" aria-live="polite"></span>
+      <span class="dots" id="a3-dots" aria-hidden="true"></span>
+      <span class="muted" data-i18n="tapAnywhere">Натискай будь-де на екрані</span>
+    </button>
+
+    <!-- А4: «обійми метелика» — почергове постукування по плечах у ритмі світла -->
+    <div class="stage" id="a4" hidden>
+      <p class="instruction" id="bf-text" data-i18n="bfText">Схрести руки на грудях, долоні під ключицями. Постукуй по черзі: ліва долоня, права — як крила метелика</p>
+      <div class="bf" id="bf" aria-hidden="true"><i></i><i></i></div>
+      <p class="muted soft-hint" data-i18n="bfHint">Телефон можна покласти. Якщо стає важче — зупинись і подивись навколо</p>
+    </div>
+
+    <button class="skip" id="a-skip" type="button" data-i18n="skip">Пропустити</button>
+  </section>
+
+  <!-- Фінал Потоку А -->
+  <section class="screen screen--center" id="s-a-final" hidden>
+    <div class="final-text">
+      <p class="lead" id="final-warm"></p>
+      <p class="muted soft-hint" data-i18n="finalText">Пульс вирівнюється</p>
+      <p class="anchor-line" id="final-anchor"></p>
+    </div>
+    <!-- М'яке «Як ти зараз?»: відповідь нікуди не зберігається, лише підказує наступний крок -->
+    <div class="stack" id="final-ask">
+      <p class="feel-q" data-i18n="feelQ">Як ти зараз?</p>
+      <button class="btn btn--ghost" type="button" data-feel="tense" data-i18n="feelTense">Ще напружено</button>
+      <button class="btn btn--ghost" type="button" data-feel="eased" data-i18n="feelEased">Трохи відпустило</button>
+      <button class="btn btn--ghost" type="button" data-feel="sleepy" data-i18n="feelSleepy">Хочеться спати</button>
+      <button class="skip js-home" type="button" data-i18n="toHome">На головну</button>
+    </div>
+    <div class="stack" id="final-next" hidden>
+      <p class="feel-q" id="final-suggest"></p>
+      <button class="btn btn--primary" id="final-go" type="button"></button>
+      <button class="btn btn--ghost js-home" type="button" data-i18n="toHome">На головну</button>
+    </div>
+  </section>
+
+  <!-- Б1: налаштування перед сном -->
+  <section class="screen screen--flow" id="s-b1" hidden>
+    <header class="flow-head">
+      <h1 class="flow-title" data-i18n="sleepTitle">Допомогти заснути</h1>
+      <button class="close" id="b1-exit" type="button" data-i18n-aria="exit">✕</button>
+    </header>
+
+    <div class="setup">
+      <div class="tabs" id="sleep-mode" role="radiogroup" data-i18n-aria="sleepModeLabel">
+        <button type="button" role="radio" data-value="count">
+          <span class="tabs__title" data-i18n="countTitle">Зворотний відлік (100 → 0)</span>
+          <span class="tabs__sub" data-i18n="countSub">Монотонний рахунок назад, темп сповільнюється</span>
+        </button>
+        <button type="button" role="radio" data-value="words">
+          <span class="tabs__title" data-i18n="wordsTitle">Образи (Перемішування)</span>
+          <span class="tabs__sub" data-i18n="wordsSub">Випадкові спокійні слова, 15 хвилин</span>
+        </button>
+      </div>
+
+      <button class="row" id="noise-toggle" type="button" role="switch" aria-checked="false">
+        <span data-i18n="noise">Фоновий коричневий шум</span>
+        <span class="switch" aria-hidden="true"></span>
+      </button>
+
+      <div class="row row--static">
+        <span data-i18n="voiceLang">Мова озвучення</span>
+        <button class="lang-btn" type="button" data-short>UA</button>
+      </div>
+
+      <p class="hint" id="voice-hint" hidden></p>
+    </div>
+
+    <button class="btn btn--amber" id="btn-sleep-start" type="button" data-i18n="sleepStart">Заплющити очі й почати</button>
+  </section>
+
+  <!-- Б2: активний режим сну (OLED black) -->
+  <section class="screen screen--black" id="s-b2" hidden>
+    <div class="sleep-text" id="sleep-text"></div>
+    <svg class="hold-ring" id="hold-ring" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="44"></circle>
+    </svg>
+  </section>
+
+</main>
+<script src="app.js"></script>
+</body>
+</html>

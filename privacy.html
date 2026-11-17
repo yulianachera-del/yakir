@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0B0D10">
+  <title>Якір — приватність</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0; padding: 24px 20px 48px; background: #0B0D10; color: #E2E4E9;
+      font: 17px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    main { max-width: 640px; margin: 0 auto; }
+    nav { display: flex; gap: 8px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+    nav a, nav button {
+      min-height: 46px; padding: 0 18px; border-radius: 23px; border: 1px solid #2A3038;
+      background: #13161B; color: #E2E4E9; font: inherit; font-size: 15px;
+      display: inline-flex; align-items: center; text-decoration: none; cursor: pointer;
+    }
+    nav button[aria-pressed="true"] { border-color: #6B8E78; color: #6B8E78; }
+    nav .back { margin-right: auto; }
+    h1 { font-size: 26px; line-height: 1.25; margin: 0 0 6px; }
+    h2 { font-size: 19px; margin: 28px 0 6px; color: #C9CCD2; }
+    p, li { color: #C9CCD2; }
+    ul { padding-left: 22px; }
+    .muted { color: #8B9099; font-size: 15px; }
+    a { color: #6B8E78; }
+    section[hidden] { display: none; }
+  </style>
+</head>
+<body>
+<main>
+  <nav>
+    <a class="back" href="./index.html" id="back">← Якір</a>
+    <button type="button" data-lang="uk">UA</button>
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="ru">RU</button>
+  </nav>
+
+  <section data-for="uk">
+    <h1>Політика приватності</h1>
+    <p class="muted">Застосунок «Якір». Чинна з 16 листопада 2026 року.</p>
+
+    <h2>Коротко</h2>
+    <p>«Якір» не збирає, не передає і не продає жодних даних про вас. У ньому немає реєстрації, реклами, аналітики й трекерів.</p>
+
+    <h2>Що зберігається на вашому пристрої</h2>
+    <ul>
+      <li>налаштування: мова, спосіб підказок (звук, вібрація чи лише екран), вибрані звуки й режими;</li>
+      <li>фраза з розділу «Моя опора», якщо ви її записали.</li>
+    </ul>
+    <p>Ці дані лежать лише у пам’яті вашого браузера чи застосунку і нікуди не надсилаються. Текст із розділу «Відпустити думку» не зберігається взагалі.</p>
+
+    <h2>Голосові підказки</h2>
+    <p>Голос створює вбудований синтезатор мовлення вашого пристрою. На деяких пристроях і в деяких браузерах синтез відбувається на серверах постачальника голосу (наприклад, Google). Тоді йому передається лише стандартний текст підказки, як-от «вдих» чи «видих». Вашу фразу з «Моєї опори» застосунок не озвучує. Голос можна вимкнути.</p>
+
+    <h2>Сервер</h2>
+    <p>Коли ви вперше відкриваєте або оновлюєте застосунок, сервер, з якого завантажуються файли, бачить технічні дані з’єднання (зокрема IP-адресу) — як будь-який сайт. Ми ці дані не аналізуємо й не поєднуємо ні з чим. Далі застосунок працює без інтернету.</p>
+
+    <h2>Як усе видалити</h2>
+    <p>Видаліть застосунок або очистіть дані сайту в налаштуваннях браузера. Фразу з «Моєї опори» можна стерти й у самому застосунку.</p>
+
+    <h2>Діти</h2>
+    <p>Режим «Для дитини» призначений для використання разом із дорослим. Він, як і весь застосунок, не збирає жодних даних.</p>
+
+    <h2>Не медична допомога</h2>
+    <p>«Якір» — інструмент самодопомоги. Він не ставить діагнозів, не лікує і не замінює лікаря, психолога чи екстрених служб. Якщо вам або комусь поруч загрожує небезпека, зверніться по екстрену допомогу.</p>
+
+    <h2>Зміни й контакти</h2>
+    <p>Якщо політика зміниться, нова версія з’явиться на цій сторінці з новою датою. Запитання: <a href="mailto:CONTACT_EMAIL">CONTACT_EMAIL</a></p>
+  </section>
+
+  <section data-for="en" hidden>
+    <h1>Privacy Policy</h1>
+    <p class="muted">The Anchor (“Якір”) app. Effective 16 November 2026.</p>
+
+    <h2>In short</h2>
+    <p>Anchor does not collect, share or sell any data about you. It has no sign-up, no ads, no analytics and no trackers.</p>
+
+    <h2>What is stored on your device</h2>
+    <ul>
+      <li>settings: language, feedback mode (sound, vibration or screen only), chosen sounds and modes;</li>
+      <li>the phrase in “My anchor”, if you wrote one.</li>
+    </ul>
+    <p>This data stays in your browser or app storage and is never sent anywhere. Text typed in “Let a thought go” is not stored at all.</p>
+
+    <h2>Voice cues</h2>
+    <p>The voice comes from your device’s built-in speech synthesis. On some devices and browsers, synthesis happens on the voice provider’s servers (for example, Google). In that case only the standard cue text, such as “breathe in” or “breathe out”, is sent. The app never speaks your “My anchor” phrase. You can turn the voice off.</p>
+
+    <h2>Server</h2>
+    <p>When you first open or update the app, the server that delivers its files sees technical connection data (including your IP address), as any website does. We do not analyse it or combine it with anything. After that the app works offline.</p>
+
+    <h2>How to delete everything</h2>
+    <p>Uninstall the app or clear the site data in your browser settings. The “My anchor” phrase can also be erased inside the app.</p>
+
+    <h2>Children</h2>
+    <p>The “For a child” mode is meant to be used together with an adult. Like the rest of the app, it collects no data.</p>
+
+    <h2>Not medical care</h2>
+    <p>Anchor is a self-help tool. It does not diagnose or treat, and it does not replace a doctor, a psychologist or emergency services. If you or someone nearby is in danger, contact emergency services.</p>
+
+    <h2>Changes and contact</h2>
+    <p>If this policy changes, the new version will appear on this page with a new date. Questions: <a href="mailto:CONTACT_EMAIL">CONTACT_EMAIL</a></p>
+  </section>
+
+  <section data-for="ru" hidden>
+    <h1>Политика конфиденциальности</h1>
+    <p class="muted">Приложение «Якорь» («Якір»). Действует с 16 ноября 2026 года.</p>
+
+    <h2>Коротко</h2>
+    <p>«Якорь» не собирает, не передаёт и не продаёт никаких данных о вас. В нём нет регистрации, рекламы, аналитики и трекеров.</p>
+
+    <h2>Что хранится на вашем устройстве</h2>
+    <ul>
+      <li>настройки: язык, способ подсказок (звук, вибрация или только экран), выбранные звуки и режимы;</li>
+      <li>фраза из раздела «Моя опора», если вы её записали.</li>
+    </ul>
+    <p>Эти данные лежат только в памяти вашего браузера или приложения и никуда не отправляются. Текст из раздела «Отпустить мысль» не сохраняется вообще.</p>
+
+    <h2>Голосовые подсказки</h2>
+    <p>Голос создаёт встроенный синтезатор речи вашего устройства. На некоторых устройствах и в некоторых браузерах синтез происходит на серверах поставщика голоса (например, Google). Тогда ему передаётся только стандартный текст подсказки, например «вдох» или «выдох». Вашу фразу из «Моей опоры» приложение не озвучивает. Голос можно выключить.</p>
+
+    <h2>Сервер</h2>
+    <p>Когда вы впервые открываете или обновляете приложение, сервер, с которого загружаются файлы, видит технические данные соединения (в том числе IP-адрес) — как любой сайт. Мы эти данные не анализируем и ни с чем не объединяем. Дальше приложение работает без интернета.</p>
+
+    <h2>Как всё удалить</h2>
+    <p>Удалите приложение или очистите данные сайта в настройках браузера. Фразу из «Моей опоры» можно стереть и в самом приложении.</p>
+
+    <h2>Дети</h2>
+    <p>Режим «Для ребёнка» предназначен для использования вместе со взрослым. Он, как и всё приложение, не собирает никаких данных.</p>
+
+    <h2>Не медицинская помощь</h2>
+    <p>«Якорь» — инструмент самопомощи. Он не ставит диагнозов, не лечит и не заменяет врача, психолога или экстренные службы. Если вам или кому-то рядом угрожает опасность, обратитесь за экстренной помощью.</p>
+
+    <h2>Изменения и контакты</h2>
+    <p>Если политика изменится, новая версия появится на этой странице с новой датой. Вопросы: <a href="mailto:CONTACT_EMAIL">CONTACT_EMAIL</a></p>
+  </section>
+</main>
+<script>
+  /* Мова береться з налаштувань застосунку; кнопки вгорі перемикають її лише на цій сторінці. */
+  (function () {
+    var titles = { uk: 'Якір — приватність', en: 'Anchor — privacy', ru: 'Якорь — конфиденциальность' };
+    var backs = { uk: '← Якір', en: '← Anchor', ru: '← Якорь' };
+    var lang = 'uk';
+    try {
+      var raw = localStorage.getItem('anchor.lang');
+      var saved = raw && raw.replace(/"/g, '');
+      if (titles[saved]) lang = saved;
+    } catch (e) { /* сховище недоступне — лишається українська */ }
+    function show(l) {
+      document.documentElement.lang = l;
+      document.title = titles[l];
+      document.getElementById('back').textContent = backs[l];
+      document.querySelectorAll('section[data-for]').forEach(function (s) { s.hidden = s.dataset.for !== l; });
+      document.querySelectorAll('nav button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === l)); });
+    }
+    document.querySelectorAll('nav button').forEach(function (b) {
+      b.addEventListener('click', function () { show(b.dataset.lang); });
+    });
+    show(lang);
+  })();
+</script>
+</body>
+</html>
