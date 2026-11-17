@@ -105,7 +105,12 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 .stack { display: flex; flex-direction: column; gap: 14px; }
 
 /* ===== Главный экран: две карточки по 42% высоты ===== */
-#s-home { display: grid; grid-template-rows: 42fr 42fr auto; }
+#s-home {
+  display: grid; grid-template-rows: auto 42fr 42fr auto;
+  padding-top: calc(var(--pad) + env(safe-area-inset-top) + 20px);
+}
+.home-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: stretch; }
+.home-top .lang-btn { align-self: stretch; min-width: 60px; padding: 0 14px; border-radius: 18px; }
 #s-home[hidden] { display: none; }
 
 .card {
@@ -152,8 +157,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 /* Одна кнопка мови: кожне натискання перемикає UA → EN → RU → UA */
 .home-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px; }
 .home-row > button { justify-self: stretch; padding: 4px 8px; line-height: 1.15; }
-.home-row--main > button { min-height: 60px; font-size: 15.5px; border-radius: 20px; color: var(--text); }
-.home-row--minor > button { min-height: 46px; font-size: 14px; border-radius: 23px; }
+.home-row > button { min-height: 60px; font-size: 16px; border-radius: 20px; color: var(--text); }
 .policy-link { display: block; text-align: center; padding: 6px 12px; color: var(--muted); font-size: 13px; text-decoration: none; opacity: .8; }
 .stack[hidden] { display: none; }
 .stack > .skip { align-self: center; }
