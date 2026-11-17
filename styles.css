@@ -14,6 +14,9 @@
   --radius: 22px;
   --tap: 56px;
   --pad: 16px;
+  /* Додатковий відступ зверху на всіх екранах: на Android системний рядок
+     (час, заряд) інакше «налазить» на хрестик і заголовки */
+  --top-gap: 20px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -57,7 +60,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   flex-direction: column;
   gap: 12px;
   padding:
-    calc(var(--pad) + env(safe-area-inset-top))
+    calc(var(--pad) + env(safe-area-inset-top) + var(--top-gap))
     calc(var(--pad) + env(safe-area-inset-right))
     calc(var(--pad) + env(safe-area-inset-bottom) + var(--kb, 0px))
     calc(var(--pad) + env(safe-area-inset-left));
@@ -107,7 +110,6 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 /* ===== Главный экран: две карточки по 42% высоты ===== */
 #s-home {
   display: grid; grid-template-rows: auto 42fr 42fr auto;
-  padding-top: calc(var(--pad) + env(safe-area-inset-top) + 20px);
 }
 .home-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: stretch; }
 .home-top .lang-btn { align-self: stretch; min-width: 60px; padding: 0 14px; border-radius: 18px; }
@@ -196,7 +198,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 
 /* «Побути поруч» */
 #s-near { gap: 26px; touch-action: manipulation; }
-.near-close { position: absolute; top: calc(16px + env(safe-area-inset-top)); right: 16px; background: transparent; border-color: #1E2126; color: #4A4F58; }
+.near-close { position: absolute; top: calc(16px + env(safe-area-inset-top) + var(--top-gap)); right: 16px; background: transparent; border-color: #1E2126; color: #4A4F58; }
 .near-glow {
   width: min(62vw, 300px); aspect-ratio: 1; border-radius: 50%;
   background: radial-gradient(circle, rgba(200,138,85,.42) 0%, rgba(200,138,85,.14) 55%, transparent 72%);
@@ -354,6 +356,11 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 .progress button.active span { color: var(--text); }
 
 /* Кнопка голосових команд: увімкнено — шавлієва з хвилями, вимкнено — сіра з хрестиком */
+/* «Скинути напругу»: кнопка голосу — під хрестиком, тож смужка етапів
+   займає всю ширину шапки. Кнопка винесена з потоку (absolute), щоб
+   не зсувати вміст етапу вниз. */
+.head-btns { position: relative; flex: none; }
+.head-btns .voice-btn { position: absolute; top: calc(100% + 10px); right: 0; z-index: 2; }
 .voice-btn { display: grid; place-items: center; }
 .voice-btn[hidden] { display: none; }
 .voice-btn[aria-pressed="true"] { color: var(--sage); border-color: rgba(107,142,120,.45); }

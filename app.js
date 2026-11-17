@@ -23,7 +23,8 @@
   const settings = {
     feedback: Store.get('feedback', 'sound'),   // sound | vibro | visual
     sleepMode: Store.get('sleepMode', 'count'), // count | words
-    noise: Store.get('noise', '0') === '1',
+    // фон для сну: off | brown | rain (стара настройка noise='1' → brown)
+    bg: Store.get('sleepBg', Store.get('noise', '0') === '1' ? 'brown' : 'off'),
     voiceCues: Store.get('voiceCues', '1') === '1', // голосові команди в потоці «Скинути напругу»
     lang: Store.get('lang', 'uk'),             // uk | en | ru — мова інтерфейсу й озвучення
   };
@@ -72,7 +73,8 @@
       toSleep: 'Перейти до засинання', toHome: 'На головну',
       countTitle: 'Зворотний відлік (100 → 0)', countSub: 'Монотонний рахунок назад, темп сповільнюється',
       wordsTitle: 'Образи (Перемішування)', wordsSub: 'Випадкові спокійні слова, 15 хвилин',
-      noise: 'Фоновий коричневий шум', voiceLang: 'Мова озвучення',
+      bgSound: 'Фоновий звук', bgOff: 'Без', bgBrown: 'Шум', bgRain: 'Дощ',
+      noteTap: 'Торкнись екрана, щоб почати одразу', voiceLang: 'Мова озвучення',
       sleepStart: 'Заплющити очі й почати',
       hintVisual: 'Режим «Лише візуал»: без голосу, лише тьмяний текст',
       hintNoVoice: 'Голосу для цієї мови на пристрої не знайдено — буде лише текст',
@@ -144,7 +146,8 @@
       toSleep: 'Continue to sleep', toHome: 'Back to home',
       countTitle: 'Countdown (100 → 0)', countSub: 'Steady counting down, slowing as it goes',
       wordsTitle: 'Images (Shuffle)', wordsSub: 'Random calm words, 15 minutes',
-      noise: 'Background brown noise', voiceLang: 'Voice language',
+      bgSound: 'Background sound', bgOff: 'None', bgBrown: 'Noise', bgRain: 'Rain',
+      noteTap: 'Tap the screen to start right away', voiceLang: 'Voice language',
       sleepStart: 'Close your eyes and start',
       hintVisual: '“Visual only” mode: no voice, only dim text',
       hintNoVoice: 'No voice for this language was found on the device — text only',
@@ -215,7 +218,8 @@
       toSleep: 'Перейти к засыпанию', toHome: 'На главную',
       countTitle: 'Обратный отсчет (100 → 0)', countSub: 'Монотонный счет назад, темп замедляется',
       wordsTitle: 'Образы (Перемешивание)', wordsSub: 'Случайные спокойные слова, 15 минут',
-      noise: 'Фоновый коричневый шум', voiceLang: 'Язык озвучки',
+      bgSound: 'Фоновый звук', bgOff: 'Без', bgBrown: 'Шум', bgRain: 'Дождь',
+      noteTap: 'Коснись экрана, чтобы начать сразу', voiceLang: 'Язык озвучки',
       sleepStart: 'Закрыть глаза и начать',
       hintVisual: 'Режим «Только визуал»: без голоса, только тусклый текст',
       hintNoVoice: 'Голос для этого языка не найден на устройстве — будет только текст',
@@ -555,12 +559,42 @@
       });
     },
 
-    /* «Маленький крок»: шелест сторінки книги — швидкий сухий «ш-ш-ших»
-       із легким «шльоп» паперу наприкінці. */
+    /* «Маленький крок»: повільне, м'яке перегортання сторінки — тихий
+       шелест паперу, що неспішно наростає й опадає (~1,3 с), і ледь
+       чутне «лягання» аркуша наприкінці. */
     pageFlip() {
       if (!this.ready) return;
-      this._whoosh(0, 1400, 4200, 0.9, 0.16, 0.12, 0.2);
-      this._whoosh(0.27, 2600, 1800, 1.4, 0.07, 0.01, 0.09);
+      this._whoosh(0, 700, 2000, 0.6, 0.06, 0.45, 0.6);
+      this._whoosh(0.15, 1600, 2600, 0.8, 0.025, 0.4, 0.5);
+      this._whoosh(0.95, 1100, 650, 0.9, 0.02, 0.05, 0.35);
+    },
+
+    /* «Малювання світлом»: чарівний шлейф — тихі скляні іскорки
+       пентатоніки, лише поки палець рухається. Висота залежить від
+       висоти точки на полотні (вище — тонше). */
+    _sparkAt: 0,
+    sparkle(height01) {
+      if (!this.ready) return;
+      const now = performance.now();
+      if (now - this._sparkAt < 110 + Math.random() * 90) return;
+      this._sparkAt = now;
+      const notes = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.5, 1567.98];
+      const base = Math.round(height01 * (notes.length - 3));
+      const f = notes[Math.min(notes.length - 1, base + Math.floor(Math.random() * 3))];
+      const c = this.ctx, t0 = c.currentTime, g = c.createGain();
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(0.022 + Math.random() * 0.012, t0 + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.4);
+      g.connect(c.destination);
+      [[1, 1], [2.76, 0.18], [5.4, 0.06]].forEach(([mult, part]) => { // «скляні» обертони
+        const osc = c.createOscillator(), pg = c.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = f * mult;
+        pg.gain.value = part;
+        osc.connect(pg).connect(g);
+        osc.start(t0); osc.stop(t0 + 1.45);
+        this._track(osc, g);
+      });
     },
 
     /* Тихий «плюх» бульбашки: короткий синус, що злітає вгору. */
@@ -600,6 +634,22 @@
        Модуль ворклету вбудовано рядком (Blob), тож працює й офлайн.
        Запасний спосіб для старих браузерів — довгий (30 с) буфер по колу
        з рівнопотужним перехрестям на стику, щоб не було провалу гучності. */
+    /* Генератор семплів — один код і для ворклету, і для запасного буфера.
+       brown — коричневий шум. rain — злива: м'яке «тіло» з коричневого
+       шуму, тихе шипіння білого й рідкі випадкові краплі (короткі сплески,
+       що згасають за ~4 мс) — без петлі, тож звук ніколи не повторюється. */
+    _GEN_SRC: `function makeGen(kind, rate) {
+      let last = 0, env = 0;
+      const decay = Math.exp(-1 / (rate * 0.004)), dropP = 26 / rate;
+      return function () {
+        const w = Math.random() * 2 - 1;
+        last = (last + 0.02 * w) / 1.02;
+        if (kind !== 'rain') return last * 3.5;
+        if (Math.random() < dropP) env = 0.04 + Math.random() * 0.16;
+        env *= decay;
+        return last * 2.2 + w * 0.2 + (Math.random() * 2 - 1) * env;
+      };
+    }`,
     _noiseWorklet: null, // Promise<boolean>
     _loadNoiseWorklet() {
       if (this._noiseWorklet) return this._noiseWorklet;
@@ -608,14 +658,12 @@
         this._noiseWorklet = Promise.resolve(false);
         return this._noiseWorklet;
       }
-      const code = `registerProcessor('brown-noise', class extends AudioWorkletProcessor {
-        constructor() { super(); this.last = 0; }
+      const code = `${this._GEN_SRC}
+      registerProcessor('anchor-noise', class extends AudioWorkletProcessor {
+        constructor(o) { super(); this.gen = makeGen(o.processorOptions.kind, sampleRate); }
         process(inputs, outputs) {
           const out = outputs[0][0];
-          for (let i = 0; i < out.length; i++) {
-            this.last = (this.last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
-            out[i] = this.last * 3.5;
-          }
+          for (let i = 0; i < out.length; i++) out[i] = this.gen();
           return true;
         }
       });`;
@@ -623,15 +671,13 @@
       this._noiseWorklet = c.audioWorklet.addModule(url).then(() => true, () => false);
       return this._noiseWorklet;
     },
-    _makeNoiseBuffer() {
+    _noiseBuffers: {},
+    _makeNoiseBuffer(kind) {
       const c = this.ctx, rate = c.sampleRate;
       const len = rate * 30, fade = Math.floor(rate * 2);
       const raw = new Float32Array(len + fade);
-      let last = 0;
-      for (let i = 0; i < raw.length; i++) {
-        last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
-        raw[i] = last * 3.5;
-      }
+      const gen = new Function(`${this._GEN_SRC}; return makeGen;`)()(kind, rate);
+      for (let i = 0; i < raw.length; i++) raw[i] = gen();
       const buffer = c.createBuffer(1, len, rate);
       const data = buffer.getChannelData(0);
       data.set(raw.subarray(0, len));
@@ -642,28 +688,34 @@
       return buffer;
     },
 
-    startNoise(fadeIn = 5, level = 0.32) {
+    startNoise(fadeIn = 5, level = 0.32, kind = 'brown') {
       if (!this.ready) return;
       const c = this.ctx;
       clearTimeout(this.noiseStopTimer);
+      if (this.noiseGain && this.noiseSrc.kind !== kind) this.stopNoise(0.5);
       if (!this.noiseGain) {
+        // шум — глухіший; дощ — світліший, але без різкого верху
         const lp = c.createBiquadFilter();
-        lp.type = 'lowpass'; lp.frequency.value = 900; lp.Q.value = 0.5;
+        lp.type = 'lowpass'; lp.frequency.value = kind === 'rain' ? 5200 : 900; lp.Q.value = 0.5;
         const g = c.createGain();
         g.gain.value = 0.0001;
         lp.connect(g).connect(c.destination);
-        const entry = { node: null, stopped: false };
+        const entry = { node: null, stopped: false, kind };
         this.noiseSrc = entry; this.noiseGain = g;
         this._loadNoiseWorklet().then((ok) => {
           if (entry.stopped) return;
           let node;
           if (ok) {
-            try { node = new AudioWorkletNode(c, 'brown-noise', { numberOfInputs: 0, outputChannelCount: [1] }); } catch (e) { node = null; }
+            try {
+              node = new AudioWorkletNode(c, 'anchor-noise', {
+                numberOfInputs: 0, outputChannelCount: [1], processorOptions: { kind },
+              });
+            } catch (e) { node = null; }
           }
           if (!node) {
-            if (!this._noiseBuffer) this._noiseBuffer = this._makeNoiseBuffer();
+            if (!this._noiseBuffers[kind]) this._noiseBuffers[kind] = this._makeNoiseBuffer(kind);
             node = c.createBufferSource();
-            node.buffer = this._noiseBuffer;
+            node.buffer = this._noiseBuffers[kind];
             node.loop = true;
             node.start();
           }
@@ -921,6 +973,7 @@
      завдання. Нічого не вимагає: жодних дій, звуків чи вібрації. */
   const STAGE_NOTES = [['noteA1', 4500], ['noteA2', 3000], ['noteA3', 3000], ['noteA4', 3000]];
 
+  let noteSkip = null;
   async function startStageA(index) {
     const t = newToken();
     Haptic.stop();
@@ -928,13 +981,16 @@
     for (let i = 0; i < progressA.length; i++) {
       progressA[i].className = i < index ? 'done' : i === index ? 'active' : '';
     }
-    $('a-skip').hidden = index === 2; // заземлення йде в темпі користувача
+    $('a-skip').hidden = false;
     $('a-skip').dataset.next = String(index + 1);
 
     stagesA.forEach((el) => { el.hidden = true; });
     $('a-note-text').textContent = tr(STAGE_NOTES[index][0]);
     $('a-note').hidden = false;
-    await wait(STAGE_NOTES[index][1], t);
+    // Підводку можна пропустити дотиком будь-де — для тих, хто її вже знає
+    await Promise.race([wait(STAGE_NOTES[index][1], t), new Promise((go) => { noteSkip = go; })]);
+    noteSkip = null;
+    if (t.cancelled) return;
     $('a-note').hidden = true;
 
     stagesA[index].hidden = false;
@@ -1353,7 +1409,7 @@
   /* Гучність шуму на початку (далі стишується разом із голосом). Динаміки
      телефона майже не відтворюють найнижчі частоти, тому шум зроблено
      гучнішим і трохи світлішим (див. startNoise). */
-  const NOISE_LEVEL = 0.8;
+  const NOISE_LEVEL = { brown: 0.8, rain: 0.55 };
   const WORDS_DURATION_MS = 15 * 60 * 1000;
   const sleepText = $('sleep-text');
 
@@ -1388,7 +1444,7 @@
   function sleepTick(key, text, pace, isWord) {
     sleepText.classList.toggle('is-word', isWord);
     sleepText.textContent = text;
-    if (settings.noise) Sound.setNoiseLevel(NOISE_LEVEL * pace.vol, 2);
+    if (settings.bg !== 'off') Sound.setNoiseLevel(NOISE_LEVEL[settings.bg] * pace.vol, 2);
     if (sleepVoice()) say(key, String(text), pace.rate, pace.vol * SPEECH_BASE_VOLUME);
   }
 
@@ -1398,7 +1454,7 @@
     sleepText.classList.remove('fade');
     sleepText.textContent = '';
     Wake.on();
-    if (settings.noise) Sound.startNoise(6, NOISE_LEVEL);
+    if (settings.bg !== 'off') Sound.startNoise(6, NOISE_LEVEL[settings.bg], settings.bg);
     (settings.sleepMode === 'count' ? runCountdown : runWords)(t);
   }
 
@@ -1565,6 +1621,7 @@
     draw.segs.push({ x0: prev.x, y0: prev.y, x1: p.x, y1: p.y, t: now, hue: warmHue(now) });
     if (draw.segs.length > 1400) draw.segs.shift();
     draw.last.set(e.pointerId, p);
+    if (soundOn()) Sound.sparkle(1 - Math.min(1, Math.max(0, p.y / draw.view.h)));
   }
 
   /* ---- Звуковий сад ----
@@ -2332,6 +2389,9 @@
       if (!settings.voiceCues) stopVoice();
       paintVoiceButton();
     });
+    $('s-flow-a').addEventListener('click', (e) => {
+      if (noteSkip && !e.target.closest('button')) noteSkip();
+    });
     $('a-skip').addEventListener('click', (e) => {
       const next = Number(e.currentTarget.dataset.next);
       if (next < stagesA.length) startStageA(next); else finishFlowA();
@@ -2375,13 +2435,8 @@
     document.querySelectorAll('.lang-btn').forEach((b) => b.addEventListener('click', nextLang));
     bindDetox();
     applyLang();
-    const noiseToggle = $('noise-toggle');
-    noiseToggle.setAttribute('aria-checked', String(settings.noise));
-    noiseToggle.addEventListener('click', () => {
-      settings.noise = !settings.noise;
-      Store.set('noise', settings.noise ? '1' : '0');
-      noiseToggle.setAttribute('aria-checked', String(settings.noise));
-    });
+    if (!['off', 'brown', 'rain'].includes(settings.bg)) settings.bg = 'off';
+    bindRadio($('bg-sound'), 'value', settings.bg, (v) => { settings.bg = v; Store.set('sleepBg', v); });
     $('btn-sleep-start').addEventListener('click', () => { Sound.unlock(); startSleep(); });
 
     // Б2: выход только удержанием

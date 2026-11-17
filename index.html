@@ -207,19 +207,22 @@
         <button type="button"><i></i><span data-i18n="st3">Опора</span></button>
         <button type="button"><i></i><span data-i18n="st4">Обійми</span></button>
       </nav>
-      <button class="close voice-btn" id="a-voice" type="button" aria-pressed="true" data-i18n-aria="voiceToggle">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z"/>
-          <path class="wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>
-          <path class="slash" d="M15 9.5l5 5M20 9.5l-5 5"/>
-        </svg>
-      </button>
-      <button class="close" id="a-exit" type="button" data-i18n-aria="exit">✕</button>
+      <div class="head-btns">
+        <button class="close" id="a-exit" type="button" data-i18n-aria="exit">✕</button>
+        <button class="close voice-btn" id="a-voice" type="button" aria-pressed="true" data-i18n-aria="voiceToggle">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z"/>
+            <path class="wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>
+            <path class="slash" d="M15 9.5l5 5M20 9.5l-5 5"/>
+          </svg>
+        </button>
+      </div>
     </header>
 
-    <!-- Коротка м'яка пауза-підводка перед кожним етапом -->
+    <!-- Коротка м'яка пауза-підводка перед кожним етапом; дотик будь-де — одразу до вправи -->
     <div class="stage" id="a-note" hidden>
       <p class="instruction instruction--soft" id="a-note-text" aria-live="polite"></p>
+      <p class="muted soft-hint" data-i18n="noteTap">Торкнись екрана, щоб почати одразу</p>
     </div>
 
     <!-- А1: фізіологічне зітхання -->
@@ -300,10 +303,14 @@
         </button>
       </div>
 
-      <button class="row" id="noise-toggle" type="button" role="switch" aria-checked="false">
-        <span data-i18n="noise">Фоновий коричневий шум</span>
-        <span class="switch" aria-hidden="true"></span>
-      </button>
+      <div class="row row--static">
+        <span data-i18n="bgSound">Фоновий звук</span>
+        <div class="segmented segmented--small" id="bg-sound" role="radiogroup" data-i18n-aria="bgSound">
+          <button type="button" role="radio" data-value="off" data-i18n="bgOff">Без</button>
+          <button type="button" role="radio" data-value="brown" data-i18n="bgBrown">Шум</button>
+          <button type="button" role="radio" data-value="rain" data-i18n="bgRain">Дощ</button>
+        </div>
+      </div>
 
       <div class="row row--static">
         <span data-i18n="voiceLang">Мова озвучення</span>
