@@ -23,7 +23,7 @@
 
   <!-- Екран 0: перший запуск -->
   <section class="screen screen--center" id="s-intro" hidden>
-    <button class="lang-btn" type="button">Мова · UA</button>
+    <button class="lang-btn" type="button" data-short>UA</button>
     <div class="intro-mark" aria-hidden="true"></div>
     <p class="lead" data-i18n="intro">Працює повністю без інтернету. Допомагає швидко скинути напругу після тривоги або заснути</p>
     <button class="btn btn--primary" id="btn-intro" type="button" data-i18n="start">Почати</button>
@@ -31,6 +31,14 @@
 
   <!-- Екран 1: головний -->
   <section class="screen" id="s-home" hidden>
+    <div class="home-top">
+      <div class="segmented" id="feedback" role="radiogroup" data-i18n-aria="feedbackLabel">
+        <button type="button" role="radio" data-mode="sound" data-i18n="fbSound">Звук + Вібро</button>
+        <button type="button" role="radio" data-mode="vibro" data-i18n="fbVibro">Тільки Вібро</button>
+        <button type="button" role="radio" data-mode="visual" data-i18n="fbVisual">Лише візуал</button>
+      </div>
+      <button class="lang-btn" type="button" data-short>UA</button>
+    </div>
     <button class="card card--calm" id="btn-calm" type="button">
       <span class="card__title" data-i18n="calmTitle">Скинути напругу</span>
       <span class="card__sub" data-i18n="calmSub">Після тривоги, вибухів або паніки • 4 хвилини</span>
@@ -40,25 +48,19 @@
       <span class="card__sub" data-i18n="sleepSub">Зворотний відлік і вимкнення думок</span>
     </button>
     <div class="home-bar">
-      <div class="segmented" id="feedback" role="radiogroup" data-i18n-aria="feedbackLabel">
-        <button type="button" role="radio" data-mode="sound" data-i18n="fbSound">Звук + Вібро</button>
-        <button type="button" role="radio" data-mode="vibro" data-i18n="fbVibro">Тільки Вібро</button>
-        <button type="button" role="radio" data-mode="visual" data-i18n="fbVisual">Тихий візуал</button>
-      </div>
-      <div class="home-row home-row--main">
+      <div class="home-row">
         <button class="pill-btn" id="btn-detox" type="button" data-i18n="detox">Детокс</button>
         <button class="pill-btn" id="btn-near" type="button" data-i18n="near">Побути поруч</button>
-        <button class="pill-btn" id="btn-anchor" type="button" data-i18n="anchorTitle">Моя опора</button>
       </div>
-      <div class="home-row home-row--minor">
+      <div class="home-row">
+        <button class="pill-btn" id="btn-anchor" type="button" data-i18n="anchorTitle">Моя опора</button>
         <button class="pill-btn" id="btn-kid" type="button" data-i18n="kid">Для дитини</button>
-        <button class="lang-btn" type="button">Мова · UA</button>
       </div>
       <a class="policy-link" href="./privacy.html" data-i18n="privacy">Приватність</a>
     </div>
   </section>
 
-  <!-- «Побути поруч»: без завдань — тепле світло, що дихає, і ритм спокійного серця -->
+  <!-- «Побути поруч»: без завдань — тепле світло, що дихає, і ледь відчутні поштовхи в його ритмі -->
   <section class="screen screen--black" id="s-near" hidden>
     <button class="close near-close" id="near-exit" type="button" data-i18n-aria="exit">✕</button>
     <div class="near-glow" aria-hidden="true"></div>

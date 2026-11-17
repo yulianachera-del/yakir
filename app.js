@@ -55,7 +55,7 @@
       anchorSave: 'Зберегти', anchorClear: 'Прибрати', anchorSaved: 'Збережено. Я нагадаю, коли буде важко',
       back: 'Назад',
       sleepTitle: 'Допомогти заснути', sleepSub: 'Зворотний відлік і вимкнення думок',
-      fbSound: 'Звук + Вібро', fbVibro: 'Тільки Вібро', fbVisual: 'Тихий візуал',
+      fbSound: 'Звук + Вібро', fbVibro: 'Тільки Вібро', fbVisual: 'Лише візуал',
       feedbackLabel: 'Режим відгуку', langLabel: 'Мова', sleepModeLabel: 'Режим засинання',
       exit: 'Вийти на головний екран', skip: 'Пропустити',
       ready: 'Приготуйся', inhale: 'Вдих носом', topup: 'Довдих', exhale: 'Повільний видих ротом',
@@ -74,9 +74,8 @@
       wordsTitle: 'Образи (Перемішування)', wordsSub: 'Випадкові спокійні слова, 15 хвилин',
       noise: 'Фоновий коричневий шум', voiceLang: 'Мова озвучення',
       sleepStart: 'Заплющити очі й почати',
-      hintVibro: 'Режим «Тільки Вібро»: замість голосу — м’які подвійні імпульси',
-      hintVisual: 'Режим «Тихий візуал»: без голосу й вібрації, лише тьмяний текст',
-      hintNoVoice: 'Голосу для цієї мови на пристрої не знайдено — замість нього будуть м’які імпульси',
+      hintVisual: 'Режим «Лише візуал»: без голосу, лише тьмяний текст',
+      hintNoVoice: 'Голосу для цієї мови на пристрої не знайдено — буде лише текст',
       detox: 'Детокс', detoxBack: 'Назад до Детоксу',
       detoxLead: 'Тут немає завдань і оцінок. Обери те, що зараз ближче',
       dDraw: 'Малювання світлом', dDrawSub: 'Води пальцем — лінії світяться й тануть',
@@ -127,7 +126,7 @@
       anchorSave: 'Save', anchorClear: 'Remove', anchorSaved: 'Saved. I will remind you when it gets hard',
       back: 'Back',
       sleepTitle: 'Help me sleep', sleepSub: 'Countdown and switching off thoughts',
-      fbSound: 'Sound + Vibration', fbVibro: 'Vibration only', fbVisual: 'Silent visual',
+      fbSound: 'Sound + Vibration', fbVibro: 'Vibration only', fbVisual: 'Visual only',
       feedbackLabel: 'Feedback mode', langLabel: 'Language', sleepModeLabel: 'Sleep mode',
       exit: 'Back to home screen', skip: 'Skip',
       ready: 'Get ready', inhale: 'Breathe in through your nose', topup: 'One more sip of air',
@@ -147,9 +146,8 @@
       wordsTitle: 'Images (Shuffle)', wordsSub: 'Random calm words, 15 minutes',
       noise: 'Background brown noise', voiceLang: 'Voice language',
       sleepStart: 'Close your eyes and start',
-      hintVibro: '“Vibration only” mode: soft double pulses instead of a voice',
-      hintVisual: '“Silent visual” mode: no voice or vibration, only dim text',
-      hintNoVoice: 'No voice for this language was found on the device — soft pulses will be used instead',
+      hintVisual: '“Visual only” mode: no voice, only dim text',
+      hintNoVoice: 'No voice for this language was found on the device — text only',
       detox: 'Detox', detoxBack: 'Back to Detox',
       detoxLead: 'No tasks, no scores. Pick whatever feels closest right now',
       dDraw: 'Light drawing', dDrawSub: 'Move your finger — lines glow and melt away',
@@ -200,7 +198,7 @@
       anchorSave: 'Сохранить', anchorClear: 'Убрать', anchorSaved: 'Сохранено. Я напомню, когда будет трудно',
       back: 'Назад',
       sleepTitle: 'Помочь уснуть', sleepSub: 'Обратный отсчет и отключение мыслей',
-      fbSound: 'Звук + Вибро', fbVibro: 'Только Вибро', fbVisual: 'Тихий визуал',
+      fbSound: 'Звук + Вибро', fbVibro: 'Только Вибро', fbVisual: 'Только визуал',
       feedbackLabel: 'Режим отклика', langLabel: 'Язык', sleepModeLabel: 'Режим засыпания',
       exit: 'Выйти на главный экран', skip: 'Пропустить',
       ready: 'Приготовься', inhale: 'Вдох носом', topup: 'Довдох', exhale: 'Медленный выдох ртом',
@@ -219,9 +217,8 @@
       wordsTitle: 'Образы (Перемешивание)', wordsSub: 'Случайные спокойные слова, 15 минут',
       noise: 'Фоновый коричневый шум', voiceLang: 'Язык озвучки',
       sleepStart: 'Закрыть глаза и начать',
-      hintVibro: 'Режим «Только Вибро»: вместо голоса — мягкие двойные импульсы',
-      hintVisual: 'Режим «Тихий визуал»: без голоса и вибрации, только тусклый текст',
-      hintNoVoice: 'Голос для этого языка не найден на устройстве — вместо него будут мягкие импульсы',
+      hintVisual: 'Режим «Только визуал»: без голоса, только тусклый текст',
+      hintNoVoice: 'Голос для этого языка не найден на устройстве — будет только текст',
       detox: 'Детокс', detoxBack: 'Назад к Детоксу',
       detoxLead: 'Здесь нет заданий и оценок. Выбери то, что сейчас ближе',
       dDraw: 'Рисование светом', dDrawSub: 'Води пальцем — линии светятся и тают',
@@ -262,7 +259,7 @@
     document.querySelectorAll('[data-i18n-ph]').forEach((el) => { el.placeholder = tr(el.dataset.i18nPh); });
     const code = LANG_CODE[settings.lang];
     document.querySelectorAll('.lang-btn').forEach((b) => {
-      b.textContent = 'short' in b.dataset ? code : `${tr('langLabel')} · ${code}`;
+      b.textContent = code;
       b.setAttribute('aria-label', `${tr('langLabel')}: ${code}`);
     });
     updateVoiceHint();
@@ -414,13 +411,8 @@
         return;
       }
       const c = this.ctx, now = c.currentTime;
-      if (!this._white) {
-        this._white = c.createBuffer(1, c.sampleRate * 3, c.sampleRate);
-        const d = this._white.getChannelData(0);
-        for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-      }
       const src = c.createBufferSource();
-      src.buffer = this._white;
+      src.buffer = this._whiteBuf();
       src.loop = true;
       const hp = c.createBiquadFilter(), lp = c.createBiquadFilter();
       hp.type = 'highpass'; lp.type = 'lowpass';
@@ -507,6 +499,70 @@
       try { src.stop(now + fadeOut + 0.1); if (lfo) lfo.stop(now + fadeOut + 0.1); } catch (e) { /* noop */ }
     },
 
+    /* Білий шум (3 с), спільний для фонових сцен і коротких шелестів. */
+    _whiteBuf() {
+      if (!this._white) {
+        const c = this.ctx;
+        this._white = c.createBuffer(1, c.sampleRate * 3, c.sampleRate);
+        const d = this._white.getChannelData(0);
+        for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      }
+      return this._white;
+    },
+
+    /* Шелест повітря через смуговий фільтр: частота ковзає f0 → f1,
+       гучність наростає за rise і згасає за fall секунд. */
+    _whoosh(delay, f0, f1, q, peak, rise, fall) {
+      const c = this.ctx, t0 = c.currentTime + delay, dur = rise + fall;
+      const s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+      s.buffer = this._whiteBuf();
+      f.type = 'bandpass'; f.Q.value = q;
+      f.frequency.setValueAtTime(f0, t0);
+      f.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(peak, t0 + rise);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      s.connect(f).connect(g).connect(c.destination);
+      s.start(t0, Math.random() * 2, dur + 0.05);
+      this._track(s, g);
+    },
+
+    /* «Відпустити думку»: м'який видих-розсіювання (шелест, що тане й
+       опускається) і кілька тихих світлих дзвіночків униз — полегшення. */
+    dissolve() {
+      if (!this.ready) return;
+      this._whoosh(0, 2400, 500, 0.7, 0.11, 0.6, 4.2);
+      [[0.5, 1046.5], [1.1, 783.99], [1.8, 659.25], [2.7, 523.25]]
+        .forEach(([at, f]) => setTimeout(() => this.bell(f, 0.035), at * 1000));
+    },
+
+    /* «Про те, про се»: легенький пташиний «чірік» — два короткі
+       висхідні посвисти. */
+    chirp() {
+      if (!this.ready) return;
+      const c = this.ctx;
+      [[0, 2900, 4100, 0.07], [0.12, 3200, 4600, 0.06]].forEach(([d, f0, f1, len]) => {
+        const t0 = c.currentTime + d, osc = c.createOscillator(), g = c.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f0, t0);
+        osc.frequency.exponentialRampToValueAtTime(f1, t0 + len);
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(0.045, t0 + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + len);
+        osc.connect(g).connect(c.destination);
+        osc.start(t0); osc.stop(t0 + len + 0.02);
+        this._track(osc, g);
+      });
+    },
+
+    /* «Маленький крок»: шелест сторінки книги — швидкий сухий «ш-ш-ших»
+       із легким «шльоп» паперу наприкінці. */
+    pageFlip() {
+      if (!this.ready) return;
+      this._whoosh(0, 1400, 4200, 0.9, 0.16, 0.12, 0.2);
+      this._whoosh(0.27, 2600, 1800, 1.4, 0.07, 0.01, 0.09);
+    },
+
     /* Тихий «плюх» бульбашки: короткий синус, що злітає вгору. */
     pop(freq) {
       if (!this.ready) return;
@@ -536,28 +592,52 @@
       this.live.clear();
     },
 
-    /* ---- Генератор коричневого шума ----
-       Коричневый шум = интеграл белого: каждый сэмпл — предыдущий плюс
-       небольшой случайный шаг («утечка» 1.02 не даёт сигналу уплыть).
-       Генерируем 8 секунд один раз и зацикливаем. Чтобы на стыке петли
-       не было щелчка, начало буфера плавно смешивается с «продолжением»
-       его конца. Дополнительный low-pass делает звук глуше и мягче. */
+    /* ---- Генератор коричневого шуму ----
+       Коричневий шум = інтеграл білого: кожен семпл — попередній плюс
+       невеликий випадковий крок («витік» 1.02 не дає сигналу «попливти»).
+       Основний спосіб — AudioWorklet: шум народжується наживо, семпл за
+       семплом, тож петлі немає взагалі й звук ніде не «провалюється».
+       Модуль ворклету вбудовано рядком (Blob), тож працює й офлайн.
+       Запасний спосіб для старих браузерів — довгий (30 с) буфер по колу
+       з рівнопотужним перехрестям на стику, щоб не було провалу гучності. */
+    _noiseWorklet: null, // Promise<boolean>
+    _loadNoiseWorklet() {
+      if (this._noiseWorklet) return this._noiseWorklet;
+      const c = this.ctx;
+      if (!c.audioWorklet || typeof AudioWorkletNode !== 'function') {
+        this._noiseWorklet = Promise.resolve(false);
+        return this._noiseWorklet;
+      }
+      const code = `registerProcessor('brown-noise', class extends AudioWorkletProcessor {
+        constructor() { super(); this.last = 0; }
+        process(inputs, outputs) {
+          const out = outputs[0][0];
+          for (let i = 0; i < out.length; i++) {
+            this.last = (this.last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
+            out[i] = this.last * 3.5;
+          }
+          return true;
+        }
+      });`;
+      const url = URL.createObjectURL(new Blob([code], { type: 'application/javascript' }));
+      this._noiseWorklet = c.audioWorklet.addModule(url).then(() => true, () => false);
+      return this._noiseWorklet;
+    },
     _makeNoiseBuffer() {
       const c = this.ctx, rate = c.sampleRate;
-      const len = rate * 8, fade = Math.floor(rate * 0.5);
+      const len = rate * 30, fade = Math.floor(rate * 2);
       const raw = new Float32Array(len + fade);
       let last = 0;
       for (let i = 0; i < raw.length; i++) {
-        const white = Math.random() * 2 - 1;
-        last = (last + 0.02 * white) / 1.02;
+        last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
         raw[i] = last * 3.5;
       }
       const buffer = c.createBuffer(1, len, rate);
       const data = buffer.getChannelData(0);
       data.set(raw.subarray(0, len));
       for (let i = 0; i < fade; i++) {
-        const k = i / fade;
-        data[i] = raw[i] * k + raw[len + i] * (1 - k);
+        const k = (i / fade) * Math.PI / 2; // рівнопотужне перехрестя
+        data[i] = raw[i] * Math.sin(k) + raw[len + i] * Math.cos(k);
       }
       return buffer;
     },
@@ -566,18 +646,30 @@
       if (!this.ready) return;
       const c = this.ctx;
       clearTimeout(this.noiseStopTimer);
-      if (!this.noiseSrc) {
-        if (!this._noiseBuffer) this._noiseBuffer = this._makeNoiseBuffer();
-        const src = c.createBufferSource();
-        src.buffer = this._noiseBuffer;
-        src.loop = true;
+      if (!this.noiseGain) {
         const lp = c.createBiquadFilter();
-        lp.type = 'lowpass'; lp.frequency.value = 420; lp.Q.value = 0.5;
+        lp.type = 'lowpass'; lp.frequency.value = 900; lp.Q.value = 0.5;
         const g = c.createGain();
         g.gain.value = 0.0001;
-        src.connect(lp).connect(g).connect(c.destination);
-        src.start();
-        this.noiseSrc = src; this.noiseGain = g;
+        lp.connect(g).connect(c.destination);
+        const entry = { node: null, stopped: false };
+        this.noiseSrc = entry; this.noiseGain = g;
+        this._loadNoiseWorklet().then((ok) => {
+          if (entry.stopped) return;
+          let node;
+          if (ok) {
+            try { node = new AudioWorkletNode(c, 'brown-noise', { numberOfInputs: 0, outputChannelCount: [1] }); } catch (e) { node = null; }
+          }
+          if (!node) {
+            if (!this._noiseBuffer) this._noiseBuffer = this._makeNoiseBuffer();
+            node = c.createBufferSource();
+            node.buffer = this._noiseBuffer;
+            node.loop = true;
+            node.start();
+          }
+          node.connect(lp);
+          entry.node = node;
+        });
       }
       const now = c.currentTime, g = this.noiseGain.gain;
       g.cancelScheduledValues(now);
@@ -585,14 +677,27 @@
       g.linearRampToValueAtTime(level, now + fadeIn); // плавное нарастание
     },
 
+    /* Плавно змінює гучність шуму, що вже грає (без перезапуску). */
+    setNoiseLevel(level, ramp = 2) {
+      if (!this.noiseGain) return;
+      const now = this.ctx.currentTime, g = this.noiseGain.gain;
+      g.cancelScheduledValues(now);
+      g.setValueAtTime(Math.max(g.value, 0.0001), now);
+      g.linearRampToValueAtTime(Math.max(level, 0.0001), now + ramp);
+    },
+
     stopNoise(fadeOut = 1) {
       if (!this.noiseSrc) return;
-      const c = this.ctx, src = this.noiseSrc, g = this.noiseGain.gain, now = c.currentTime;
+      const c = this.ctx, entry = this.noiseSrc, gain = this.noiseGain, g = gain.gain, now = c.currentTime;
       g.cancelScheduledValues(now);
       g.setValueAtTime(g.value, now);
       g.linearRampToValueAtTime(0.0001, now + fadeOut);
       this.noiseSrc = null; this.noiseGain = null;
-      try { src.stop(now + fadeOut + 0.1); } catch (e) { /* noop */ }
+      entry.stopped = true;
+      // після затухання відключаємо джерело (ворклет не має stop())
+      setTimeout(() => {
+        try { if (entry.node) { if (entry.node.stop) entry.node.stop(); entry.node.disconnect(); } gain.disconnect(); } catch (e) { /* noop */ }
+      }, (fadeOut + 0.2) * 1000);
     },
   };
 
@@ -854,14 +959,14 @@
     const clear = () => { dots[0].classList.remove('on'); dots[1].classList.remove('on'); };
     text.textContent = tr('bfText');
     cue('bfText', tr('bfText'));
-    await wait(voiceOn() ? 8000 : 5000, t); // час прочитати й покласти руки
+    await wait(voiceOn() ? 5500 : 3000, t); // час прочитати й покласти руки
     for (let set = 0; set < BUTTERFLY_SETS; set++) {
       text.textContent = tr('bfText');
       for (let i = 0; i < BUTTERFLY_TAPS; i++) {
         const side = i % 2; // 0 — ліва, 1 — права
         dots[side].classList.add('on');
         dots[1 - side].classList.remove('on');
-        Haptic.play(60);
+        Haptic.play(30); // ритм «дотиків» — коротким легким поштовхом
         if (soundOn()) Sound.bell(side ? 147 : 131, 0.05);
         await wait(BUTTERFLY_MS, t);
       }
@@ -882,12 +987,12 @@
      поэтому «нарастание» — удлиняющиеся импульсы, «затухание» — укорачивающиеся
      с растущими паузами. */
   const BREATH_REST = 0.45;
+  /* Вібрація — лише один м'який поштовх на початку кожної фази (вдих,
+     довдих, видих): безперервне дзижчання радше тривожить, ніж заспокоює. */
   const BREATH_PHASES = [
-    { text: 'inhale', voice: 'vInhale', ms: 2500, scale: 0.8, tone: [150, 196],
-      vib: [40, 300, 60, 300, 80, 300, 100, 300, 120, 300, 140, 300, 160] },
-    { text: 'topup', voice: 'vTopup', ms: 1000, scale: 1.0, tone: [196, 233], vib: [220] },
-    { text: 'exhale', voice: 'vExhale', ms: 6500, scale: BREATH_REST, tone: [220, 110],
-      vib: [600, 150, 450, 250, 320, 350, 220, 450, 150, 550, 100, 700, 60, 850, 40] },
+    { text: 'inhale', voice: 'vInhale', ms: 2500, scale: 0.8, tone: [150, 196], vib: 40 },
+    { text: 'topup', voice: 'vTopup', ms: 1000, scale: 1.0, tone: [196, 233], vib: 20 },
+    { text: 'exhale', voice: 'vExhale', ms: 6500, scale: BREATH_REST, tone: [220, 110], vib: [30, 140, 30] },
   ];
   const BREATH_CYCLES = 6;
 
@@ -931,15 +1036,14 @@
       stage.classList.add('tense');
       text.textContent = tr(tense);
       cue(tense, tr(tense));
-      Haptic.play(5000); // непрерывная вибрация на всё время напряжения
+      Haptic.play(40); // один м'який поштовх на початку напруження
       if (soundOn()) Sound.glide(130, 175, 5, 0.05);
       for (let s = 5; s >= 1; s--) { timer.textContent = s; await wait(1000, t); }
 
       stage.classList.remove('tense');
       text.textContent = tr(release);
       cue(release, tr(release));
-      Haptic.stop();
-      Haptic.play([60, 80, 60]);
+      Haptic.play([25, 140, 25]);
       if (soundOn()) Sound.glide(175, 98, 1.6, 0.06);
       for (let s = 15; s >= 1; s--) { timer.textContent = s; await wait(1000, t); }
     }
@@ -976,11 +1080,11 @@
     const t = ground.token, need = GROUNDING[ground.step][0];
     $('a3-dots').children[ground.taps].classList.add('on');
     ground.taps++;
-    if (ground.taps < need) { Haptic.play(30); return; }
+    if (ground.taps < need) { Haptic.play(15); return; }
 
-    // Шаг завершён: двойной отклик, короткая пауза, следующий шаг или финал
+    // Шаг завершён: м'який відгук, короткая пауза, следующий шаг или финал
     ground.locked = true;
-    Haptic.play([30, 70, 60]);
+    Haptic.play(35);
     if (soundOn()) Sound.glide(196, 147, 0.5, 0.05);
     await wait(650, t);
     if (ground.step < GROUNDING.length - 1) {
@@ -1086,10 +1190,11 @@
 
   /* ---- «Побути поруч» ----
      Для моментів, коли немає сил щось робити. Жодних завдань: тепле світло
-     повільно «дихає», а телефон б'ється в долоні, як спокійне серце
-     (подвійний поштовх «тук-тук»). Ритм поволі сповільнюється з ~65 до
-     ~55 ударів на хвилину — тіло несвідомо підлаштовується під нього. */
-  const NEAR_FROM = 920, NEAR_TO = 1090, NEAR_SLOWDOWN_MS = 180000;
+     повільно «дихає» (цикл 10 с: 4 с вдих, 6 с видих), а телефон ледь
+     помітно відгукується на початку вдиху й видиху — повільний ритм,
+     під який дихання підлаштовується саме. Частий «пульс» прибрано:
+     він радше тривожив, ніж заспокоював. */
+  const NEAR_CYCLE = 10000, NEAR_IN = 4000; // збігається з near-breathe у styles.css
   /* Фоновий звук «Побути поруч»: одна кнопка перемикає по колу
      вимкнено → хвилі → дощ → дзвіночки → вогнище. Це свідомий вибір
      людини, тому звук грає незалежно від режиму відгуку. */
@@ -1117,12 +1222,16 @@
     Wake.on();
     applyNearSound();
     markPractice();
-    const started = performance.now();
-    await wait(1500, t);
+    // Перезапускаємо «дихання» світла, щоб поштовхи збігалися з ним
+    const glow = document.querySelector('.near-glow');
+    glow.style.animation = 'none';
+    void glow.getBoundingClientRect();
+    glow.style.animation = '';
     for (;;) {
-      const p = Math.min(1, (performance.now() - started) / NEAR_SLOWDOWN_MS);
-      Haptic.play([45, 130, 70]);
-      await wait(NEAR_FROM + (NEAR_TO - NEAR_FROM) * p, t);
+      Haptic.play(25);            // світло починає розгоратися — «вдих»
+      await wait(NEAR_IN, t);
+      Haptic.play(12);            // ледь відчутно — «видих»
+      await wait(NEAR_CYCLE - NEAR_IN, t);
     }
   }
 
@@ -1164,7 +1273,7 @@
         text.textContent = tr(keys[0]);
         stage.classList.remove('blow');
         stage.classList.add('sniff');
-        Haptic.play([40, 260, 60, 260, 80]);
+        Haptic.play(35); // лише на зміну дії: «вдих»
         if (soundOn()) Sound.glide(196, 262, KID_IN / 1000, voiceOn() ? 0.035 : 0.06);
         cue(keys[0], tr(keys[0]));
         await wait(KID_IN, t);
@@ -1173,7 +1282,7 @@
         stage.classList.remove('sniff');
         stage.classList.add('blow');
         setBalloon(0.35 + (0.65 * n) / KID_BREATHS, KID_OUT); // кулька росте з кожним видихом
-        Haptic.play([500, 150, 350, 250, 220, 350, 120]);
+        Haptic.play([25, 140, 25]); // «видих»
         if (soundOn()) Sound.glide(262, 165, KID_OUT / 1000, voiceOn() ? 0.035 : 0.06);
         cue(keys[1], tr(keys[1]));
         await wait(KID_OUT, t);
@@ -1182,7 +1291,7 @@
       count.textContent = '';
       text.textContent = tr(keys[2]);
       if (balloon) stage.classList.add('fly');
-      Haptic.play([40, 70, 40, 70, 90]);
+      Haptic.play(30);
       if (soundOn()) { Sound.bell(392, 0.07); setTimeout(() => { if (!t.cancelled) Sound.bell(523.25, 0.07); }, 220); }
       cue(keys[2], tr(keys[2]));
       await wait(3600, t);
@@ -1190,7 +1299,8 @@
   }
 
   /* ================= 7. Поток Б: «Помочь уснуть» ================= */
-  /* Нейтральные существительные для когнитивного перемешивания (по 90). */
+  /* Нейтральные существительные для когнитивного перемешивания (по 150 —
+     хватает на 15 минут без повторов). */
   const WORDS = {
     ru: ['яблоко', 'фонарь', 'карандаш', 'парус', 'черепаха', 'подушка', 'облако', 'чашка', 'трамвай', 'дерево',
       'ложка', 'окно', 'река', 'книга', 'зонтик', 'лодка', 'корзина', 'мост', 'ёжик', 'тарелка',
@@ -1200,7 +1310,13 @@
       'зеркало', 'платок', 'орех', 'пчела', 'луг', 'блокнот', 'кресло', 'вишня', 'маяк', 'носок',
       'тетрадь', 'ива', 'печенье', 'качели', 'лампа', 'мёд', 'жёлудь', 'шляпа', 'ручей', 'гнездо',
       'слива', 'кисточка', 'холм', 'пирог', 'сова', 'занавеска', 'берёза', 'часы', 'мята', 'глобус',
-      'лимон', 'песок', 'ёлка', 'скрипка', 'кот', 'гриб', 'радуга', 'мячик', 'подсолнух', 'хлеб'],
+      'лимон', 'песок', 'ёлка', 'скрипка', 'кот', 'гриб', 'радуга', 'мячик', 'подсолнух', 'хлеб',
+      'арбуз', 'панда', 'полотенце', 'свёкла', 'капуста', 'дельфин', 'жираф', 'кенгуру', 'пингвин', 'ласточка',
+      'воробей', 'одуванчик', 'тюльпан', 'ландыш', 'сирень', 'каштан', 'клён', 'дуб', 'рябина', 'ежевика',
+      'клубника', 'малина', 'персик', 'абрикос', 'виноград', 'апельсин', 'банан', 'сыр', 'блин', 'каша',
+      'какао', 'пирожное', 'конфета', 'свитер', 'тапочки', 'пижама', 'расчёска', 'кролик', 'белка', 'лисичка',
+      'утка', 'аист', 'светлячок', 'божья коровка', 'муравей', 'бегемот', 'слон', 'зебра', 'воздушный змей', 'остров',
+      'волна', 'звезда', 'луна', 'снеговик', 'санки', 'коньки', 'гитара', 'пианино', 'дудочка', 'акварель'],
     uk: ['яблуко', 'ліхтар', 'олівець', 'вітрило', 'черепаха', 'подушка', 'хмара', 'чашка', 'трамвай', 'дерево',
       'ложка', 'вікно', 'річка', 'книга', 'парасолька', 'човен', 'кошик', 'міст', 'їжачок', 'тарілка',
       'ґудзик', 'килим', 'листок', 'озеро', 'стежка', 'рукавичка', 'чайник', 'лавка', 'ромашка', 'равлик',
@@ -1209,7 +1325,13 @@
       'дзеркало', 'хустка', 'горіх', 'бджола', 'лука', 'блокнот', 'крісло', 'вишня', 'маяк', 'шкарпетка',
       'зошит', 'верба', 'печиво', 'гойдалка', 'лампа', 'мед', 'жолудь', 'капелюх', 'струмок', 'гніздо',
       'слива', 'пензлик', 'пагорб', 'пиріг', 'сова', 'фіранка', 'береза', 'годинник', 'м’ята', 'глобус',
-      'лимон', 'пісок', 'ялинка', 'скрипка', 'кіт', 'гриб', 'веселка', 'м’ячик', 'соняшник', 'хліб'],
+      'лимон', 'пісок', 'ялинка', 'скрипка', 'кіт', 'гриб', 'веселка', 'м’ячик', 'соняшник', 'хліб',
+      'кавун', 'панда', 'рушник', 'буряк', 'капуста', 'дельфін', 'жираф', 'кенгуру', 'пінгвін', 'ластівка',
+      'горобець', 'кульбаба', 'тюльпан', 'конвалія', 'бузок', 'каштан', 'клен', 'дуб', 'горобина', 'ожина',
+      'полуниця', 'малина', 'персик', 'абрикос', 'виноград', 'апельсин', 'банан', 'сир', 'млинець', 'каша',
+      'какао', 'тістечко', 'цукерка', 'светр', 'капці', 'піжама', 'гребінець', 'кролик', 'білка', 'лисичка',
+      'качка', 'лелека', 'світлячок', 'сонечко', 'мурашка', 'бегемот', 'слон', 'зебра', 'повітряний змій', 'острів',
+      'хвиля', 'зірка', 'місяць', 'сніговик', 'санчата', 'ковзани', 'гітара', 'піаніно', 'сопілка', 'акварель'],
     en: ['apple', 'lantern', 'pencil', 'sail', 'turtle', 'pillow', 'cloud', 'cup', 'tram', 'tree',
       'spoon', 'window', 'river', 'book', 'umbrella', 'boat', 'basket', 'bridge', 'hedgehog', 'plate',
       'button', 'carpet', 'leaf', 'lake', 'path', 'mitten', 'kettle', 'bench', 'daisy', 'snail',
@@ -1218,10 +1340,20 @@
       'mirror', 'handkerchief', 'walnut', 'bee', 'meadow', 'notebook', 'armchair', 'cherry', 'lighthouse', 'sock',
       'sketchbook', 'willow', 'cookie', 'swing', 'lamp', 'honey', 'acorn', 'hat', 'stream', 'nest',
       'plum', 'paintbrush', 'hill', 'pie', 'owl', 'curtain', 'birch', 'clock', 'mint', 'globe',
-      'lemon', 'sand', 'pine', 'violin', 'cat', 'mushroom', 'rainbow', 'ball', 'sunflower', 'bread'],
+      'lemon', 'sand', 'pine', 'violin', 'cat', 'mushroom', 'rainbow', 'ball', 'sunflower', 'bread',
+      'watermelon', 'panda', 'towel', 'beetroot', 'cabbage', 'dolphin', 'giraffe', 'kangaroo', 'penguin', 'swallow',
+      'sparrow', 'dandelion', 'tulip', 'lily of the valley', 'lilac', 'chestnut', 'maple', 'oak', 'rowan', 'blackberry',
+      'strawberry', 'raspberry', 'peach', 'apricot', 'grapes', 'orange', 'banana', 'cheese', 'pancake', 'porridge',
+      'cocoa', 'cupcake', 'candy', 'sweater', 'slippers', 'pajamas', 'comb', 'rabbit', 'squirrel', 'fox',
+      'duck', 'stork', 'firefly', 'ladybug', 'ant', 'hippo', 'elephant', 'zebra', 'kite', 'island',
+      'wave', 'star', 'moon', 'snowman', 'sled', 'skates', 'guitar', 'piano', 'flute', 'watercolor'],
   };
 
   const SPEECH_BASE_VOLUME = 0.9;
+  /* Гучність шуму на початку (далі стишується разом із голосом). Динаміки
+     телефона майже не відтворюють найнижчі частоти, тому шум зроблено
+     гучнішим і трохи світлішим (див. startNoise). */
+  const NOISE_LEVEL = 0.8;
   const WORDS_DURATION_MS = 15 * 60 * 1000;
   const sleepText = $('sleep-text');
 
@@ -1247,18 +1379,17 @@
   }
 
   /* Один «такт» сна: показать текст и подать сигнал согласно режиму отклика.
-     Звук → голос (если голоса нет — мягкий двойной вибро-импульс);
-     Только вибро → двойной импульс; Тихий визуал → только тусклый текст. */
+     Звук + Вібро і Тільки Вібро → голос; Лише візуал → тільки тьмяний текст. */
+  /* У сні вібрації немає взагалі: вона будить. Голос звучить і в режимі
+     «Звук + Вібро», і в «Тільки Вібро»; мовчить лише «Лише візуал».
+     Шум (якщо ввімкнено) стишується разом із голосом, щоб слова
+     весь час лишалися ледь-ледь гучнішими за нього. */
+  const sleepVoice = () => settings.feedback !== 'visual';
   function sleepTick(key, text, pace, isWord) {
     sleepText.classList.toggle('is-word', isWord);
     sleepText.textContent = text;
-    const pulse = () => Haptic.play([40, 110, 40]);
-    if (settings.feedback === 'sound') {
-      const ok = say(key, String(text), pace.rate, pace.vol * SPEECH_BASE_VOLUME, pulse);
-      if (!ok) pulse();
-    } else {
-      pulse();
-    }
+    if (settings.noise) Sound.setNoiseLevel(NOISE_LEVEL * pace.vol, 2);
+    if (sleepVoice()) say(key, String(text), pace.rate, pace.vol * SPEECH_BASE_VOLUME);
   }
 
   function startSleep() {
@@ -1267,7 +1398,7 @@
     sleepText.classList.remove('fade');
     sleepText.textContent = '';
     Wake.on();
-    if (settings.noise) Sound.startNoise(6);
+    if (settings.noise) Sound.startNoise(6, NOISE_LEVEL);
     (settings.sleepMode === 'count' ? runCountdown : runWords)(t);
   }
 
@@ -1327,7 +1458,7 @@
     holdRing.classList.remove('active');
     void holdRing.getBoundingClientRect(); // перезапуск CSS-перехода
     holdRing.classList.add('active');
-    holdTimer = setTimeout(() => { goHome(); Haptic.play(60); }, 2000);
+    holdTimer = setTimeout(() => { goHome(); }, 2000);
   }
   function holdCancel() {
     clearTimeout(holdTimer);
@@ -1678,8 +1809,8 @@
     input.hidden = true; go.hidden = true; ghost.hidden = false;
     void ghost.getBoundingClientRect(); // старт CSS-переходу
     ghost.classList.add('gone');
-    Haptic.play([30, 80, 30]);
-    if (soundOn()) Sound.glide(220, 110, 7, 0.04);
+    Haptic.play(25);
+    if (soundOn()) Sound.dissolve();
     await wait(7800, t); // розчинення навмисно повільне — щоб встигнути це відчути
 
     ghost.textContent = tr('thoughtDone');
@@ -1996,13 +2127,22 @@
     if (n > 1 && bag[n - 1] === last) bag.unshift(bag.pop());
     return bag;
   }
-  let deck = DECKS.step, stepBag = [], stepLast = -1, picBag = [], picLast = -1, cardNo = 0;
+  let deck = DECKS.step, deckKind = 'step', stepBag = [], stepLast = -1, picBag = [], picLast = -1, cardNo = 0;
   function startCards(kind) {
     deck = DECKS[kind];
+    deckKind = kind;
     stepBag = []; picBag = [];
     stepLast = -1; picLast = -1; cardNo = 0;
     $('step-next').textContent = tr(deck.next);
     $('step-note').textContent = deck.note ? tr(deck.note) : '';
+    nextStep();
+  }
+  /* Натискання «Ще одну» / «Інший крок»: легкий відгук згідно з режимом —
+     у «Про те, про се» тихий пташиний «чірік», у «Маленькому кроці» —
+     шелест сторінки, що перегортається, плюс ледь відчутна вібрація. */
+  function onNextCard() {
+    if (soundOn()) (deckKind === 'smile' ? Sound.chirp() : Sound.pageFlip());
+    Haptic.play(15);
     nextStep();
   }
   function nextStep() {
@@ -2069,7 +2209,7 @@
     $('scene-btn').addEventListener('click', () => setScene(scene.i + 1, performance.now()));
 
     $('thought-go').addEventListener('click', releaseThought);
-    $('step-next').addEventListener('click', nextStep);
+    $('step-next').addEventListener('click', onNextCard);
 
     // Поворот екрана або клавіатура змінюють розмір панелі — підганяємо полотно
     window.addEventListener('resize', () => {
@@ -2130,8 +2270,7 @@
     const hint = $('voice-hint');
     if (!hint) return;
     let text = '';
-    if (settings.feedback === 'vibro') text = tr('hintVibro');
-    else if (settings.feedback === 'visual') text = tr('hintVisual');
+    if (settings.feedback === 'visual') text = tr('hintVisual');
     else if (!Speech.available(settings.lang)) text = tr('hintNoVoice');
     hint.textContent = text;
     hint.hidden = !text;
