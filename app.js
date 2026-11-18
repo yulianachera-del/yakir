@@ -559,14 +559,39 @@
       });
     },
 
-    /* «Маленький крок»: повільне, м'яке перегортання сторінки — тихий
-       шелест паперу, що неспішно наростає й опадає (~1,3 с), і ледь
-       чутне «лягання» аркуша наприкінці. */
-    pageFlip() {
+    /* «Маленький крок»: тепла м'яка «калімба» — дві тихі ноти вгору
+       з пентатоніки, з повільним згасанням (~2,5 с). Шелест шуму на
+       динаміках телефона звучав різко, тому від нього відмовились.
+       Ноти щоразу трохи інші, щоб звук не набридав. */
+    _stepPairs: [[392, 523.25], [349.23, 440], [440, 587.33], [329.63, 440], [392, 493.88]],
+    _stepLast: -1,
+    softStep() {
       if (!this.ready) return;
-      this._whoosh(0, 700, 2000, 0.6, 0.06, 0.45, 0.6);
-      this._whoosh(0.15, 1600, 2600, 0.8, 0.025, 0.4, 0.5);
-      this._whoosh(0.95, 1100, 650, 0.9, 0.02, 0.05, 0.35);
+      let i;
+      do { i = Math.floor(Math.random() * this._stepPairs.length); } while (i === this._stepLast);
+      this._stepLast = i;
+      this._pluck(0, this._stepPairs[i][0], 0.06);
+      this._pluck(0.28, this._stepPairs[i][1], 0.045);
+    },
+    /* М'який щипок: синус + ледь чутний обертон, повільна атака (без
+       «клацання») і довге згасання. */
+    _pluck(delay, freq, level) {
+      const c = this.ctx, t0 = c.currentTime + delay, g = c.createGain();
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(level, t0 + 0.04);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.6);
+      const lp = c.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 2200;
+      lp.connect(g).connect(c.destination);
+      [[1, 1], [3, 0.08]].forEach(([mult, part]) => {
+        const osc = c.createOscillator(), pg = c.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq * mult;
+        pg.gain.value = part;
+        osc.connect(pg).connect(lp);
+        osc.start(t0); osc.stop(t0 + 2.7);
+        this._track(osc, g);
+      });
     },
 
     /* «Малювання світлом»: чарівний шлейф — тихі скляні іскорки
@@ -1180,19 +1205,28 @@
     return list[i];
   }
 
-  /* Тиха плашка внизу екрана: з'являється на кілька секунд і зникає сама. */
+  /* Хмаринка з теплою фразою посеред екрана: спливає, через 6 с повільно
+     розчиняється сама; дотик будь-де — і вона починає розчинятися одразу. */
   let toastTimer = null;
+  const TOAST_MS = 6000, TOAST_FADE_MS = 2400;
   function toast(text) {
-    const el = $('toast');
+    const layer = $('toast-layer'), el = $('toast');
     clearTimeout(toastTimer);
+    el.className = 'toast';
     el.textContent = text;
-    el.hidden = false;
+    layer.classList.remove('leaving');
+    layer.hidden = false;
     void el.getBoundingClientRect();
     el.classList.add('show');
-    toastTimer = setTimeout(() => {
-      el.classList.remove('show');
-      toastTimer = setTimeout(() => { el.hidden = true; }, 900);
-    }, 4200);
+    toastTimer = setTimeout(dissolveToast, TOAST_MS);
+  }
+  function dissolveToast() {
+    const layer = $('toast-layer'), el = $('toast');
+    if (layer.hidden || layer.classList.contains('leaving')) return;
+    clearTimeout(toastTimer);
+    layer.classList.add('leaving');
+    el.classList.add('fade');
+    toastTimer = setTimeout(() => { layer.hidden = true; el.className = 'toast'; }, TOAST_FADE_MS);
   }
   /* Тепле слово після заняття — лише якщо людина справді побула в ньому. */
   let practiceStart = 0;
@@ -1271,10 +1305,48 @@
     applyNearSound();
   }
 
+  /* Занурення: через 2 с після входу чи дотику зникає хрестик і (через
+     повноекранний режим) системний рядок — лишаються світло, фрази й
+     перемикач звуку. Дотик будь-де (крім перемикача) повертає їх на 2 с.
+     Повноекранний режим просимо лише в межах дії дотику (браузер дозволяє
+     це протягом кількох секунд після жесту); де його немає (iPhone) —
+     просто ховаємо хрестик. */
+  const NEAR_HIDE_MS = 2000;
+  let nearHideTimer = null;
+  const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+  function enterFullscreen() {
+    const d = document.documentElement, req = d.requestFullscreen || d.webkitRequestFullscreen;
+    if (fsEl() || !req) return;
+    try { const p = req.call(d, { navigationUI: 'hide' }); if (p && p.catch) p.catch(() => {}); } catch (e) { /* noop */ }
+  }
+  function exitFullscreen() {
+    const exit = document.exitFullscreen || document.webkitExitFullscreen;
+    if (!fsEl() || !exit) return;
+    try { const p = exit.call(document); if (p && p.catch) p.catch(() => {}); } catch (e) { /* noop */ }
+  }
+  function nearHideControls() {
+    if ($('s-near').hidden) return;
+    $('s-near').classList.add('immersive');
+    enterFullscreen();
+  }
+  function nearShowControls() {
+    $('s-near').classList.remove('immersive');
+    exitFullscreen();
+    clearTimeout(nearHideTimer);
+    nearHideTimer = setTimeout(nearHideControls, NEAR_HIDE_MS);
+  }
+  function nearLeave() {
+    clearTimeout(nearHideTimer);
+    $('s-near').classList.remove('immersive');
+    exitFullscreen();
+  }
+
   async function startNear() {
     const t = newToken();
     $('near-anchor').textContent = quoteAnchor();
     showScreen('s-near');
+    clearTimeout(nearHideTimer);
+    nearHideTimer = setTimeout(nearHideControls, NEAR_HIDE_MS);
     Wake.on();
     applyNearSound();
     markPractice();
@@ -2196,9 +2268,9 @@
   }
   /* Натискання «Ще одну» / «Інший крок»: легкий відгук згідно з режимом —
      у «Про те, про се» тихий пташиний «чірік», у «Маленькому кроці» —
-     шелест сторінки, що перегортається, плюс ледь відчутна вібрація. */
+     дві тихі ноти «калімби», плюс ледь відчутна вібрація. */
   function onNextCard() {
-    if (soundOn()) (deckKind === 'smile' ? Sound.chirp() : Sound.pageFlip());
+    if (soundOn()) (deckKind === 'smile' ? Sound.chirp() : Sound.softStep());
     Haptic.play(15);
     nextStep();
   }
@@ -2300,6 +2372,7 @@
     Sound.stopAmbient(0.8);
     Sound.stopNoise(0.8);
     Wake.off();
+    nearLeave();
   }
   function leaveToHome() {
     stopEverything();
@@ -2406,7 +2479,11 @@
 
     // «Побути поруч»
     $('btn-near').addEventListener('click', () => { Sound.unlock(); startNear(); });
+    $('toast-layer').addEventListener('pointerdown', (e) => { e.preventDefault(); dissolveToast(); });
     $('near-exit').addEventListener('click', () => { goHome(); praiseIfStayed(); });
+    $('s-near').addEventListener('pointerdown', (e) => {
+      if (!e.target.closest('#near-sound')) nearShowControls();
+    });
     $('near-sound').addEventListener('click', nextNearSound);
 
     // Режим для дитини
