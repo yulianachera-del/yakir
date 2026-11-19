@@ -11,9 +11,14 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Якір">
   <title>Якір</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icons/icon-192.png">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="manifest" id="manifest-link" href="manifest.json">
+  <link rel="icon" id="favicon-link" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" id="touch-icon-link" href="icons/icon-192.png">
+  <script>/* Обрана іконка підставляється до встановлення на головний екран */
+    try { var ic = localStorage.getItem('anchor.icon'); if (ic === 'bright' || ic === 'calm') {
+      document.getElementById('manifest-link').href = 'manifest-' + ic + '.json';
+      document.getElementById('favicon-link').href = document.getElementById('touch-icon-link').href = 'icons/icon-' + ic + '-192.png';
+    } } catch (e) {}</script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -37,7 +42,12 @@
         <button type="button" role="radio" data-mode="vibro" data-i18n="fbVibro">Тільки Вібро</button>
         <button type="button" role="radio" data-mode="visual" data-i18n="fbVisual">Лише візуал</button>
       </div>
-      <button class="lang-btn" type="button" data-short>UA</button>
+      <button class="gear-btn" id="btn-settings" type="button" data-i18n-aria="settings">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
     </div>
     <button class="card card--calm" id="btn-calm" type="button">
       <span class="card__title" data-i18n="calmTitle">Скинути напругу</span>
@@ -56,7 +66,46 @@
         <button class="pill-btn" id="btn-anchor" type="button" data-i18n="anchorTitle">Моя опора</button>
         <button class="pill-btn" id="btn-kid" type="button" data-i18n="kid">Для дитини</button>
       </div>
-      <a class="policy-link" href="./privacy.html" data-i18n="privacy">Приватність</a>
+    </div>
+  </section>
+
+  <!-- Налаштування: мова, іконка, оновлення, приватність -->
+  <section class="screen screen--flow" id="s-settings" hidden>
+    <header class="flow-head">
+      <h1 class="flow-title" data-i18n="settings">Налаштування</h1>
+      <button class="close" id="settings-exit" type="button" data-i18n-aria="back">✕</button>
+    </header>
+    <div class="settings">
+      <div class="set-block">
+        <h2 class="set-title" data-i18n="setLang">Мова</h2>
+        <div class="segmented" id="set-lang" role="radiogroup" data-i18n-aria="setLang">
+          <button type="button" role="radio" data-value="uk">Українська</button>
+          <button type="button" role="radio" data-value="en">English</button>
+          <button type="button" role="radio" data-value="ru">Русский</button>
+        </div>
+      </div>
+
+      <div class="set-block">
+        <h2 class="set-title" data-i18n="setIcon">Іконка застосунку</h2>
+        <div class="icon-pick" id="set-icon" role="radiogroup" data-i18n-aria="setIcon">
+          <button type="button" role="radio" data-value="default"><img src="icons/icon-192.png" alt=""><span data-i18n="iconDefault">Звичайна</span></button>
+          <button type="button" role="radio" data-value="bright"><img src="icons/icon-bright-192.png" alt=""><span data-i18n="iconBright">Помітна</span></button>
+          <button type="button" role="radio" data-value="calm"><img src="icons/icon-calm-192.png" alt=""><span data-i18n="iconCalm">Спокійна</span></button>
+        </div>
+        <p class="muted soft-hint set-hint" data-i18n="iconHint">Нова іконка з’явиться, коли прибереш «Якір» з головного екрана й додаси знову</p>
+      </div>
+
+      <div class="set-block">
+        <h2 class="set-title" data-i18n="setUpdate">Оновлення</h2>
+        <p class="muted set-hint" id="set-version"></p>
+        <button class="btn btn--ghost" id="update-check" type="button" data-i18n="updCheck">Перевірити оновлення</button>
+        <p class="muted soft-hint set-hint" id="update-status" aria-live="polite" hidden></p>
+        <button class="btn btn--primary" id="update-apply" type="button" data-i18n="updApply" hidden>Оновити зараз</button>
+      </div>
+
+      <div class="set-block">
+        <a class="row set-link" href="./privacy.html"><span data-i18n="privacy">Приватність</span><span aria-hidden="true">›</span></a>
+      </div>
     </div>
   </section>
 

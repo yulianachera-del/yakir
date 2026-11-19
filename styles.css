@@ -112,7 +112,30 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   display: grid; grid-template-rows: auto 42fr 42fr auto;
 }
 .home-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: stretch; }
-.home-top .lang-btn { align-self: stretch; min-width: 60px; padding: 0 14px; border-radius: 18px; }
+.gear-btn {
+  align-self: stretch; min-width: var(--tap); padding: 0 12px;
+  display: grid; place-items: center;
+  border-radius: 18px; background: var(--surface); border: 1px solid var(--line); color: var(--muted);
+}
+.gear-btn:active { filter: brightness(1.3); }
+
+/* ===== Налаштування ===== */
+.settings { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 26px; padding: 18px 0 12px; }
+.set-block { display: flex; flex-direction: column; gap: 10px; }
+.set-title { margin: 0 4px; font-size: 15px; font-weight: 600; color: var(--muted); letter-spacing: .02em; }
+.set-hint, .soft-hint.set-hint { margin: 0 4px; max-width: none; text-align: left; font-size: 14px; align-self: stretch; }
+.icon-pick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.icon-pick button {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  min-height: var(--tap); padding: 12px 6px;
+  border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line);
+  color: var(--muted); font-size: 15px;
+}
+.icon-pick img { width: 56px; height: 56px; border-radius: 16px; }
+.icon-pick button[aria-checked="true"] { color: var(--text); box-shadow: inset 0 0 0 1px var(--sage); background: var(--surface-2); }
+.set-link { color: var(--text); text-decoration: none; padding-right: 20px; }
+.set-link span:last-child { color: var(--muted); font-size: 24px; }
+#update-status[hidden], #update-apply[hidden] { display: none; }
 #s-home[hidden] { display: none; }
 
 .card {

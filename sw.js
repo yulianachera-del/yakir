@@ -1,7 +1,7 @@
 /* Service Worker: при установке кладёт все файлы приложения в кэш,
    дальше отвечает из кэша (cache-first) — приложение работает без сети.
    При обновлении файлов увеличьте номер версии в CACHE. */
-const CACHE = 'anchor-v25';
+const CACHE = 'anchor-v26'; // разом із APP_VERSION в app.js
 const ASSETS = [
   './',
   './index.html',
@@ -9,9 +9,20 @@ const ASSETS = [
   './app.js',
   './privacy.html',
   './manifest.json',
+  './manifest-bright.json',
+  './manifest-calm.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  './icons/icon-bright-192.png',
+  './icons/icon-bright-512.png',
+  './icons/icon-calm-192.png',
+  './icons/icon-calm-512.png',
 ];
+
+// «Оновити зараз» у Налаштуваннях: нова версія не чекає закриття застосунку
+self.addEventListener('message', (event) => {
+  if (event.data === 'skipWaiting') self.skipWaiting();
+});
 
 const fresh = (url) => new Request(url, { cache: 'reload' });
 

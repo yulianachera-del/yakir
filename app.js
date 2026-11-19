@@ -37,6 +37,13 @@
       start: 'Почати',
       calmTitle: 'Скинути напругу', calmSub: 'Після тривоги, вибухів або паніки • 4 хвилини',
       near: 'Побути поруч', nearText: 'Я поруч. Нічого не треба робити',
+      settings: 'Налаштування', setLang: 'Мова', setIcon: 'Іконка застосунку',
+      iconDefault: 'Звичайна', iconBright: 'Помітна', iconCalm: 'Спокійна',
+      iconHint: 'Нова іконка з’явиться, коли прибереш «Якір» з головного екрана й додаси знову',
+      setUpdate: 'Оновлення', version: 'Версія', updCheck: 'Перевірити оновлення', updApply: 'Оновити зараз',
+      updChecking: 'Перевіряю…', updLatest: 'У тебе найновіша версія', updFound: 'Є нова версія. Вона вже завантажена',
+      updOffline: 'Немає з’єднання з інтернетом. Спробуй пізніше — застосунок працює й так',
+      updNoSupport: 'Оновлення приходять самі, коли телефон в інтернеті',
       privacy: 'Приватність', kid: 'Для дитини', kBalloon: 'Гра: кулька', kCandle: 'Гра: свічка',
       kidTip: 'Дорослому: дихайте разом із дитиною, повільно й уголос. Не виправляйте — хваліть за кожен видих',
       kInB: 'Вдихни носиком — набери повітря', kOutB: 'А тепер дуй у кульку!', kDoneB: 'Вийшло! Кулька полетіла',
@@ -109,6 +116,13 @@
       start: 'Start',
       calmTitle: 'Release tension', calmSub: 'After an alert, explosions or panic • 4 minutes',
       near: 'Stay with me', nearText: 'I’m here. You don’t have to do anything',
+      settings: 'Settings', setLang: 'Language', setIcon: 'App icon',
+      iconDefault: 'Standard', iconBright: 'Bright', iconCalm: 'Calm',
+      iconHint: 'The new icon appears after you remove “Anchor” from the home screen and add it again',
+      setUpdate: 'Updates', version: 'Version', updCheck: 'Check for updates', updApply: 'Update now',
+      updChecking: 'Checking…', updLatest: 'You have the latest version', updFound: 'A new version is ready. It has already downloaded',
+      updOffline: 'No internet connection. Try later — the app works anyway',
+      updNoSupport: 'Updates arrive on their own when the phone is online',
       privacy: 'Privacy', kid: 'For a child', kBalloon: 'Game: balloon', kCandle: 'Game: candle',
       kidTip: 'For the adult: breathe together with the child, slowly and out loud. Don’t correct — praise every breath out',
       kInB: 'Breathe in through your nose — fill up with air', kOutB: 'Now blow into the balloon!', kDoneB: 'You did it! The balloon flew away',
@@ -182,6 +196,13 @@
       start: 'Начать',
       calmTitle: 'Сбросить напряжение', calmSub: 'После тревоги, взрывов или паники • 4 минуты',
       near: 'Побыть рядом', nearText: 'Я рядом. Ничего не нужно делать',
+      settings: 'Настройки', setLang: 'Язык', setIcon: 'Иконка приложения',
+      iconDefault: 'Обычная', iconBright: 'Заметная', iconCalm: 'Спокойная',
+      iconHint: 'Новая иконка появится, когда уберёшь «Якорь» с главного экрана и добавишь снова',
+      setUpdate: 'Обновления', version: 'Версия', updCheck: 'Проверить обновления', updApply: 'Обновить сейчас',
+      updChecking: 'Проверяю…', updLatest: 'У тебя самая новая версия', updFound: 'Есть новая версия. Она уже загружена',
+      updOffline: 'Нет подключения к интернету. Попробуй позже — приложение работает и так',
+      updNoSupport: 'Обновления приходят сами, когда телефон в интернете',
       privacy: 'Конфиденциальность', kid: 'Для ребёнка', kBalloon: 'Игра: шарик', kCandle: 'Игра: свеча',
       kidTip: 'Взрослому: дышите вместе с ребёнком, медленно и вслух. Не поправляйте — хвалите за каждый выдох',
       kInB: 'Вдохни носиком — набери воздух', kOutB: 'А теперь дуй в шарик!', kDoneB: 'Получилось! Шарик улетел',
@@ -265,6 +286,9 @@
     document.querySelectorAll('.lang-btn').forEach((b) => {
       b.textContent = code;
       b.setAttribute('aria-label', `${tr('langLabel')}: ${code}`);
+    });
+    document.querySelectorAll('#set-lang button').forEach((b) => {
+      b.setAttribute('aria-checked', String(b.dataset.value === settings.lang));
     });
     updateVoiceHint();
   }
@@ -2406,6 +2430,87 @@
     hint.hidden = !text;
   }
 
+  /* ================= 8a. Налаштування ================= */
+  // Збільшувати разом із CACHE у sw.js
+  const APP_VERSION = 26;
+  const ICONS = ['default', 'bright', 'calm'];
+
+  /* Іконку на головному екрані телефона веб-застосунок змінити не може —
+     браузер бере її з маніфесту під час встановлення. Тому підміняємо маніфест:
+     після повторного додавання на головний екран буде обрана іконка. */
+  function applyIcon(name) {
+    const v = name === 'default' ? '' : '-' + name;
+    $('manifest-link').href = v ? `manifest${v}.json` : 'manifest.json';
+    $('favicon-link').href = $('touch-icon-link').href = `icons/icon${v}-192.png`;
+  }
+
+  // Нова версія вже стала активною (браузер перевіряє оновлення сам під час запуску)
+  let updateReady = false;
+  function updStatus(key) {
+    const el = $('update-status');
+    el.textContent = key ? tr(key) : '';
+    el.hidden = !key;
+    $('update-apply').hidden = key !== 'updFound';
+    $('update-check').hidden = key === 'updFound';
+  }
+  function openSettings() {
+    $('set-version').textContent = `${tr('version')} ${APP_VERSION}`;
+    updStatus(updateReady ? 'updFound' : '');
+    showScreen('s-settings');
+  }
+  async function checkUpdate() {
+    const btn = $('update-check');
+    if (btn.disabled) return;
+    if (!('serviceWorker' in navigator)) { updStatus('updNoSupport'); return; }
+    if (navigator.onLine === false) { updStatus('updOffline'); return; }
+    btn.disabled = true;
+    updStatus('updChecking');
+    try {
+      const reg = await navigator.serviceWorker.getRegistration();
+      if (!reg) { updStatus('updNoSupport'); return; }
+      await reg.update();
+      const worker = reg.installing || reg.waiting;
+      if (!worker) { updStatus(updateReady ? 'updFound' : 'updLatest'); return; }
+      // Чекаємо, поки нова версія завантажить усі файли
+      await new Promise((resolve) => {
+        const done = () => { if (['installed', 'activated', 'redundant'].includes(worker.state)) resolve(); };
+        worker.addEventListener('statechange', done);
+        setTimeout(resolve, 30000);
+        done();
+      });
+      if (worker.state === 'redundant') { updStatus('updOffline'); return; }
+      if (reg.waiting) reg.waiting.postMessage('skipWaiting');
+      updateReady = true;
+      updStatus('updFound');
+    } catch (e) {
+      updStatus('updOffline');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  function bindSettings() {
+    $('btn-settings').addEventListener('click', openSettings);
+    $('settings-exit').addEventListener('click', goHome);
+    const langGroup = $('set-lang');
+    bindRadio(langGroup, 'value', settings.lang, setLang);
+    settings.icon = Store.get('icon', 'default');
+    if (!ICONS.includes(settings.icon)) settings.icon = 'default';
+    bindRadio($('set-icon'), 'value', settings.icon, (v) => {
+      settings.icon = v; Store.set('icon', v); applyIcon(v);
+    });
+    $('update-check').addEventListener('click', checkUpdate);
+    $('update-apply').addEventListener('click', () => location.reload());
+    if ('serviceWorker' in navigator) {
+      const hadController = !!navigator.serviceWorker.controller;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!hadController) return; // перше встановлення — це не оновлення
+        updateReady = true;
+        if (currentScreen === 's-settings') updStatus('updFound');
+      });
+    }
+  }
+
   function init() {
     Speech.init();
     Clips.init();
@@ -2511,6 +2616,7 @@
     bindRadio($('sleep-mode'), 'value', settings.sleepMode, (v) => { settings.sleepMode = v; Store.set('sleepMode', v); });
     document.querySelectorAll('.lang-btn').forEach((b) => b.addEventListener('click', nextLang));
     bindDetox();
+    bindSettings();
     applyLang();
     if (!['off', 'brown', 'rain'].includes(settings.bg)) settings.bg = 'off';
     bindRadio($('bg-sound'), 'value', settings.bg, (v) => { settings.bg = v; Store.set('sleepBg', v); });
