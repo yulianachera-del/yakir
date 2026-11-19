@@ -27,7 +27,17 @@
     bg: Store.get('sleepBg', Store.get('noise', '0') === '1' ? 'brown' : 'off'),
     voiceCues: Store.get('voiceCues', '1') === '1', // голосові команди в потоці «Скинути напругу»
     lang: Store.get('lang', 'uk'),             // uk | en | ru — мова інтерфейсу й озвучення
+    sleepMin: Store.get('sleepMin', '8'),      // 8 | 15 | 25 — тривалість сну
+    textSize: Store.get('textSize', 'normal'), // normal | large
+    start: Store.get('start', 'home'),         // home | calm | near — що відкривати при запуску
+    voiceSpeed: Store.get('voiceSpeed', 'normal'), // normal | slow
+    vol: {                                       // low | mid | high — гучність фонових звуків
+      noise: Store.get('volNoise', 'mid'), rain: Store.get('volRain', 'mid'), fx: Store.get('volFx', 'mid'),
+    },
   };
+  if (!['8', '15', '25'].includes(settings.sleepMin)) settings.sleepMin = '8';
+  const VOL_GAIN = { low: 0.45, mid: 1, high: 1.6 };
+  const VOICE_SPEED = { normal: 1, slow: 0.86 };
 
   /* ================= 1a. Переклади (UA — основна, далі EN і RU) ================= */
   const I18N = {
@@ -44,6 +54,21 @@
       updChecking: 'Перевіряю…', updLatest: 'У тебе найновіша версія', updFound: 'Є нова версія. Вона вже завантажена',
       updOffline: 'Немає з’єднання з інтернетом. Спробуй пізніше — застосунок працює й так',
       updNoSupport: 'Оновлення приходять самі, коли телефон в інтернеті',
+      setText: 'Розмір тексту', textNormal: 'Звичайний', textLarge: 'Великий',
+      setStart: 'Що відкривати при запуску', startHome: 'Головну',
+      startHint: 'Одразу потрапиш у вправу, без вибору. На головну — хрестиком',
+      setVoice: 'Голос', voiceCuesLbl: 'Голосові підказки', on: 'Увімк.', off: 'Вимк.',
+      voiceSpeed: 'Темп', speedSlow: 'Повільніше', speedNormal: 'Звичайно',
+      setVolume: 'Гучність фону', volNoise: 'Шум', volRain: 'Дощ', volFx: 'Інші звуки',
+      volLow: 'Тихіше', volMid: 'Звичайно', volHigh: 'Гучніше',
+      setSleep: 'Тривалість сну', min8: '8 хв', min15: '15 хв', min25: '25 хв',
+      sleepDurHint: 'Для відліку й для слів. Потім звук і текст тихо згасають',
+      share: 'Поділитися застосунком', shareText: 'Якір — офлайн-самодопомога: скинути напругу й заснути. Безкоштовно, без реклами',
+      shareCopied: 'Посилання скопійовано',
+      resetAll: 'Скинути всі налаштування і мої дані',
+      resetWarn: 'Це видалить «Мою опору» і всі налаштування на цьому телефоні. Повернути їх не вийде',
+      resetYes: 'Так, скинути', cancel: 'Скасувати',
+      tapToStart: 'Торкнись екрана, щоб почати',
       privacy: 'Приватність', kid: 'Для дитини', kBalloon: 'Гра: кулька', kCandle: 'Гра: свічка',
       kidTip: 'Дорослому: дихайте разом із дитиною, повільно й уголос. Не виправляйте — хваліть за кожен видих',
       kInB: 'Вдихни носиком — набери повітря', kOutB: 'А тепер дуй у кульку!', kDoneB: 'Вийшло! Кулька полетіла',
@@ -79,7 +104,7 @@
       finalText: 'Пульс вирівнюється',
       toSleep: 'Перейти до засинання', toHome: 'На головну',
       countTitle: 'Зворотний відлік (100 → 0)', countSub: 'Монотонний рахунок назад, темп сповільнюється',
-      wordsTitle: 'Образи (Перемішування)', wordsSub: 'Випадкові спокійні слова, 15 хвилин',
+      wordsTitle: 'Образи (Перемішування)', wordsSub: 'Випадкові спокійні слова, {m} хвилин',
       bgSound: 'Фоновий звук', bgOff: 'Без', bgBrown: 'Шум', bgRain: 'Дощ',
       noteTap: 'Торкнись екрана, щоб почати одразу', voiceLang: 'Мова озвучення',
       sleepStart: 'Заплющити очі й почати',
@@ -123,6 +148,21 @@
       updChecking: 'Checking…', updLatest: 'You have the latest version', updFound: 'A new version is ready. It has already downloaded',
       updOffline: 'No internet connection. Try later — the app works anyway',
       updNoSupport: 'Updates arrive on their own when the phone is online',
+      setText: 'Text size', textNormal: 'Normal', textLarge: 'Large',
+      setStart: 'Open on launch', startHome: 'Home',
+      startHint: 'Go straight into the practice, no choosing. ✕ takes you home',
+      setVoice: 'Voice', voiceCuesLbl: 'Voice prompts', on: 'On', off: 'Off',
+      voiceSpeed: 'Pace', speedSlow: 'Slower', speedNormal: 'Normal',
+      setVolume: 'Background volume', volNoise: 'Noise', volRain: 'Rain', volFx: 'Other sounds',
+      volLow: 'Quieter', volMid: 'Normal', volHigh: 'Louder',
+      setSleep: 'Sleep length', min8: '8 min', min15: '15 min', min25: '25 min',
+      sleepDurHint: 'For counting and for words. Then sound and text fade quietly',
+      share: 'Share the app', shareText: 'Anchor — offline self-help to release tension and fall asleep. Free, no ads',
+      shareCopied: 'Link copied',
+      resetAll: 'Reset all settings and my data',
+      resetWarn: 'This deletes “My anchor” and all settings on this phone. It can’t be undone',
+      resetYes: 'Yes, reset', cancel: 'Cancel',
+      tapToStart: 'Tap the screen to begin',
       privacy: 'Privacy', kid: 'For a child', kBalloon: 'Game: balloon', kCandle: 'Game: candle',
       kidTip: 'For the adult: breathe together with the child, slowly and out loud. Don’t correct — praise every breath out',
       kInB: 'Breathe in through your nose — fill up with air', kOutB: 'Now blow into the balloon!', kDoneB: 'You did it! The balloon flew away',
@@ -159,7 +199,7 @@
       finalText: 'Your pulse is settling',
       toSleep: 'Continue to sleep', toHome: 'Back to home',
       countTitle: 'Countdown (100 → 0)', countSub: 'Steady counting down, slowing as it goes',
-      wordsTitle: 'Images (Shuffle)', wordsSub: 'Random calm words, 15 minutes',
+      wordsTitle: 'Images (Shuffle)', wordsSub: 'Random calm words, {m} minutes',
       bgSound: 'Background sound', bgOff: 'None', bgBrown: 'Noise', bgRain: 'Rain',
       noteTap: 'Tap the screen to start right away', voiceLang: 'Voice language',
       sleepStart: 'Close your eyes and start',
@@ -203,6 +243,21 @@
       updChecking: 'Проверяю…', updLatest: 'У тебя самая новая версия', updFound: 'Есть новая версия. Она уже загружена',
       updOffline: 'Нет подключения к интернету. Попробуй позже — приложение работает и так',
       updNoSupport: 'Обновления приходят сами, когда телефон в интернете',
+      setText: 'Размер текста', textNormal: 'Обычный', textLarge: 'Крупный',
+      setStart: 'Что открывать при запуске', startHome: 'Главную',
+      startHint: 'Сразу попадёшь в упражнение, без выбора. На главную — крестиком',
+      setVoice: 'Голос', voiceCuesLbl: 'Голосовые подсказки', on: 'Вкл.', off: 'Выкл.',
+      voiceSpeed: 'Темп', speedSlow: 'Медленнее', speedNormal: 'Обычно',
+      setVolume: 'Громкость фона', volNoise: 'Шум', volRain: 'Дождь', volFx: 'Другие звуки',
+      volLow: 'Тише', volMid: 'Обычно', volHigh: 'Громче',
+      setSleep: 'Длительность сна', min8: '8 мин', min15: '15 мин', min25: '25 мин',
+      sleepDurHint: 'Для отсчёта и для слов. Потом звук и текст тихо гаснут',
+      share: 'Поделиться приложением', shareText: 'Якорь — офлайн-самопомощь: снять напряжение и заснуть. Бесплатно, без рекламы',
+      shareCopied: 'Ссылка скопирована',
+      resetAll: 'Сбросить все настройки и мои данные',
+      resetWarn: 'Это удалит «Мою опору» и все настройки на этом телефоне. Вернуть их не получится',
+      resetYes: 'Да, сбросить', cancel: 'Отмена',
+      tapToStart: 'Коснись экрана, чтобы начать',
       privacy: 'Конфиденциальность', kid: 'Для ребёнка', kBalloon: 'Игра: шарик', kCandle: 'Игра: свеча',
       kidTip: 'Взрослому: дышите вместе с ребёнком, медленно и вслух. Не поправляйте — хвалите за каждый выдох',
       kInB: 'Вдохни носиком — набери воздух', kOutB: 'А теперь дуй в шарик!', kDoneB: 'Получилось! Шарик улетел',
@@ -238,7 +293,7 @@
       finalText: 'Пульс выравнивается',
       toSleep: 'Перейти к засыпанию', toHome: 'На главную',
       countTitle: 'Обратный отсчет (100 → 0)', countSub: 'Монотонный счет назад, темп замедляется',
-      wordsTitle: 'Образы (Перемешивание)', wordsSub: 'Случайные спокойные слова, 15 минут',
+      wordsTitle: 'Образы (Перемешивание)', wordsSub: 'Случайные спокойные слова, {m} минут',
       bgSound: 'Фоновый звук', bgOff: 'Без', bgBrown: 'Шум', bgRain: 'Дождь',
       noteTap: 'Коснись экрана, чтобы начать сразу', voiceLang: 'Язык озвучки',
       sleepStart: 'Закрыть глаза и начать',
@@ -273,7 +328,7 @@
   const LANG_ORDER = ['uk', 'en', 'ru'];
   const LANG_CODE = { uk: 'UA', en: 'EN', ru: 'RU' };
   if (!I18N[settings.lang]) settings.lang = 'uk';
-  const tr = (key) => I18N[settings.lang][key] || I18N.uk[key] || key;
+  const tr = (key) => (I18N[settings.lang][key] || I18N.uk[key] || key).replace('{m}', settings.sleepMin);
 
   /* Підставляє вибрану мову в усі статичні елементи та перемикачі мови. */
   function applyLang() {
@@ -354,6 +409,32 @@
     },
     get ready() { return !!this.ctx; },
 
+    /* Шини гучності з Налаштувань: noise — шум сну, rain — дощ (сон, «Побути
+       поруч», «Бульбашки»), fx — усе інше. Голос іде повз них. Обмежувач на
+       виході не дає звуку хрипіти на «Гучніше». */
+    buses: {},
+    _out(name) {
+      const c = this.ctx;
+      if (!this.buses[name]) {
+        if (!this._limiter) {
+          const l = c.createDynamicsCompressor();
+          l.threshold.value = -3; l.knee.value = 3; l.ratio.value = 12;
+          l.attack.value = 0.003; l.release.value = 0.25;
+          l.connect(c.destination);
+          this._limiter = l;
+        }
+        const g = c.createGain();
+        g.gain.value = VOL_GAIN[settings.vol[name]] || 1;
+        g.connect(this._limiter);
+        this.buses[name] = g;
+      }
+      return this.buses[name];
+    },
+    setVolume(name, level) {
+      const g = this.buses[name];
+      if (g) g.gain.setTargetAtTime(VOL_GAIN[level] || 1, this.ctx.currentTime, 0.15);
+    },
+
     _track(node, gain) {
       const entry = { node, gain };
       this.live.add(entry);
@@ -371,7 +452,7 @@
       g.gain.setValueAtTime(0.0001, t0);
       g.gain.exponentialRampToValueAtTime(level, t0 + 0.012);
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.14);
-      osc.connect(g).connect(c.destination);
+      osc.connect(g).connect(this._out('fx'));
       osc.start(t0); osc.stop(t0 + 0.16);
       this._track(osc, g);
     },
@@ -389,7 +470,7 @@
       g.gain.linearRampToValueAtTime(level, t0 + edge);
       g.gain.setValueAtTime(level, t0 + dur - edge);
       g.gain.linearRampToValueAtTime(0.0001, t0 + dur);
-      osc.connect(g).connect(c.destination);
+      osc.connect(g).connect(this._out('fx'));
       osc.start(t0); osc.stop(t0 + dur + 0.05);
       this._track(osc, g);
     },
@@ -402,7 +483,7 @@
       g.gain.setValueAtTime(0.0001, t0);
       g.gain.exponentialRampToValueAtTime(level, t0 + 0.02);
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.8);
-      g.connect(c.destination);
+      g.connect(this._out('fx'));
       [[1, 1], [2, 0.22]].forEach(([mult, part]) => {
         const osc = c.createOscillator(), pg = c.createGain();
         osc.type = 'sine';
@@ -455,7 +536,7 @@
       level.gain.value = preset.level;
       master.gain.setValueAtTime(0.0001, now);
       master.gain.linearRampToValueAtTime(1, now + fadeIn);
-      src.connect(hp).connect(lp).connect(level).connect(master).connect(c.destination);
+      src.connect(hp).connect(lp).connect(level).connect(master).connect(this._out(kind === 'rain' || kind === 'glass' ? 'rain' : 'fx'));
       let lfo = null;
       if (kind === 'waves') {
         lfo = c.createOscillator();
@@ -550,7 +631,7 @@
       g.gain.setValueAtTime(0.0001, t0);
       g.gain.exponentialRampToValueAtTime(peak, t0 + rise);
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-      s.connect(f).connect(g).connect(c.destination);
+      s.connect(f).connect(g).connect(this._out('fx'));
       s.start(t0, Math.random() * 2, dur + 0.05);
       this._track(s, g);
     },
@@ -577,7 +658,7 @@
         g.gain.setValueAtTime(0.0001, t0);
         g.gain.exponentialRampToValueAtTime(0.045, t0 + 0.01);
         g.gain.exponentialRampToValueAtTime(0.0001, t0 + len);
-        osc.connect(g).connect(c.destination);
+        osc.connect(g).connect(this._out('fx'));
         osc.start(t0); osc.stop(t0 + len + 0.02);
         this._track(osc, g);
       });
@@ -606,7 +687,7 @@
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.6);
       const lp = c.createBiquadFilter();
       lp.type = 'lowpass'; lp.frequency.value = 2200;
-      lp.connect(g).connect(c.destination);
+      lp.connect(g).connect(this._out('fx'));
       [[1, 1], [3, 0.08]].forEach(([mult, part]) => {
         const osc = c.createOscillator(), pg = c.createGain();
         osc.type = 'sine';
@@ -634,7 +715,7 @@
       g.gain.setValueAtTime(0.0001, t0);
       g.gain.exponentialRampToValueAtTime(0.022 + Math.random() * 0.012, t0 + 0.01);
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.4);
-      g.connect(c.destination);
+      g.connect(this._out('fx'));
       [[1, 1], [2.76, 0.18], [5.4, 0.06]].forEach(([mult, part]) => { // «скляні» обертони
         const osc = c.createOscillator(), pg = c.createGain();
         osc.type = 'sine';
@@ -657,7 +738,7 @@
       g.gain.setValueAtTime(0.0001, t0);
       g.gain.exponentialRampToValueAtTime(0.11, t0 + 0.008);
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.11);
-      osc.connect(g).connect(c.destination);
+      osc.connect(g).connect(this._out('fx'));
       osc.start(t0); osc.stop(t0 + 0.13);
       this._track(osc, g);
     },
@@ -748,7 +829,7 @@
         lp.type = 'lowpass'; lp.frequency.value = kind === 'rain' ? 5200 : 900; lp.Q.value = 0.5;
         const g = c.createGain();
         g.gain.value = 0.0001;
-        lp.connect(g).connect(c.destination);
+        lp.connect(g).connect(this._out(kind === 'rain' ? 'rain' : 'noise'));
         const entry = { node: null, stopped: false, kind };
         this.noiseSrc = entry; this.noiseGain = g;
         this._loadNoiseWorklet().then((ok) => {
@@ -969,7 +1050,7 @@
         const voice = this.voiceFor(lang);
         if (voice) u.voice = voice;
         u.lang = voice ? voice.lang.replace('_', '-') : ({ uk: 'uk-UA', en: 'en-US', ru: 'ru-RU' })[lang];
-        u.rate = rate * this.RATE_FACTOR; u.volume = volume; u.pitch = this.PITCH;
+        u.rate = rate * this.RATE_FACTOR * (VOICE_SPEED[settings.voiceSpeed] || 1); u.volume = volume; u.pitch = this.PITCH;
         u.onerror = (e) => {
           if (e.error !== 'interrupted' && e.error !== 'canceled' && onFail) onFail();
         };
@@ -1010,11 +1091,13 @@
     btn.setAttribute('aria-pressed', String(settings.voiceCues));
   }
 
-  function startFlowA() {
+  /* fromLaunch: відкрито одразу при запуску. Браузер не дає звучати й
+     вібрувати до першого дотику, тому перша підводка чекає дотику. */
+  function startFlowA(fromLaunch) {
     paintVoiceButton();
     showScreen('s-flow-a');
     Wake.on();
-    startStageA(0);
+    startStageA(0, fromLaunch === true);
   }
 
   /* Перед кожним етапом — коротка тиха підводка: нормалізує стан людини
@@ -1023,7 +1106,7 @@
   const STAGE_NOTES = [['noteA1', 4500], ['noteA2', 3000], ['noteA3', 3000], ['noteA4', 3000]];
 
   let noteSkip = null;
-  async function startStageA(index) {
+  async function startStageA(index, waitTap = false) {
     const t = newToken();
     Haptic.stop();
     stopVoice();
@@ -1036,8 +1119,11 @@
     stagesA.forEach((el) => { el.hidden = true; });
     $('a-note-text').textContent = tr(STAGE_NOTES[index][0]);
     $('a-note').hidden = false;
+    const tapHint = $('a-note').querySelector('[data-i18n]');
+    tapHint.textContent = tr(waitTap ? 'tapToStart' : 'noteTap');
     // Підводку можна пропустити дотиком будь-де — для тих, хто її вже знає
-    await Promise.race([wait(STAGE_NOTES[index][1], t), new Promise((go) => { noteSkip = go; })]);
+    const tapped = new Promise((go) => { noteSkip = go; });
+    await (waitTap ? tapped : Promise.race([wait(STAGE_NOTES[index][1], t), tapped]));
     noteSkip = null;
     if (t.cancelled) return;
     $('a-note').hidden = true;
@@ -1506,7 +1592,6 @@
      телефона майже не відтворюють найнижчі частоти, тому шум зроблено
      гучнішим і трохи світлішим (див. startNoise). */
   const NOISE_LEVEL = { brown: 0.8, rain: 0.55 };
-  const WORDS_DURATION_MS = 15 * 60 * 1000;
   const sleepText = $('sleep-text');
 
   /* ---- Прогрессивное замедление: обратный отсчёт ----
@@ -1554,11 +1639,17 @@
     (settings.sleepMode === 'count' ? runCountdown : runWords)(t);
   }
 
+  /* Тривалість із Налаштувань: паузи між числами розтягуються пропорційно,
+     щоб весь відлік тривав 8, 15 або 25 хвилин. */
+  const sleepMs = () => Number(settings.sleepMin) * 60 * 1000;
   async function runCountdown(t) {
+    let total = 0;
+    for (let n = 100; n >= 0; n--) total += countPace(n).ms;
+    const stretch = sleepMs() / total;
     for (let n = 100; n >= 0; n--) {
       const pace = countPace(n);
       sleepTick('n-' + n, n, pace, false);
-      await wait(pace.ms, t);
+      await wait(pace.ms * stretch, t);
     }
     endSleep(t);
   }
@@ -1568,7 +1659,7 @@
     let bag = [], lastWord = null; // у мішку — індекси слів (за ними ж шукається MP3 w-<індекс>)
     const started = performance.now();
     for (;;) {
-      const p = Math.min(1, (performance.now() - started) / WORDS_DURATION_MS);
+      const p = Math.min(1, (performance.now() - started) / sleepMs());
       if (p >= 1) break;
       // «Мешок» без повторов: все слова проходят по разу, затем перемешиваются заново
       if (bag.length === 0) {
@@ -2432,7 +2523,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 26;
+  const APP_VERSION = 27;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
@@ -2456,6 +2547,12 @@
   function openSettings() {
     $('set-version').textContent = `${tr('version')} ${APP_VERSION}`;
     updStatus(updateReady ? 'updFound' : '');
+    $('reset-confirm').hidden = true; $('reset-ask').hidden = false;
+    // голосові підказки можна вимкнути й кнопкою у вправі — показуємо актуальне
+    $('set-cues').querySelectorAll('button').forEach((b) => {
+      b.setAttribute('aria-checked', String((b.dataset.value === 'on') === settings.voiceCues));
+    });
+    $('s-settings').querySelector('.settings').scrollTop = 0;
     showScreen('s-settings');
   }
   async function checkUpdate() {
@@ -2489,6 +2586,38 @@
     }
   }
 
+  /* Короткий зразок (3 с) обраного фону з новою гучністю. */
+  let previewTimer = null;
+  function previewVolume(bus) {
+    clearTimeout(previewTimer);
+    if (bus === 'fx') { Sound.stopNoise(0.3); Sound.bell(659.25); return; }
+    Sound.startNoise(0.4, NOISE_LEVEL[bus === 'rain' ? 'rain' : 'brown'], bus === 'rain' ? 'rain' : 'brown');
+    previewTimer = setTimeout(() => Sound.stopNoise(1.2), 3000);
+  }
+
+  async function shareApp() {
+    const url = new URL('./', location.href).href;
+    const data = { title: tr('appName'), text: tr('shareText'), url };
+    try {
+      if (navigator.share) { await navigator.share(data); return; }
+    } catch (e) {
+      if (e && e.name === 'AbortError') return; // людина передумала
+    }
+    try {
+      await navigator.clipboard.writeText(`${data.text}\n${url}`);
+      toast(tr('shareCopied'));
+    } catch (e) { toast(url); }
+  }
+
+  /* Видаляє все, що застосунок зберіг на телефоні (налаштування, «Моя опора»),
+     і починає з першого екрана. Кеш для роботи без інтернету лишається. */
+  function resetAll() {
+    try {
+      Object.keys(localStorage).filter((k) => k.startsWith('anchor.')).forEach((k) => localStorage.removeItem(k));
+    } catch (e) { /* noop */ }
+    location.replace(new URL('./', location.href).href);
+  }
+
   function bindSettings() {
     $('btn-settings').addEventListener('click', openSettings);
     $('settings-exit').addEventListener('click', goHome);
@@ -2499,6 +2628,41 @@
     bindRadio($('set-icon'), 'value', settings.icon, (v) => {
       settings.icon = v; Store.set('icon', v); applyIcon(v);
     });
+    // Розмір тексту
+    bindRadio($('set-text'), 'value', settings.textSize, (v) => {
+      settings.textSize = v; Store.set('textSize', v);
+      document.documentElement.classList.toggle('text-lg', v === 'large');
+    });
+    // Що відкривати при запуску
+    if (!['home', 'calm', 'near'].includes(settings.start)) settings.start = 'home';
+    bindRadio($('set-start'), 'value', settings.start, (v) => { settings.start = v; Store.set('start', v); });
+    // Голос
+    bindRadio($('set-cues'), 'value', settings.voiceCues ? 'on' : 'off', (v) => {
+      settings.voiceCues = v === 'on'; Store.set('voiceCues', settings.voiceCues ? '1' : '0');
+    });
+    bindRadio($('set-speed'), 'value', settings.voiceSpeed, (v) => {
+      settings.voiceSpeed = v; Store.set('voiceSpeed', v);
+      Sound.unlock(); say('', tr('nearText'), 1, SPEECH_BASE_VOLUME); // одразу чути новий темп
+    });
+    // Гучність фону: зразок звуку, щоб одразу почути різницю
+    [['noise', 'vol-noise', 'volNoise'], ['rain', 'vol-rain', 'volRain'], ['fx', 'vol-fx', 'volFx']].forEach(([bus, id, key]) => {
+      if (!VOL_GAIN[settings.vol[bus]]) settings.vol[bus] = 'mid';
+      bindRadio($(id), 'value', settings.vol[bus], (v) => {
+        settings.vol[bus] = v; Store.set(key, v);
+        Sound.unlock(); Sound.setVolume(bus, v);
+        previewVolume(bus);
+      });
+    });
+    // Тривалість сну
+    bindRadio($('set-sleep'), 'value', settings.sleepMin, (v) => {
+      settings.sleepMin = v; Store.set('sleepMin', v); applyLang();
+    });
+    // Поділитися
+    $('btn-share').addEventListener('click', shareApp);
+    // Скинути все — лише після підтвердження
+    $('reset-ask').addEventListener('click', () => { $('reset-ask').hidden = true; $('reset-confirm').hidden = false; });
+    $('reset-no').addEventListener('click', () => { $('reset-confirm').hidden = true; $('reset-ask').hidden = false; });
+    $('reset-yes').addEventListener('click', resetAll);
     $('update-check').addEventListener('click', checkUpdate);
     $('update-apply').addEventListener('click', () => location.reload());
     if ('serviceWorker' in navigator) {
@@ -2627,7 +2791,13 @@
     b2.addEventListener('pointerdown', (e) => { e.preventDefault(); holdStart(e); });
     ['pointerup', 'pointercancel', 'pointerleave'].forEach((ev) => b2.addEventListener(ev, holdCancel));
 
-    showScreen(Store.get('seen', '') === '1' ? 's-home' : 's-intro');
+    // Стартовий екран: головна або одразу вправа (якщо так обрано в Налаштуваннях)
+    if (Store.get('seen', '') !== '1') showScreen('s-intro');
+    else {
+      showScreen('s-home');
+      if (settings.start === 'calm') startFlowA(true);
+      else if (settings.start === 'near') startNear();
+    }
 
     // Service Worker: кэширует всё при первом запуске → дальше полный офлайн
     if ('serviceWorker' in navigator && location.protocol !== 'file:') {

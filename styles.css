@@ -17,7 +17,9 @@
   /* Додатковий відступ зверху на всіх екранах: на Android системний рядок
      (час, заряд) інакше «налазить» на хрестик і заголовки */
   --top-gap: 20px;
+  --fs: 1; /* множник тексту: «Великий текст» у Налаштуваннях */
 }
+html.text-lg { --fs: 1.18; }
 
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -27,7 +29,7 @@ html, body {
   background: var(--bg);
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 18px;
+  font-size: calc(18px * var(--fs));
   line-height: 1.4;
   overflow: hidden;
   overscroll-behavior: none;
@@ -76,12 +78,12 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 
 .lead {
   margin: 0;
-  font-size: clamp(22px, 6vw, 28px);
+  font-size: calc(clamp(22px, 6vw, 28px) * var(--fs));
   line-height: 1.35;
   text-align: center;
   text-wrap: balance;
 }
-.muted { color: var(--muted); font-size: 16px; }
+.muted { color: var(--muted); font-size: calc(16px * var(--fs)); }
 
 .intro-mark {
   width: 84px; height: 84px; margin: 0 auto;
@@ -97,7 +99,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   width: 100%;
   padding: 14px 20px;
   border-radius: var(--radius);
-  font-size: 21px;
+  font-size: calc(21px * var(--fs));
   font-weight: 600;
   transition: transform .12s ease, filter .12s ease;
 }
@@ -122,20 +124,26 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 /* ===== Налаштування ===== */
 .settings { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 26px; padding: 18px 0 12px; }
 .set-block { display: flex; flex-direction: column; gap: 10px; }
-.set-title { margin: 0 4px; font-size: 15px; font-weight: 600; color: var(--muted); letter-spacing: .02em; }
-.set-hint, .soft-hint.set-hint { margin: 0 4px; max-width: none; text-align: left; font-size: 14px; align-self: stretch; }
+.set-title { margin: 0 4px; font-size: calc(15px * var(--fs)); font-weight: 600; color: var(--muted); letter-spacing: .02em; }
+.set-hint, .soft-hint.set-hint { margin: 0 4px; max-width: none; text-align: left; font-size: calc(14px * var(--fs)); align-self: stretch; }
 .icon-pick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .icon-pick button {
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   min-height: var(--tap); padding: 12px 6px;
   border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line);
-  color: var(--muted); font-size: 15px;
+  color: var(--muted); font-size: calc(15px * var(--fs));
 }
 .icon-pick img { width: 56px; height: 56px; border-radius: 16px; }
 .icon-pick button[aria-checked="true"] { color: var(--text); box-shadow: inset 0 0 0 1px var(--sage); background: var(--surface-2); }
 .set-link { color: var(--text); text-decoration: none; padding-right: 20px; }
-.set-link span:last-child { color: var(--muted); font-size: 24px; }
-#update-status[hidden], #update-apply[hidden] { display: none; }
+.set-link span:last-child { color: var(--muted); font-size: calc(24px * var(--fs)); }
+#update-status[hidden], #update-apply[hidden], .reset-confirm[hidden] { display: none; }
+.settings .row--vol { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px; }
+.settings .row--vol > span { padding-left: 8px; }
+.settings .segmented--small { min-width: 0; }
+.settings .segmented--small button, #set-start button { font-size: calc(15px * var(--fs)); line-height: 1.2; }
+.reset-confirm { display: flex; flex-direction: column; gap: 10px; }
+#reset-ask { color: var(--muted); }
 #s-home[hidden] { display: none; }
 
 .card {
@@ -153,8 +161,8 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 .card:active { transform: scale(.985); filter: brightness(1.15); }
 .card--calm { background: linear-gradient(160deg, rgba(107,142,120,.26), rgba(107,142,120,.07)); border-color: rgba(107,142,120,.35); }
 .card--sleep { background: linear-gradient(160deg, rgba(200,138,85,.20), rgba(200,138,85,.05)); border-color: rgba(200,138,85,.30); }
-.card__title { font-size: clamp(28px, 8.5vw, 38px); font-weight: 650; line-height: 1.12; letter-spacing: -0.01em; }
-.card__sub { font-size: clamp(16px, 4.6vw, 19px); color: #B4B8C0; }
+.card__title { font-size: calc(clamp(28px, 8.5vw, 38px) * var(--fs)); font-weight: 650; line-height: 1.12; letter-spacing: -0.01em; }
+.card__sub { font-size: calc(clamp(16px, 4.6vw, 19px) * var(--fs)); color: #B4B8C0; }
 
 /* ===== Сегментированный переключатель ===== */
 .segmented {
@@ -171,7 +179,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   min-height: var(--tap);
   padding: 6px 6px;
   border-radius: 14px;
-  font-size: clamp(13px, 3.7vw, 16px);
+  font-size: calc(clamp(13px, 3.7vw, 16px) * var(--fs));
   color: var(--muted);
   line-height: 1.15;
 }
@@ -182,16 +190,16 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 /* Одна кнопка мови: кожне натискання перемикає UA → EN → RU → UA */
 .home-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px; }
 .home-row > button { justify-self: stretch; padding: 4px 8px; line-height: 1.15; }
-.home-row > button { min-height: 60px; font-size: 16px; border-radius: 20px; color: var(--text); }
-.policy-link { display: block; text-align: center; padding: 6px 12px; color: var(--muted); font-size: 13px; text-decoration: none; opacity: .8; }
+.home-row > button { min-height: 60px; font-size: calc(16px * var(--fs)); border-radius: 20px; color: var(--text); }
+.policy-link { display: block; text-align: center; padding: 6px 12px; color: var(--muted); font-size: calc(13px * var(--fs)); text-decoration: none; opacity: .8; }
 .stack[hidden] { display: none; }
 .stack > .skip { align-self: center; }
 
 /* Фінал: тепла фраза, «Моя опора», запитання «Як ти зараз?» */
-.feel-q { margin: 0 0 2px; text-align: center; font-size: 20px; color: #C9CCD2; text-wrap: balance; }
-.anchor-line { margin: 0; text-align: center; color: var(--amber); font-size: 19px; font-style: italic; overflow-wrap: anywhere; }
+.feel-q { margin: 0 0 2px; text-align: center; font-size: calc(20px * var(--fs)); color: #C9CCD2; text-wrap: balance; }
+.anchor-line { margin: 0; text-align: center; color: var(--amber); font-size: calc(19px * var(--fs)); font-style: italic; overflow-wrap: anywhere; }
 .anchor-line:empty, .near-anchor:empty { display: none; }
-.btn--quiet { min-height: var(--tap); font-size: 16px; color: var(--muted); flex: none; }
+.btn--quiet { min-height: var(--tap); font-size: calc(16px * var(--fs)); color: var(--muted); flex: none; }
 
 /* Тепле слово — хмаринка посеред екрана. Спливає, тримається ~6 с і
    повільно розчиняється (тане, розмивається, трохи здіймається).
@@ -209,7 +217,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   padding: 30px 34px 28px;
   border-radius: 56px;
   background: #22262D;
-  color: var(--text); text-align: center; font-size: 20px; line-height: 1.4; text-wrap: balance;
+  color: var(--text); text-align: center; font-size: calc(20px * var(--fs)); line-height: 1.4; text-wrap: balance;
   /* Світіння — через drop-shadow, а не box-shadow: воно огортає всю
      хмаринку разом із горбиками, тож форма читається як одне ціле */
   --glow: drop-shadow(0 0 26px rgba(200,138,85,.16));
@@ -237,7 +245,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   transition: background .6s ease, transform .6s ease;
 }
 .bf i.on { background: rgba(107,142,120,.6); transform: scale(1.12); }
-.progress span { font-size: 11px; }
+.progress span { font-size: calc(11px * var(--fs)); }
 
 /* «Побути поруч» */
 #s-near { gap: 26px; touch-action: manipulation; }
@@ -251,8 +259,8 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   animation: near-breathe 10s ease-in-out infinite;
 }
 @keyframes near-breathe { 0%, 100% { transform: scale(.72); opacity: .55; } 40% { transform: scale(1.06); opacity: 1; } }
-.near-text { margin: 0; color: #8A7A66; font-size: 21px; text-align: center; text-wrap: balance; padding-inline: 24px; }
-.near-anchor { margin: 0; color: #A07C55; font-size: 19px; font-style: italic; text-align: center; padding-inline: 24px; overflow-wrap: anywhere; }
+.near-text { margin: 0; color: #8A7A66; font-size: calc(21px * var(--fs)); text-align: center; text-wrap: balance; padding-inline: 24px; }
+.near-anchor { margin: 0; color: #A07C55; font-size: calc(19px * var(--fs)); font-style: italic; text-align: center; padding-inline: 24px; overflow-wrap: anywhere; }
 
 /* «Моя опора» */
 #anchor-input { flex: 0 0 auto; min-height: 120px; }
@@ -280,7 +288,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 .blow .kc-flame { animation: kc-blow .45s ease-in-out infinite alternate; }
 @keyframes kc-idle { from { transform: scale(1, 1); } to { transform: scale(.96, 1.07); } }
 @keyframes kc-blow { from { transform: rotate(16deg) scale(.82, .74) skewX(-10deg); } to { transform: rotate(28deg) scale(.7, .58) skewX(-16deg); } }
-.kid-tip { align-self: center; max-width: 34ch; font-size: 14px; }
+.kid-tip { align-self: center; max-width: 34ch; font-size: calc(14px * var(--fs)); }
 #kid-game { flex: none; }
 .lang-btn, .pill-btn {
   min-height: var(--tap);
@@ -291,7 +299,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   background: var(--surface);
   border: 1px solid var(--line);
   color: #B4B8C0;
-  font-size: 16px;
+  font-size: calc(16px * var(--fs));
   font-weight: 600;
   letter-spacing: .03em;
 }
@@ -301,7 +309,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 /* ===== Детокс ===== */
 .detox-lead { margin: 0 4px 4px; }
 .tiles { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: minmax(84px, 1fr); gap: 10px; overflow-y: auto; }
-.tiles .tabs__sub { font-size: 14px; line-height: 1.3; }
+.tiles .tabs__sub { font-size: calc(14px * var(--fs)); line-height: 1.3; }
 @media (max-height: 600px) { .tiles .tabs__sub { display: none; } }
 .tiles button {
   min-height: 0;
@@ -316,7 +324,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 .tiles button:active { transform: scale(.985); filter: brightness(1.2); }
 .tiles button:nth-child(odd) { border-color: rgba(107,142,120,.3); }
 .tiles button:nth-child(even) { border-color: rgba(200,138,85,.26); }
-.tiles .tabs__title { font-size: 20px; line-height: 1.2; overflow-wrap: anywhere; }
+.tiles .tabs__title { font-size: calc(20px * var(--fs)); line-height: 1.2; overflow-wrap: anywhere; }
 .tiles button:nth-child(4n+1), .tiles button:nth-child(4n) { border-color: rgba(107,142,120,.3); }
 .tiles button:nth-child(4n+2), .tiles button:nth-child(4n+3) { border-color: rgba(200,138,85,.26); }
 
@@ -354,7 +362,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   margin: 0;
   padding: 18px 20px;
   border-radius: var(--radius);
-  font: inherit; font-size: 20px; line-height: 1.45;
+  font: inherit; font-size: calc(20px * var(--fs)); line-height: 1.45;
   color: var(--text);
 }
 #thought-input, #anchor-input {
@@ -374,19 +382,19 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   transition: opacity 7.5s ease-in, filter 7.5s ease-in, transform 7.5s ease-in-out, letter-spacing 7.5s ease-in-out;
 }
 .thought-ghost.gone { opacity: 0; filter: blur(12px); transform: translateY(-48px); letter-spacing: .16em; }
-.thought-ghost.done { display: grid; place-items: center; text-align: center; color: #B4B8C0; font-size: 24px; transition-duration: 1.6s; }
+.thought-ghost.done { display: grid; place-items: center; text-align: center; color: #B4B8C0; font-size: calc(24px * var(--fs)); transition-duration: 1.6s; }
 .fade-in { animation: fade-in .9s ease both; }
-.row .lang-btn { background: var(--bg); min-width: 84px; font-size: 17px; }
+.row .lang-btn { background: var(--bg); min-width: 84px; font-size: calc(17px * var(--fs)); }
 
 /* М'які підказки й підводки */
 .soft-hint { margin: 0; max-width: 30ch; text-align: center; text-wrap: balance; line-height: 1.35; }
-.instruction--soft { font-weight: 500; color: #C9CCD2; font-size: clamp(23px, 6.4vw, 30px); line-height: 1.35; }
+.instruction--soft { font-weight: 500; color: #C9CCD2; font-size: calc(clamp(23px, 6.4vw, 30px) * var(--fs)); line-height: 1.35; }
 .final-text { display: flex; flex-direction: column; align-items: center; gap: 16px; }
-.segmented--small button { font-size: 17px; font-weight: 600; }
+.segmented--small button { font-size: calc(17px * var(--fs)); font-weight: 600; }
 
 /* ===== Шапка потоков ===== */
 .flow-head { display: flex; align-items: center; gap: 14px; min-height: var(--tap); flex: none; }
-.flow-title { margin: 0; flex: 1; font-size: 22px; font-weight: 600; }
+.flow-title { margin: 0; flex: 1; font-size: calc(22px * var(--fs)); font-weight: 600; }
 .progress { flex: 1; min-width: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 6px; }
 .progress button {
   min-height: var(--tap);
@@ -396,7 +404,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 }
 .progress button:active { background: var(--surface); }
 .progress i { display: block; height: 6px; border-radius: 3px; background: var(--line); transition: background .4s ease; }
-.progress span { font-size: 12px; color: var(--muted); text-align: center; white-space: nowrap; transition: color .4s ease; }
+.progress span { font-size: calc(12px * var(--fs)); color: var(--muted); text-align: center; white-space: nowrap; transition: color .4s ease; }
 .progress button.done i { background: rgba(107,142,120,.5); }
 .progress button.active i { background: var(--sage); }
 .progress button.active span { color: var(--text); }
@@ -420,7 +428,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   background: var(--surface);
   border: 1px solid var(--line);
   color: var(--muted);
-  font-size: 22px;
+  font-size: calc(22px * var(--fs));
 }
 .close:active { filter: brightness(1.3); }
 
@@ -441,7 +449,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   min-height: var(--tap);
   padding: 0 32px;
   color: var(--muted);
-  font-size: 16px;
+  font-size: calc(16px * var(--fs));
   border-radius: 28px;
 }
 .skip:active { background: var(--surface); }
@@ -449,7 +457,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 
 .instruction {
   margin: 0;
-  font-size: clamp(25px, 7.2vw, 34px);
+  font-size: calc(clamp(25px, 7.2vw, 34px) * var(--fs));
   font-weight: 600;
   line-height: 1.25;
   text-wrap: balance;
@@ -475,12 +483,12 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   will-change: transform;
 }
 .breath__label { position: relative; display: flex; flex-direction: column; gap: 10px; align-items: center; max-width: 76%; }
-.breath__cmd { font-size: clamp(24px, 7vw, 32px); font-weight: 600; line-height: 1.2; text-wrap: balance; }
-.breath__count { color: #B4B8C0; font-size: 18px; font-variant-numeric: tabular-nums; }
+.breath__cmd { font-size: calc(clamp(24px, 7vw, 32px) * var(--fs)); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+.breath__count { color: #B4B8C0; font-size: calc(18px * var(--fs)); font-variant-numeric: tabular-nums; }
 
 /* ===== А2: таймер ===== */
 .timer {
-  font-size: clamp(88px, 30vw, 150px);
+  font-size: calc(clamp(88px, 30vw, 150px) * var(--fs));
   font-weight: 300;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -513,8 +521,8 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   display: flex; flex-direction: column; gap: 4px; justify-content: center;
 }
 .tabs button[aria-checked="true"] { border-color: var(--amber); background: var(--amber-dim); }
-.tabs__title { font-size: 20px; font-weight: 600; }
-.tabs__sub { font-size: 15px; color: var(--muted); }
+.tabs__title { font-size: calc(20px * var(--fs)); font-weight: 600; }
+.tabs__sub { font-size: calc(15px * var(--fs)); color: var(--muted); }
 
 .row {
   min-height: 68px;
@@ -525,7 +533,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   border: 1px solid var(--line);
   border-radius: var(--radius);
   text-align: left;
-  font-size: 18px;
+  font-size: calc(18px * var(--fs));
 }
 .switch {
   flex: none;
@@ -545,7 +553,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 }
 [aria-checked="true"] > .switch { background: rgba(200,138,85,.45); }
 [aria-checked="true"] > .switch::after { transform: translateX(26px); background: var(--amber); }
-.hint { margin: 4px 6px 0; font-size: 15px; color: var(--muted); text-align: center; }
+.hint { margin: 4px 6px 0; font-size: calc(15px * var(--fs)); color: var(--muted); text-align: center; }
 
 /* ===== Б2: OLED-чёрный экран сна ===== */
 .screen--black {
@@ -558,7 +566,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 }
 .sleep-text {
   color: var(--sleep-ink);
-  font-size: clamp(64px, 24vw, 132px);
+  font-size: calc(clamp(64px, 24vw, 132px) * var(--fs));
   font-weight: 300;
   line-height: 1.1;
   text-align: center;
@@ -566,7 +574,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
   pointer-events: none;
   transition: opacity .6s ease;
 }
-.sleep-text.is-word { font-size: clamp(34px, 11vw, 64px); }
+.sleep-text.is-word { font-size: calc(clamp(34px, 11vw, 64px) * var(--fs)); }
 .sleep-text.fade { opacity: 0; }
 
 /* Круговой прогресс отмены при удержании 2 секунды */

@@ -15,7 +15,8 @@
   <link rel="icon" id="favicon-link" href="icons/icon-192.png">
   <link rel="apple-touch-icon" id="touch-icon-link" href="icons/icon-192.png">
   <script>/* Обрана іконка підставляється до встановлення на головний екран */
-    try { var ic = localStorage.getItem('anchor.icon'); if (ic === 'bright' || ic === 'calm') {
+    try { if (localStorage.getItem('anchor.textSize') === 'large') document.documentElement.classList.add('text-lg');
+      var ic = localStorage.getItem('anchor.icon'); if (ic === 'bright' || ic === 'calm') {
       document.getElementById('manifest-link').href = 'manifest-' + ic + '.json';
       document.getElementById('favicon-link').href = document.getElementById('touch-icon-link').href = 'icons/icon-' + ic + '-192.png';
     } } catch (e) {}</script>
@@ -86,6 +87,80 @@
       </div>
 
       <div class="set-block">
+        <h2 class="set-title" data-i18n="setText">Розмір тексту</h2>
+        <div class="segmented" id="set-text" role="radiogroup" data-i18n-aria="setText">
+          <button type="button" role="radio" data-value="normal" data-i18n="textNormal">Звичайний</button>
+          <button type="button" role="radio" data-value="large" data-i18n="textLarge">Великий</button>
+        </div>
+      </div>
+
+      <div class="set-block">
+        <h2 class="set-title" data-i18n="setStart">Що відкривати при запуску</h2>
+        <div class="segmented" id="set-start" role="radiogroup" data-i18n-aria="setStart">
+          <button type="button" role="radio" data-value="home" data-i18n="startHome">Головну</button>
+          <button type="button" role="radio" data-value="calm" data-i18n="calmTitle">Скинути напругу</button>
+          <button type="button" role="radio" data-value="near" data-i18n="near">Побути поруч</button>
+        </div>
+        <p class="muted soft-hint set-hint" data-i18n="startHint">Одразу потрапиш у вправу, без вибору. На головну — хрестиком</p>
+      </div>
+
+      <div class="set-block">
+        <h2 class="set-title" data-i18n="setVoice">Голос</h2>
+        <div class="row row--static">
+          <span data-i18n="voiceCuesLbl">Голосові підказки</span>
+          <div class="segmented segmented--small" id="set-cues" role="radiogroup" data-i18n-aria="voiceCuesLbl">
+            <button type="button" role="radio" data-value="on" data-i18n="on">Увімк.</button>
+            <button type="button" role="radio" data-value="off" data-i18n="off">Вимк.</button>
+          </div>
+        </div>
+        <div class="row row--static">
+          <span data-i18n="voiceSpeed">Темп</span>
+          <div class="segmented segmented--small" id="set-speed" role="radiogroup" data-i18n-aria="voiceSpeed">
+            <button type="button" role="radio" data-value="slow" data-i18n="speedSlow">Повільніше</button>
+            <button type="button" role="radio" data-value="normal" data-i18n="speedNormal">Звичайно</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-block">
+        <h2 class="set-title" data-i18n="setVolume">Гучність фону</h2>
+        <div class="row row--static row--vol">
+          <span data-i18n="volNoise">Шум</span>
+          <div class="segmented segmented--small" id="vol-noise" role="radiogroup" data-i18n-aria="volNoise">
+            <button type="button" role="radio" data-value="low" data-i18n="volLow">Тихіше</button>
+            <button type="button" role="radio" data-value="mid" data-i18n="volMid">Звичайно</button>
+            <button type="button" role="radio" data-value="high" data-i18n="volHigh">Гучніше</button>
+          </div>
+        </div>
+        <div class="row row--static row--vol">
+          <span data-i18n="volRain">Дощ</span>
+          <div class="segmented segmented--small" id="vol-rain" role="radiogroup" data-i18n-aria="volRain">
+            <button type="button" role="radio" data-value="low" data-i18n="volLow">Тихіше</button>
+            <button type="button" role="radio" data-value="mid" data-i18n="volMid">Звичайно</button>
+            <button type="button" role="radio" data-value="high" data-i18n="volHigh">Гучніше</button>
+          </div>
+        </div>
+        <div class="row row--static row--vol">
+          <span data-i18n="volFx">Інші звуки</span>
+          <div class="segmented segmented--small" id="vol-fx" role="radiogroup" data-i18n-aria="volFx">
+            <button type="button" role="radio" data-value="low" data-i18n="volLow">Тихіше</button>
+            <button type="button" role="radio" data-value="mid" data-i18n="volMid">Звичайно</button>
+            <button type="button" role="radio" data-value="high" data-i18n="volHigh">Гучніше</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-block">
+        <h2 class="set-title" data-i18n="setSleep">Тривалість сну</h2>
+        <div class="segmented" id="set-sleep" role="radiogroup" data-i18n-aria="setSleep">
+          <button type="button" role="radio" data-value="8" data-i18n="min8">8 хв</button>
+          <button type="button" role="radio" data-value="15" data-i18n="min15">15 хв</button>
+          <button type="button" role="radio" data-value="25" data-i18n="min25">25 хв</button>
+        </div>
+        <p class="muted soft-hint set-hint" data-i18n="sleepDurHint">Для відліку й для слів. Потім звук і текст тихо згасають</p>
+      </div>
+
+      <div class="set-block">
         <h2 class="set-title" data-i18n="setIcon">Іконка застосунку</h2>
         <div class="icon-pick" id="set-icon" role="radiogroup" data-i18n-aria="setIcon">
           <button type="button" role="radio" data-value="default"><img src="icons/icon-192.png" alt=""><span data-i18n="iconDefault">Звичайна</span></button>
@@ -104,7 +179,17 @@
       </div>
 
       <div class="set-block">
+        <button class="row set-link" id="btn-share" type="button"><span data-i18n="share">Поділитися застосунком</span><span aria-hidden="true">›</span></button>
         <a class="row set-link" href="./privacy.html"><span data-i18n="privacy">Приватність</span><span aria-hidden="true">›</span></a>
+      </div>
+
+      <div class="set-block">
+        <button class="btn btn--quiet" id="reset-ask" type="button" data-i18n="resetAll">Скинути всі налаштування і мої дані</button>
+        <div class="reset-confirm" id="reset-confirm" hidden>
+          <p class="muted soft-hint set-hint" data-i18n="resetWarn">Це видалить «Мою опору» і всі налаштування на цьому телефоні. Повернути їх не вийде</p>
+          <button class="btn btn--ghost" id="reset-yes" type="button" data-i18n="resetYes">Так, скинути</button>
+          <button class="btn btn--quiet" id="reset-no" type="button" data-i18n="cancel">Скасувати</button>
+        </div>
       </div>
     </div>
   </section>
