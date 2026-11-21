@@ -36,6 +36,15 @@
     },
   };
   if (!['8', '15', '25'].includes(settings.sleepMin)) settings.sleepMin = '8';
+  /* Нативна оболонка (Capacitor, застосунок з Google Play / App Store).
+     Вона сама додає window.Capacitor; у браузері його немає і все працює як
+     сайт. У застосунку голос, вібрація й «не гасити екран» ідуть через
+     нативні модулі: у вбудованому браузері Android, наприклад, немає синтезу мови. */
+  const Cap = window.Capacitor;
+  const NATIVE = !!(Cap && typeof Cap.isNativePlatform === 'function' && Cap.isNativePlatform());
+  const PLATFORM = NATIVE ? Cap.getPlatform() : 'web';
+  const plugin = (name) => (NATIVE && Cap.Plugins && Cap.Plugins[name]) || null;
+  if (NATIVE) document.documentElement.classList.add('native', 'native-' + PLATFORM);
   const VOL_GAIN = { low: 0.45, mid: 1, high: 1.6 };
   const VOICE_SPEED = { normal: 1, slow: 0.86 };
 
@@ -54,6 +63,7 @@
       updChecking: 'Перевіряю…', updLatest: 'У тебе найновіша версія', updFound: 'Є нова версія. Вона вже завантажена',
       updOffline: 'Немає з’єднання з інтернетом. Спробуй пізніше — застосунок працює й так',
       updNoSupport: 'Оновлення приходять самі, коли телефон в інтернеті',
+      updPlay: 'Відкрити в Google Play', updAppStore: 'Відкрити в App Store',
       setText: 'Розмір тексту', textNormal: 'Звичайний', textLarge: 'Великий',
       setStart: 'Що відкривати при запуску', startHome: 'Головну',
       startHint: 'Одразу потрапиш у вправу, без вибору. На головну — хрестиком',
@@ -63,7 +73,7 @@
       volLow: 'Тихіше', volMid: 'Звичайно', volHigh: 'Гучніше',
       setSleep: 'Тривалість сну', min8: '8 хв', min15: '15 хв', min25: '25 хв',
       sleepDurHint: 'Для відліку й для слів. Потім звук і текст тихо згасають',
-      share: 'Поділитися застосунком', shareText: 'Якір — офлайн-самодопомога: скинути напругу й заснути. Безкоштовно, без реклами',
+      share: 'Поділитися застосунком', shareText: 'Якір — офлайн-самодопомога завжди з тобою: скинути напругу або заснути. Безкоштовно, без реклами.',
       shareCopied: 'Посилання скопійовано',
       resetAll: 'Скинути всі налаштування і мої дані',
       resetWarn: 'Це видалить «Мою опору» і всі налаштування на цьому телефоні. Повернути їх не вийде',
@@ -148,6 +158,7 @@
       updChecking: 'Checking…', updLatest: 'You have the latest version', updFound: 'A new version is ready. It has already downloaded',
       updOffline: 'No internet connection. Try later — the app works anyway',
       updNoSupport: 'Updates arrive on their own when the phone is online',
+      updPlay: 'Open in Google Play', updAppStore: 'Open in the App Store',
       setText: 'Text size', textNormal: 'Normal', textLarge: 'Large',
       setStart: 'Open on launch', startHome: 'Home',
       startHint: 'Go straight into the practice, no choosing. ✕ takes you home',
@@ -157,7 +168,7 @@
       volLow: 'Quieter', volMid: 'Normal', volHigh: 'Louder',
       setSleep: 'Sleep length', min8: '8 min', min15: '15 min', min25: '25 min',
       sleepDurHint: 'For counting and for words. Then sound and text fade quietly',
-      share: 'Share the app', shareText: 'Anchor — offline self-help to release tension and fall asleep. Free, no ads',
+      share: 'Share the app', shareText: 'Anchor — offline self-help that is always with you: release tension or fall asleep. Free, no ads.',
       shareCopied: 'Link copied',
       resetAll: 'Reset all settings and my data',
       resetWarn: 'This deletes “My anchor” and all settings on this phone. It can’t be undone',
@@ -243,6 +254,7 @@
       updChecking: 'Проверяю…', updLatest: 'У тебя самая новая версия', updFound: 'Есть новая версия. Она уже загружена',
       updOffline: 'Нет подключения к интернету. Попробуй позже — приложение работает и так',
       updNoSupport: 'Обновления приходят сами, когда телефон в интернете',
+      updPlay: 'Открыть в Google Play', updAppStore: 'Открыть в App Store',
       setText: 'Размер текста', textNormal: 'Обычный', textLarge: 'Крупный',
       setStart: 'Что открывать при запуске', startHome: 'Главную',
       startHint: 'Сразу попадёшь в упражнение, без выбора. На главную — крестиком',
@@ -252,7 +264,7 @@
       volLow: 'Тише', volMid: 'Обычно', volHigh: 'Громче',
       setSleep: 'Длительность сна', min8: '8 мин', min15: '15 мин', min25: '25 мин',
       sleepDurHint: 'Для отсчёта и для слов. Потом звук и текст тихо гаснут',
-      share: 'Поделиться приложением', shareText: 'Якорь — офлайн-самопомощь: снять напряжение и заснуть. Бесплатно, без рекламы',
+      share: 'Поделиться приложением', shareText: 'Якорь — офлайн-самопомощь всегда с тобой: снять напряжение или заснуть. Бесплатно, без рекламы.',
       shareCopied: 'Ссылка скопирована',
       resetAll: 'Сбросить все настройки и мои данные',
       resetWarn: 'Это удалит «Мою опору» и все настройки на этом телефоне. Вернуть их не получится',
@@ -945,9 +957,33 @@
     /* pattern: число (мс) или массив [вибро, пауза, вибро, ...].
        В режиме «Тихий визуал» ничего не делает. Без вибромотора каждый
        импульс заменяется аудио-«туком» (длинные — серией раз в секунду). */
+    timers: [],
+    /* У застосунку — нативна вібрація. iPhone не вміє задавати тривалість,
+       тому там кожен імпульс — м'який «тап» Taptic Engine (сила за тривалістю). */
+    _native(list) {
+      const H = plugin('Haptics');
+      if (!H) return false;
+      this._clearTimers();
+      let offset = 0;
+      list.forEach((ms, i) => {
+        if (i % 2 === 0 && ms > 0) {
+          const fire = () => {
+            const p = PLATFORM === 'ios'
+              ? H.impact({ style: ms >= 35 ? 'MEDIUM' : 'LIGHT' })
+              : H.vibrate({ duration: ms });
+            if (p && p.catch) p.catch(() => {});
+          };
+          if (offset === 0) fire(); else this.timers.push(setTimeout(fire, offset));
+        }
+        offset += ms;
+      });
+      return true;
+    },
+    _clearTimers() { this.timers.forEach(clearTimeout); this.timers = []; },
     play(pattern) {
       if (settings.feedback === 'visual') return;
       const list = Array.isArray(pattern) ? pattern : [pattern];
+      if (NATIVE && this._native(list)) return;
       if (this.supported) {
         try { if (navigator.vibrate(list)) return; } catch (e) { /* fallback ниже */ }
         if (!('ontouchstart' in window)) return; // десктоп: молчим
@@ -965,6 +1001,7 @@
       });
     },
     stop() {
+      this._clearTimers();
       if (this.supported) { try { navigator.vibrate(0); } catch (e) { /* noop */ } }
       Sound.stopCues();
     },
@@ -976,8 +1013,14 @@
   const Wake = {
     wanted: false,
     lock: null,
-    on() { this.wanted = true; this._request(); },
+    on() {
+      this.wanted = true;
+      const K = plugin('KeepAwake');
+      if (K) { K.keepAwake().catch(() => {}); return; }
+      this._request();
+    },
     async _request() {
+      if (plugin('KeepAwake')) return;
       if (!('wakeLock' in navigator) || this.lock || document.visibilityState !== 'visible') return;
       try {
         const lock = await navigator.wakeLock.request('screen');
@@ -988,6 +1031,8 @@
     },
     off() {
       this.wanted = false;
+      const K = plugin('KeepAwake');
+      if (K) K.allowSleep().catch(() => {});
       if (this.lock) { this.lock.release().catch(() => {}); this.lock = null; }
     },
   };
@@ -1002,7 +1047,25 @@
   const Speech = {
     synth: 'speechSynthesis' in window ? window.speechSynthesis : null,
     voices: [],
+    tts: null,          // нативний синтезатор (у застосунку)
+    nativeLangs: null,  // мови, які він уміє: ['uk-UA', 'en-US', ...]; null — ще не відомо
+    LANG_TAG: { uk: 'uk-UA', en: 'en-US', ru: 'ru-RU' },
     init() {
+      this.tts = plugin('TextToSpeech');
+      if (this.tts) {
+        /* Синтезатор телефона запускається не одразу: якщо спитати мови
+           зарано, відповідь порожня або помилка. Тому питаємо кілька разів,
+           а порожній список не вважаємо відповіддю «голосу немає». */
+        const ask = (tries) => this.tts.getSupportedLanguages()
+          .then((r) => (r && r.languages) || [])
+          .catch(() => [])
+          .then((list) => {
+            if (list.length) { this.nativeLangs = list; updateVoiceHint(); }
+            else if (tries > 0) setTimeout(() => ask(tries - 1), 1500);
+          });
+        ask(8);
+        return;
+      }
       if (!this.synth) return;
       const load = () => { this.voices = this.synth.getVoices() || []; updateVoiceHint(); };
       load();
@@ -1036,6 +1099,10 @@
     /* Доступен ли голос. Пустой список голосов бывает на Android до первой
        фразы — тогда пробуем говорить, полагаясь на utterance.lang. */
     available(lang) {
+      if (this.tts) {
+        if (!this.nativeLangs) return true; // список ще вантажиться — пробуємо
+        return this.nativeLangs.some((l) => String(l).toLowerCase().replace('_', '-').startsWith(lang));
+      }
       if (!this.synth) return false;
       if (this.voices.length === 0) return !this.settled; // після очікування порожній список = голосів немає
       return !!this.voiceFor(lang);
@@ -1044,6 +1111,15 @@
        переходит на вибро/визуал. onFail срабатывает при ошибке движка. */
     speak(text, lang, rate, volume, onFail) {
       if (!this.available(lang)) return false;
+      if (this.tts) {
+        // нова фраза перериває попередню (QUEUE_FLUSH усередині модуля)
+        this.tts.speak({
+          text, lang: this.LANG_TAG[lang], volume,
+          rate: rate * this.RATE_FACTOR * (VOICE_SPEED[settings.voiceSpeed] || 1),
+          pitch: this.PITCH, category: 'playback',
+        }).catch(() => { if (onFail) onFail(); });
+        return true;
+      }
       try {
         if (this.synth.speaking || this.synth.pending) this.synth.cancel();
         const u = new SpeechSynthesisUtterance(text);
@@ -1058,7 +1134,10 @@
         return true;
       } catch (e) { return false; }
     },
-    stop() { if (this.synth) { try { this.synth.cancel(); } catch (e) { /* noop */ } } },
+    stop() {
+      if (this.tts) { this.tts.stop().catch(() => {}); return; }
+      if (this.synth) { try { this.synth.cancel(); } catch (e) { /* noop */ } }
+    },
   };
 
   /* Єдина точка для будь-якої фрази: записаний файл, якщо він є, інакше
@@ -1425,11 +1504,15 @@
   let nearHideTimer = null;
   const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
   function enterFullscreen() {
+    const imm = plugin('Immersive'); // у застосунку — власний модуль Android
+    if (imm) { imm.enter().catch(() => {}); return; }
     const d = document.documentElement, req = d.requestFullscreen || d.webkitRequestFullscreen;
     if (fsEl() || !req) return;
     try { const p = req.call(d, { navigationUI: 'hide' }); if (p && p.catch) p.catch(() => {}); } catch (e) { /* noop */ }
   }
   function exitFullscreen() {
+    const imm = plugin('Immersive');
+    if (imm) { imm.exit().catch(() => {}); return; }
     const exit = document.exitFullscreen || document.webkitExitFullscreen;
     if (!fsEl() || !exit) return;
     try { const p = exit.call(document); if (p && p.catch) p.catch(() => {}); } catch (e) { /* noop */ }
@@ -2421,7 +2504,7 @@
   function bindDetox() {
     $('btn-detox').addEventListener('click', () => { Sound.unlock(); openDetox(); });
     $('detox-exit').addEventListener('click', goHome);
-    $('d-exit').addEventListener('click', () => { openDetox(); praiseIfStayed(); });
+    $('d-exit').addEventListener('click', backToDetox);
     $('detox-tiles').querySelectorAll('button').forEach((b) => {
       b.addEventListener('click', () => { Sound.unlock(); openAct(b.dataset.act); });
     });
@@ -2471,8 +2554,17 @@
     screens.forEach((el) => { el.hidden = el.id !== id; });
     // Один запис в історії на весь час поза головним екраном — щоб системна
     // кнопка «Назад» вела додому (див. обробник popstate в init)
-    if (id !== 's-home' && id !== 's-intro' && !(history.state && history.state.inApp)) {
-      try { history.pushState({ inApp: true }, ''); } catch (e) { /* noop */ }
+    // У застосунку «Назад» обробляє App.backButton, історія не потрібна.
+    if (NATIVE) return;
+    const depth = (history.state && history.state.depth) || 0;
+    if (id !== 's-home' && id !== 's-intro' && depth === 0) {
+      try { history.pushState({ inApp: true, depth: 1 }, ''); } catch (e) { /* noop */ }
+    }
+    // Вправа Детоксу — другий рівень: «Назад» спершу веде до списку Детоксу.
+    // Запис додається одразу при натисканні (жест користувача): браузер
+    // пропускає записи, додані без жесту, тож «Назад» інакше губився б.
+    if (id === 's-d-act' && depth === 1) {
+      try { history.pushState({ inApp: true, depth: 2 }, ''); } catch (e) { /* noop */ }
     }
   }
 
@@ -2495,7 +2587,16 @@
   }
   function goHome() {
     leaveToHome();
-    if (history.state && history.state.inApp) {
+    const depth = (history.state && history.state.depth) || 0;
+    if (depth > 0) {
+      try { history.go(-depth); } catch (e) { /* noop */ }
+    }
+  }
+  // Із вправи Детоксу — до списку Детоксу (кнопка ✕ і «Назад» телефона)
+  function backToDetox() {
+    openDetox();
+    praiseIfStayed();
+    if (history.state && history.state.depth === 2) {
       try { history.back(); } catch (e) { /* noop */ }
     }
   }
@@ -2523,7 +2624,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 27;
+  const APP_VERSION = 29;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
@@ -2544,9 +2645,23 @@
     $('update-apply').hidden = key !== 'updFound';
     $('update-check').hidden = key === 'updFound';
   }
+  // Сайт застосунку: ним діляться, поки «Якоря» ще немає в магазинах
+  const WEB_URL = 'https://yulianachera-del.github.io/yakir/';
+  const APP_ID = 'ua.yakir.app';
+  const STORE_URL = PLATFORM === 'ios'
+    ? WEB_URL // TODO: посилання на App Store після публікації
+    : `https://play.google.com/store/apps/details?id=${APP_ID}`;
+
   function openSettings() {
     $('set-version').textContent = `${tr('version')} ${APP_VERSION}`;
+    const A = plugin('App');
+    if (A) A.getInfo().then((i) => { $('set-version').textContent = `${tr('version')} ${i.version} (${i.build})`; }).catch(() => {});
     updStatus(updateReady ? 'updFound' : '');
+    // У застосунку оновлення приходять через магазин
+    if (NATIVE) {
+      $('update-check').textContent = tr(PLATFORM === 'ios' ? 'updAppStore' : 'updPlay');
+      updStatus('');
+    }
     $('reset-confirm').hidden = true; $('reset-ask').hidden = false;
     // голосові підказки можна вимкнути й кнопкою у вправі — показуємо актуальне
     $('set-cues').querySelectorAll('button').forEach((b) => {
@@ -2558,6 +2673,7 @@
   async function checkUpdate() {
     const btn = $('update-check');
     if (btn.disabled) return;
+    if (NATIVE) { location.href = STORE_URL; return; } // відкриється магазин
     if (!('serviceWorker' in navigator)) { updStatus('updNoSupport'); return; }
     if (navigator.onLine === false) { updStatus('updOffline'); return; }
     btn.disabled = true;
@@ -2596,8 +2712,13 @@
   }
 
   async function shareApp() {
-    const url = new URL('./', location.href).href;
+    const url = NATIVE ? WEB_URL : new URL('./', location.href).href;
     const data = { title: tr('appName'), text: tr('shareText'), url };
+    const S = plugin('Share');
+    if (S) {
+      try { await S.share({ ...data, dialogTitle: tr('share') }); } catch (e) { /* закрили вікно */ }
+      return;
+    }
     try {
       if (navigator.share) { await navigator.share(data); return; }
     } catch (e) {
@@ -2691,10 +2812,21 @@
     });
 
     // Кнопка «Назад» телефона повертає на попередній екран, а не закриває застосунок
-    window.addEventListener('popstate', () => {
-      if (currentScreen === 's-d-act') openDetox();
-      else if (currentScreen !== 's-home' && currentScreen !== 's-intro') leaveToHome();
+    window.addEventListener('popstate', (e) => {
+      if (NATIVE) return;
+      const depth = (e.state && e.state.depth) || 0;
+      if (currentScreen === 's-d-act') { openDetox(); praiseIfStayed(); }
+      if (depth === 0 && currentScreen !== 's-home' && currentScreen !== 's-intro') leaveToHome();
     });
+    // У застосунку Android: свайп чи кнопка «Назад»
+    const capApp = plugin('App');
+    if (capApp) {
+      capApp.addListener('backButton', () => {
+        if (currentScreen === 's-d-act') backToDetox();
+        else if (currentScreen === 's-home' || currentScreen === 's-intro') capApp.minimizeApp();
+        else leaveToHome();
+      });
+    }
 
     // Екранна клавіатура: піднімаємо вміст, щоб кнопка під полем не ховалася
     if (window.visualViewport) {
@@ -2802,7 +2934,8 @@
     // Service Worker: кэширует всё при первом запуске → дальше полный офлайн
     if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
+        // У застосунку файли вже лежать усередині — офлайн-кеш не потрібен
+        if (!NATIVE) navigator.serviceWorker.register('sw.js').catch(() => {});
       });
     }
   }
