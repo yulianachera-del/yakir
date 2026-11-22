@@ -138,12 +138,27 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 .set-link { color: var(--text); text-decoration: none; padding-right: 20px; }
 .set-link span:last-child { color: var(--muted); font-size: calc(24px * var(--fs)); }
 #update-status[hidden], #update-apply[hidden], .reset-confirm[hidden] { display: none; }
-.settings .row--vol { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px; }
-.settings .row--vol > span { padding-left: 8px; }
+#reset-ask[hidden] { display: none; }
+#reset-ask, #btn-share { text-align: left; }
+.privacy-text {
+  align-self: center; margin-top: 8px; padding: 14px 20px; min-height: var(--tap);
+  color: var(--muted); font-size: calc(16px * var(--fs)); text-decoration: none;
+}
 .settings .segmented--small { min-width: 0; }
 .settings .segmented--small button, #set-start button { font-size: calc(15px * var(--fs)); line-height: 1.2; }
+/* У застосунку іконка міняється інакше (нативно) — поки ховаємо вибір */
+.native #icon-block { display: none; }
 .reset-confirm { display: flex; flex-direction: column; gap: 10px; }
-#reset-ask { color: var(--muted); }
+/* Режим відгуку на головному: одна кнопка, кожне натискання — наступний режим */
+.mode-btn {
+  min-height: var(--tap); padding: 6px 16px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  border-radius: 18px; background: var(--surface); border: 1px solid var(--line);
+  color: var(--text); font-size: calc(clamp(15px, 4.2vw, 17px) * var(--fs)); line-height: 1.15;
+}
+.mode-btn:active { filter: brightness(1.3); }
+.mode-btn__icons { display: inline-flex; gap: 6px; color: var(--sage); flex: none; }
+.mode-btn__icons svg { display: block; }
 #s-home[hidden] { display: none; }
 
 .card {

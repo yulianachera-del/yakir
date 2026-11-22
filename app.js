@@ -31,10 +31,9 @@
     textSize: Store.get('textSize', 'normal'), // normal | large
     start: Store.get('start', 'home'),         // home | calm | near — що відкривати при запуску
     voiceSpeed: Store.get('voiceSpeed', 'normal'), // normal | slow
-    vol: {                                       // low | mid | high — гучність фонових звуків
-      noise: Store.get('volNoise', 'mid'), rain: Store.get('volRain', 'mid'), fx: Store.get('volFx', 'mid'),
-    },
+    volume: Store.get('volume', 'mid'),          // low | mid | high — одна гучність для всіх фонових звуків
   };
+  if (!['low', 'mid', 'high'].includes(settings.volume)) settings.volume = 'mid';
   if (!['8', '15', '25'].includes(settings.sleepMin)) settings.sleepMin = '8';
   /* Нативна оболонка (Capacitor, застосунок з Google Play / App Store).
      Вона сама додає window.Capacitor; у браузері його немає і все працює як
@@ -69,7 +68,7 @@
       startHint: 'Одразу потрапиш у вправу, без вибору. На головну — хрестиком',
       setVoice: 'Голос', voiceCuesLbl: 'Голосові підказки', on: 'Увімк.', off: 'Вимк.',
       voiceSpeed: 'Темп', speedSlow: 'Повільніше', speedNormal: 'Звичайно',
-      setVolume: 'Гучність фону', volNoise: 'Шум', volRain: 'Дощ', volFx: 'Інші звуки',
+      setVolume: 'Гучність фону', volHint: 'Для шуму, дощу й інших фонових звуків',
       volLow: 'Тихіше', volMid: 'Звичайно', volHigh: 'Гучніше',
       setSleep: 'Тривалість сну', min8: '8 хв', min15: '15 хв', min25: '25 хв',
       sleepDurHint: 'Для відліку й для слів. Потім звук і текст тихо згасають',
@@ -164,7 +163,7 @@
       startHint: 'Go straight into the practice, no choosing. ✕ takes you home',
       setVoice: 'Voice', voiceCuesLbl: 'Voice prompts', on: 'On', off: 'Off',
       voiceSpeed: 'Pace', speedSlow: 'Slower', speedNormal: 'Normal',
-      setVolume: 'Background volume', volNoise: 'Noise', volRain: 'Rain', volFx: 'Other sounds',
+      setVolume: 'Background volume', volHint: 'For noise, rain and other background sounds',
       volLow: 'Quieter', volMid: 'Normal', volHigh: 'Louder',
       setSleep: 'Sleep length', min8: '8 min', min15: '15 min', min25: '25 min',
       sleepDurHint: 'For counting and for words. Then sound and text fade quietly',
@@ -260,7 +259,7 @@
       startHint: 'Сразу попадёшь в упражнение, без выбора. На главную — крестиком',
       setVoice: 'Голос', voiceCuesLbl: 'Голосовые подсказки', on: 'Вкл.', off: 'Выкл.',
       voiceSpeed: 'Темп', speedSlow: 'Медленнее', speedNormal: 'Обычно',
-      setVolume: 'Громкость фона', volNoise: 'Шум', volRain: 'Дождь', volFx: 'Другие звуки',
+      setVolume: 'Громкость фона', volHint: 'Для шума, дождя и других фоновых звуков',
       volLow: 'Тише', volMid: 'Обычно', volHigh: 'Громче',
       setSleep: 'Длительность сна', min8: '8 мин', min15: '15 мин', min25: '25 мин',
       sleepDurHint: 'Для отсчёта и для слов. Потом звук и текст тихо гаснут',
@@ -354,6 +353,7 @@
       b.textContent = code;
       b.setAttribute('aria-label', `${tr('langLabel')}: ${code}`);
     });
+    paintFeedback();
     document.querySelectorAll('#set-lang button').forEach((b) => {
       b.setAttribute('aria-checked', String(b.dataset.value === settings.lang));
     });
@@ -436,15 +436,14 @@
           this._limiter = l;
         }
         const g = c.createGain();
-        g.gain.value = VOL_GAIN[settings.vol[name]] || 1;
+        g.gain.value = VOL_GAIN[settings.volume] || 1;
         g.connect(this._limiter);
         this.buses[name] = g;
       }
       return this.buses[name];
     },
-    setVolume(name, level) {
-      const g = this.buses[name];
-      if (g) g.gain.setTargetAtTime(VOL_GAIN[level] || 1, this.ctx.currentTime, 0.15);
+    setVolume(level) {
+      Object.values(this.buses).forEach((g) => g.gain.setTargetAtTime(VOL_GAIN[level] || 1, this.ctx.currentTime, 0.15));
     },
 
     _track(node, gain) {
@@ -2612,6 +2611,23 @@
     }));
   }
 
+  /* Кнопка режиму на головному: міні-картинки звуку, вібрації або ока */
+  const FB_MODES = ['sound', 'vibro', 'visual'];
+  const FB_LABEL = { sound: 'fbSound', vibro: 'fbVibro', visual: 'fbVisual' };
+  const svgIcon = (body) => `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+  const ICON_SOUND = svgIcon('<path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6"/><path d="M18.3 6.5a8 8 0 0 1 0 11"/>');
+  const ICON_VIBRO = svgIcon('<rect x="8" y="3.5" width="8" height="17" rx="2"/><path d="M11 17.5h2"/><path d="M4.5 8.5v7M2 10.5v3M19.5 8.5v7M22 10.5v3"/>');
+  const ICON_VISUAL = svgIcon('<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>');
+  const FB_ICONS = { sound: ICON_SOUND + ICON_VIBRO, vibro: ICON_VIBRO, visual: ICON_VISUAL };
+  function paintFeedback() {
+    const btn = $('feedback');
+    if (!btn) return;
+    const label = tr(FB_LABEL[settings.feedback] || 'fbSound');
+    $('fb-icons').innerHTML = FB_ICONS[settings.feedback] || FB_ICONS.sound;
+    $('fb-label').textContent = label;
+    btn.setAttribute('aria-label', `${tr('feedbackLabel')}: ${label}`);
+  }
+
   function updateVoiceHint() {
     const hint = $('voice-hint');
     if (!hint) return;
@@ -2624,7 +2640,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 29;
+  const APP_VERSION = 31;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
@@ -2704,10 +2720,9 @@
 
   /* Короткий зразок (3 с) обраного фону з новою гучністю. */
   let previewTimer = null;
-  function previewVolume(bus) {
+  function previewVolume() {
     clearTimeout(previewTimer);
-    if (bus === 'fx') { Sound.stopNoise(0.3); Sound.bell(659.25); return; }
-    Sound.startNoise(0.4, NOISE_LEVEL[bus === 'rain' ? 'rain' : 'brown'], bus === 'rain' ? 'rain' : 'brown');
+    Sound.startNoise(0.4, NOISE_LEVEL.rain, 'rain');
     previewTimer = setTimeout(() => Sound.stopNoise(1.2), 3000);
   }
 
@@ -2766,13 +2781,10 @@
       Sound.unlock(); say('', tr('nearText'), 1, SPEECH_BASE_VOLUME); // одразу чути новий темп
     });
     // Гучність фону: зразок звуку, щоб одразу почути різницю
-    [['noise', 'vol-noise', 'volNoise'], ['rain', 'vol-rain', 'volRain'], ['fx', 'vol-fx', 'volFx']].forEach(([bus, id, key]) => {
-      if (!VOL_GAIN[settings.vol[bus]]) settings.vol[bus] = 'mid';
-      bindRadio($(id), 'value', settings.vol[bus], (v) => {
-        settings.vol[bus] = v; Store.set(key, v);
-        Sound.unlock(); Sound.setVolume(bus, v);
-        previewVolume(bus);
-      });
+    bindRadio($('set-volume'), 'value', settings.volume, (v) => {
+      settings.volume = v; Store.set('volume', v);
+      Sound.unlock(); Sound.setVolume(v);
+      previewVolume();
     });
     // Тривалість сну
     bindRadio($('set-sleep'), 'value', settings.sleepMin, (v) => {
@@ -2781,7 +2793,19 @@
     // Поділитися
     $('btn-share').addEventListener('click', shareApp);
     // Скинути все — лише після підтвердження
-    $('reset-ask').addEventListener('click', () => { $('reset-ask').hidden = true; $('reset-confirm').hidden = false; });
+    $('reset-ask').addEventListener('click', () => {
+      $('reset-ask').hidden = true; $('reset-confirm').hidden = false;
+      // попередження з’являється внизу — прокручуємо, щоб його було видно
+      const box = $('s-settings').querySelector('.settings');
+      setTimeout(() => box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' }), 30);
+      // запасний варіант, якщо плавна прокрутка не спрацювала
+      setTimeout(() => { if (box.scrollHeight - box.clientHeight - box.scrollTop > 40) box.scrollTop = box.scrollHeight; }, 900);
+    });
+    // Приватність — окрема сторінка; позначка #settings у поточному записі
+    // історії повертає саме в Налаштування (і стрілкою, і «Назад» телефона)
+    $('privacy-link').addEventListener('click', () => {
+      try { history.replaceState(history.state, '', '#settings'); } catch (e) { /* noop */ }
+    });
     $('reset-no').addEventListener('click', () => { $('reset-confirm').hidden = true; $('reset-ask').hidden = false; });
     $('reset-yes').addEventListener('click', resetAll);
     $('update-check').addEventListener('click', checkUpdate);
@@ -2848,9 +2872,15 @@
     $('btn-calm').addEventListener('click', () => { Sound.unlock(); startFlowA(); });
     $('btn-sleep').addEventListener('click', () => { Sound.unlock(); updateVoiceHint(); showScreen('s-b1'); });
 
-    bindRadio($('feedback'), 'mode', settings.feedback, (v) => {
+    // Режим відгуку: одна кнопка, натискання — наступний режим по колу
+    if (!FB_MODES.includes(settings.feedback)) settings.feedback = 'sound';
+    paintFeedback();
+    $('feedback').addEventListener('click', () => {
+      const v = FB_MODES[(FB_MODES.indexOf(settings.feedback) + 1) % FB_MODES.length];
       settings.feedback = v; Store.set('feedback', v);
-      Haptic.play(40); // сразу даём почувствовать выбранный отклик
+      paintFeedback();
+      if (v !== 'visual') Haptic.play(40); // одразу відчути обраний відгук
+      if (v === 'sound') Sound.bell(659.25);
     });
 
     // Поток А
@@ -2925,7 +2955,12 @@
 
     // Стартовий екран: головна або одразу вправа (якщо так обрано в Налаштуваннях)
     if (Store.get('seen', '') !== '1') showScreen('s-intro');
-    else {
+    else if (location.hash === '#settings') {
+      // повернення зі сторінки «Приватність»
+      try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* noop */ }
+      showScreen('s-home');
+      openSettings();
+    } else {
       showScreen('s-home');
       if (settings.start === 'calm') startFlowA(true);
       else if (settings.start === 'near') startNear();

@@ -32,7 +32,7 @@
 <body>
 <main>
   <nav>
-    <a class="back" href="./index.html" id="back">← Якір</a>
+    <a class="back" href="./index.html#settings" id="back">← Якір</a>
     <button type="button" data-lang="uk">UA</button>
     <button type="button" data-lang="en">EN</button>
     <button type="button" data-lang="ru">RU</button>
@@ -159,6 +159,22 @@
       b.addEventListener('click', function () { show(b.dataset.lang); });
     });
     show(lang);
+
+    /* Назад — у Налаштування застосунку. Якщо прийшли звідти, просто
+       крок назад в історії (запис уже має позначку #settings), інакше
+       відкриваємо Налаштування напряму. */
+    var fromApp = false;
+    try { fromApp = !!document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1; } catch (e) { /* noop */ }
+    function back() {
+      if (fromApp) history.back();
+      else location.replace('./index.html#settings');
+    }
+    document.getElementById('back').addEventListener('click', function (e) { e.preventDefault(); back(); });
+    // У застосунку Android: свайп чи кнопка «Назад» телефона
+    var Cap = window.Capacitor;
+    if (Cap && Cap.isNativePlatform && Cap.isNativePlatform() && Cap.Plugins && Cap.Plugins.App) {
+      Cap.Plugins.App.addListener('backButton', back);
+    }
   })();
 </script>
 </body>
