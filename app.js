@@ -32,7 +32,9 @@
     start: Store.get('start', 'home'),         // home | calm | near — що відкривати при запуску
     voiceSpeed: Store.get('voiceSpeed', 'normal'), // normal | slow
     volume: Store.get('volume', 'mid'),          // low | mid | high — одна гучність для всіх фонових звуків
+    theme: Store.get('theme', 'night'),          // night | dusk | dawn — вигляд застосунку
   };
+  if (!['night', 'dusk', 'dawn'].includes(settings.theme)) settings.theme = 'night';
   if (!['low', 'mid', 'high'].includes(settings.volume)) settings.volume = 'mid';
   if (!['8', '15', '25'].includes(settings.sleepMin)) settings.sleepMin = '8';
   /* Нативна оболонка (Capacitor, застосунок з Google Play / App Store).
@@ -55,19 +57,19 @@
       start: 'Почати',
       calmTitle: 'Скинути напругу', calmSub: 'Після тривоги, вибухів або паніки • 4 хвилини',
       near: 'Побути поруч', nearText: 'Я поруч. Нічого не треба робити',
-      settings: 'Налаштування', setLang: 'Мова', setIcon: 'Іконка застосунку',
+      settings: 'Налаштування', setLang: 'Мова', setTheme: 'Вигляд', themeNight: 'Ніч', themeDusk: 'Сутінки', themeDawn: 'Світанок', setIcon: 'Іконка застосунку',
       iconDefault: 'Звичайна', iconBright: 'Помітна', iconCalm: 'Спокійна',
       iconHint: 'Нова іконка з’явиться, коли прибереш «Якір» з головного екрана й додаси знову',
       setUpdate: 'Оновлення', version: 'Версія', updCheck: 'Перевірити оновлення', updApply: 'Оновити зараз',
       updChecking: 'Перевіряю…', updLatest: 'У тебе найновіша версія', updFound: 'Є нова версія. Вона вже завантажена',
       updOffline: 'Немає з’єднання з інтернетом. Спробуй пізніше — застосунок працює й так',
       updNoSupport: 'Оновлення приходять самі, коли телефон в інтернеті',
-      updPlay: 'Відкрити в Google Play', updAppStore: 'Відкрити в App Store',
+      updPlay: 'Google Play', updAppStore: 'App Store',
       setText: 'Розмір тексту', textNormal: 'Звичайний', textLarge: 'Великий',
       setStart: 'Що відкривати при запуску', startHome: 'Головну',
       startHint: 'Одразу потрапиш у вправу, без вибору. На головну — хрестиком',
       setVoice: 'Голос', voiceCuesLbl: 'Голосові підказки', on: 'Увімк.', off: 'Вимк.',
-      voiceSpeed: 'Темп', speedSlow: 'Повільніше', speedNormal: 'Звичайно',
+      voiceSpeed: 'Темп голосу', speedSlow: 'Повільніше', speedNormal: 'Звичайно',
       setVolume: 'Гучність фону', volHint: 'Для шуму, дощу й інших фонових звуків',
       volLow: 'Тихіше', volMid: 'Звичайно', volHigh: 'Гучніше',
       setSleep: 'Тривалість сну', min8: '8 хв', min15: '15 хв', min25: '25 хв',
@@ -114,6 +116,7 @@
       toSleep: 'Перейти до засинання', toHome: 'На головну',
       countTitle: 'Зворотний відлік (100 → 0)', countSub: 'Монотонний рахунок назад, темп сповільнюється',
       wordsTitle: 'Образи (Перемішування)', wordsSub: 'Випадкові спокійні слова, {m} хвилин',
+      radioTitle: 'Радіо здалеку', radioSub: 'Тихий голос читає незнайомою мовою — як прогноз погоди вночі',
       bgSound: 'Фоновий звук', bgOff: 'Без', bgBrown: 'Шум', bgRain: 'Дощ',
       noteTap: 'Торкнись екрана, щоб почати одразу', voiceLang: 'Мова озвучення',
       sleepStart: 'Заплющити очі й почати',
@@ -150,19 +153,19 @@
       start: 'Start',
       calmTitle: 'Release tension', calmSub: 'After an alert, explosions or panic • 4 minutes',
       near: 'Stay with me', nearText: 'I’m here. You don’t have to do anything',
-      settings: 'Settings', setLang: 'Language', setIcon: 'App icon',
+      settings: 'Settings', setLang: 'Language', setTheme: 'Look', themeNight: 'Night', themeDusk: 'Dusk', themeDawn: 'Dawn', setIcon: 'App icon',
       iconDefault: 'Standard', iconBright: 'Bright', iconCalm: 'Calm',
       iconHint: 'The new icon appears after you remove “Anchor” from the home screen and add it again',
       setUpdate: 'Updates', version: 'Version', updCheck: 'Check for updates', updApply: 'Update now',
       updChecking: 'Checking…', updLatest: 'You have the latest version', updFound: 'A new version is ready. It has already downloaded',
       updOffline: 'No internet connection. Try later — the app works anyway',
       updNoSupport: 'Updates arrive on their own when the phone is online',
-      updPlay: 'Open in Google Play', updAppStore: 'Open in the App Store',
+      updPlay: 'Google Play', updAppStore: 'App Store',
       setText: 'Text size', textNormal: 'Normal', textLarge: 'Large',
       setStart: 'Open on launch', startHome: 'Home',
       startHint: 'Go straight into the practice, no choosing. ✕ takes you home',
       setVoice: 'Voice', voiceCuesLbl: 'Voice prompts', on: 'On', off: 'Off',
-      voiceSpeed: 'Pace', speedSlow: 'Slower', speedNormal: 'Normal',
+      voiceSpeed: 'Voice pace', speedSlow: 'Slower', speedNormal: 'Normal',
       setVolume: 'Background volume', volHint: 'For noise, rain and other background sounds',
       volLow: 'Quieter', volMid: 'Normal', volHigh: 'Louder',
       setSleep: 'Sleep length', min8: '8 min', min15: '15 min', min25: '25 min',
@@ -210,6 +213,7 @@
       toSleep: 'Continue to sleep', toHome: 'Back to home',
       countTitle: 'Countdown (100 → 0)', countSub: 'Steady counting down, slowing as it goes',
       wordsTitle: 'Images (Shuffle)', wordsSub: 'Random calm words, {m} minutes',
+      radioTitle: 'Distant radio', radioSub: 'A quiet voice reads in an unfamiliar language — like a night weather forecast',
       bgSound: 'Background sound', bgOff: 'None', bgBrown: 'Noise', bgRain: 'Rain',
       noteTap: 'Tap the screen to start right away', voiceLang: 'Voice language',
       sleepStart: 'Close your eyes and start',
@@ -246,19 +250,19 @@
       start: 'Начать',
       calmTitle: 'Сбросить напряжение', calmSub: 'После тревоги, взрывов или паники • 4 минуты',
       near: 'Побыть рядом', nearText: 'Я рядом. Ничего не нужно делать',
-      settings: 'Настройки', setLang: 'Язык', setIcon: 'Иконка приложения',
+      settings: 'Настройки', setLang: 'Язык', setTheme: 'Вид', themeNight: 'Ночь', themeDusk: 'Сумерки', themeDawn: 'Рассвет', setIcon: 'Иконка приложения',
       iconDefault: 'Обычная', iconBright: 'Заметная', iconCalm: 'Спокойная',
       iconHint: 'Новая иконка появится, когда уберёшь «Якорь» с главного экрана и добавишь снова',
       setUpdate: 'Обновления', version: 'Версия', updCheck: 'Проверить обновления', updApply: 'Обновить сейчас',
       updChecking: 'Проверяю…', updLatest: 'У тебя самая новая версия', updFound: 'Есть новая версия. Она уже загружена',
       updOffline: 'Нет подключения к интернету. Попробуй позже — приложение работает и так',
       updNoSupport: 'Обновления приходят сами, когда телефон в интернете',
-      updPlay: 'Открыть в Google Play', updAppStore: 'Открыть в App Store',
+      updPlay: 'Google Play', updAppStore: 'App Store',
       setText: 'Размер текста', textNormal: 'Обычный', textLarge: 'Крупный',
       setStart: 'Что открывать при запуске', startHome: 'Главную',
       startHint: 'Сразу попадёшь в упражнение, без выбора. На главную — крестиком',
       setVoice: 'Голос', voiceCuesLbl: 'Голосовые подсказки', on: 'Вкл.', off: 'Выкл.',
-      voiceSpeed: 'Темп', speedSlow: 'Медленнее', speedNormal: 'Обычно',
+      voiceSpeed: 'Темп голоса', speedSlow: 'Медленнее', speedNormal: 'Обычно',
       setVolume: 'Громкость фона', volHint: 'Для шума, дождя и других фоновых звуков',
       volLow: 'Тише', volMid: 'Обычно', volHigh: 'Громче',
       setSleep: 'Длительность сна', min8: '8 мин', min15: '15 мин', min25: '25 мин',
@@ -305,6 +309,7 @@
       toSleep: 'Перейти к засыпанию', toHome: 'На главную',
       countTitle: 'Обратный отсчет (100 → 0)', countSub: 'Монотонный счет назад, темп замедляется',
       wordsTitle: 'Образы (Перемешивание)', wordsSub: 'Случайные спокойные слова, {m} минут',
+      radioTitle: 'Радио издалека', radioSub: 'Тихий голос читает на незнакомом языке — как прогноз погоды ночью',
       bgSound: 'Фоновый звук', bgOff: 'Без', bgBrown: 'Шум', bgRain: 'Дождь',
       noteTap: 'Коснись экрана, чтобы начать сразу', voiceLang: 'Язык озвучки',
       sleepStart: 'Закрыть глаза и начать',
@@ -1133,6 +1138,39 @@
         return true;
       } catch (e) { return false; }
     },
+    /* Чи є голос для мови (будь-якої, напр. 'es' для «Радіо») — без «пробуємо» */
+    hasLang(lang) {
+      const norm = (l) => String(l).toLowerCase().replace('_', '-');
+      if (this.tts) {
+        const hit = (this.nativeLangs || []).find((l) => norm(l).startsWith(lang));
+        return hit ? String(hit).replace('_', '-') : null;
+      }
+      const v = this.voices.find((x) => norm(x.lang || '').startsWith(lang));
+      return v ? v.lang.replace('_', '-') : null;
+    },
+    /* Фраза чужою мовою для «Радіо». Повертає Promise, що завершується,
+       коли фразу дочитано (або сталася помилка). */
+    speakForeign(text, tag, rate, volume) {
+      const pitch = 0.78; // нижчий, рівніший голос
+      if (this.tts) {
+        return this.tts.speak({ text, lang: tag, rate, pitch, volume, category: 'playback' }).catch(() => {});
+      }
+      if (!this.synth) return Promise.resolve();
+      return new Promise((resolve) => {
+        try {
+          if (this.synth.speaking || this.synth.pending) this.synth.cancel();
+          const u = new SpeechSynthesisUtterance(text);
+          const pre = tag.slice(0, 2);
+          const voice = this.voices.find((v) => (v.lang || '').replace('_', '-') === tag)
+            || this.voices.find((v) => (v.lang || '').toLowerCase().startsWith(pre));
+          if (voice) u.voice = voice;
+          u.lang = voice ? voice.lang : tag;
+          u.rate = rate; u.pitch = pitch; u.volume = volume;
+          u.onend = u.onerror = () => resolve();
+          this.synth.speak(u);
+        } catch (e) { resolve(); }
+      });
+    },
     stop() {
       if (this.tts) { this.tts.stop().catch(() => {}); return; }
       if (this.synth) { try { this.synth.cancel(); } catch (e) { /* noop */ } }
@@ -1718,7 +1756,7 @@
     sleepText.textContent = '';
     Wake.on();
     if (settings.bg !== 'off') Sound.startNoise(6, NOISE_LEVEL[settings.bg], settings.bg);
-    (settings.sleepMode === 'count' ? runCountdown : runWords)(t);
+    ({ count: runCountdown, words: runWords, radio: runRadio }[settings.sleepMode] || runCountdown)(t);
   }
 
   /* Тривалість із Налаштувань: паузи між числами розтягуються пропорційно,
@@ -1756,6 +1794,104 @@
       const pace = wordPace(p);
       sleepTick('w-' + lastWord, list[lastWord], pace, true);
       await wait(pace.ms, t);
+    }
+    endSleep(t);
+  }
+
+  /* ---- «Радіо»: монотонне читання незрозумілою мовою ----
+     Мозок чує людський голос (поруч хтось є), але не розуміє слів і не
+     чіпляється за зміст. Тексти навмисно нейтральні: погода, море, село,
+     кухня — жодних новин. Читає синтезатор телефона повільно й нижчим
+     голосом, з довгими паузами; голос поступово тихішає. */
+  const RADIO_TEXT = {
+    es: [
+      'Buenas noches. A continuación, el parte meteorológico para mañana.',
+      'En el norte de la península, cielos poco nubosos y temperaturas suaves.',
+      'En la costa cantábrica, brumas matinales que se disiparán a lo largo de la mañana.',
+      'Viento flojo del oeste, rolando a componente sur por la tarde.',
+      'En el interior, ambiente tranquilo y temperaturas sin cambios.',
+      'En las islas, cielo despejado y mar en calma.',
+      'Parte marítimo. Desde el cabo de Finisterre hasta el cabo de Peñas, marejadilla.',
+      'Mar de fondo del noroeste de un metro. Visibilidad buena.',
+      'En el golfo de Cádiz, viento variable de fuerza dos. Mar rizada.',
+      'Las temperaturas mínimas rondarán los doce grados en la meseta.',
+      'Para el fin de semana se espera tiempo estable en casi todo el territorio.',
+      'En los valles del Pirineo, nieblas en las primeras horas.',
+      'El pueblo se encuentra al pie de la sierra, entre campos de olivos y almendros.',
+      'Por la mañana, el panadero abre temprano y el olor a pan recién hecho llena la plaza.',
+      'Junto al río hay un camino de tierra que lleva hasta el viejo molino.',
+      'En otoño, las hojas de los castaños cubren despacio el sendero.',
+      'Para la receta de hoy necesitaremos harina, agua templada, un poco de sal y aceite de oliva.',
+      'Se mezcla todo con calma y se deja reposar la masa durante una hora.',
+      'Mientras tanto, cortamos los tomates en trozos pequeños y los ponemos en un cuenco.',
+      'El horno se calienta a fuego medio. No hay prisa.',
+      'Se reparte la masa en la bandeja y se cubre con un paño limpio.',
+      'Las campanas de la iglesia dan las nueve. La calle está en silencio.',
+      'Seguimos con la información del estado de las carreteras. Circulación fluida en todas las vías.',
+      'Y ahora, un poco de música tranquila antes de despedirnos.',
+    ],
+    it: [
+      'Buonasera. Ecco le previsioni del tempo per domani.',
+      'Al nord, cielo sereno o poco nuvoloso. Temperature stazionarie.',
+      'Sulle coste tirreniche, venti deboli e mare poco mosso.',
+      'Nelle valli alpine, possibili banchi di nebbia nelle prime ore del mattino.',
+      'Al centro, tempo stabile e soleggiato per tutta la giornata.',
+      'Bollettino del mare. Mar Ligure: calmo. Visibilità buona.',
+      'Il paese si trova su una collina, circondato da vigneti e ulivi.',
+      'La mattina, il mercato apre nella piazza principale, accanto alla fontana.',
+      'Un sentiero di pietra porta fino alla vecchia chiesa.',
+      'Per la ricetta di oggi servono farina, acqua tiepida, sale e un filo d’olio.',
+      'Si impasta con calma e si lascia riposare l’impasto per un’ora.',
+      'Nel frattempo, tagliamo le zucchine a fette sottili.',
+      'Il forno si scalda lentamente. Non c’è fretta.',
+      'Le campane suonano le nove. La strada è tranquilla.',
+    ],
+    pt: [
+      'Boa noite. Seguem-se as previsões do tempo para amanhã.',
+      'No litoral norte, céu pouco nublado e vento fraco de noroeste.',
+      'No interior, tempo estável e temperaturas amenas.',
+      'No mar, ondulação de noroeste de um metro. Visibilidade boa.',
+      'A aldeia fica junto ao rio, entre campos de milho e oliveiras.',
+      'De manhã, a padaria abre cedo e o cheiro a pão espalha-se pela rua.',
+      'Para a receita de hoje precisamos de farinha, água morna, sal e azeite.',
+      'Mistura-se tudo com calma e deixa-se a massa descansar durante uma hora.',
+      'O forno aquece devagar. Não há pressa.',
+      'Os sinos da igreja tocam as nove. A rua está em silêncio.',
+    ],
+  };
+  const RADIO_LANGS = [['es', 'es-ES'], ['it', 'it-IT'], ['pt', 'pt-PT']];
+  /* Перша мова «радіо», для якої в телефоні є голос; null — голосу немає */
+  function radioLang() {
+    for (const [key, tag] of RADIO_LANGS) {
+      const found = Speech.hasLang(key);
+      // перевага — «рідному» варіанту мови (es-ES), інакше той, що є (es-US)
+      if (found) return { key, tag: found.toLowerCase() === tag.toLowerCase() ? tag : (Speech.hasLang(tag.toLowerCase()) || found) };
+    }
+    return null;
+  }
+  async function runRadio(t) {
+    const rl = radioLang();
+    if (!rl) { runCountdown(t); return; }
+    const list = RADIO_TEXT[rl.key];
+    let bag = [];
+    sleepText.classList.remove('is-word');
+    sleepText.textContent = '';
+    const started = performance.now();
+    await wait(2500, t);
+    for (;;) {
+      const p = Math.min(1, (performance.now() - started) / sleepMs());
+      if (p >= 1 || t.cancelled) break;
+      if (bag.length === 0) bag = list.map((_, i) => i).sort(() => Math.random() - 0.5);
+      const line = list[bag.pop()];
+      const vol = (1 - p * 0.6) * SPEECH_BASE_VOLUME;
+      if (settings.bg !== 'off') Sound.setNoiseLevel(NOISE_LEVEL[settings.bg] * (1 - p * 0.6), 2);
+      // чекаємо кінця фрази (з запасом, якщо синтезатор не повідомить)
+      await Promise.race([
+        Speech.speakForeign(line, rl.tag, 0.82 - p * 0.12, vol),
+        new Promise((r) => setTimeout(r, 25000)),
+      ]);
+      if (t.cancelled) return;
+      await wait(1400 + Math.random() * 1200 + p * 4000, t);
     }
     endSleep(t);
   }
@@ -2551,6 +2687,8 @@
   function showScreen(id) {
     currentScreen = id;
     screens.forEach((el) => { el.hidden = el.id !== id; });
+    // у світлій темі сон і «Побути поруч» лишаються чорними — системні рядки теж
+    if (settings.theme === 'dawn') applyTheme('dawn', id === 's-b2' || id === 's-near');
     // Один запис в історії на весь час поза головним екраном — щоб системна
     // кнопка «Назад» вела додому (див. обробник popstate в init)
     // У застосунку «Назад» обробляє App.backButton, історія не потрібна.
@@ -2562,7 +2700,7 @@
     // Вправа Детоксу — другий рівень: «Назад» спершу веде до списку Детоксу.
     // Запис додається одразу при натисканні (жест користувача): браузер
     // пропускає записи, додані без жесту, тож «Назад» інакше губився б.
-    if (id === 's-d-act' && depth === 1) {
+    if (SUBSCREENS.includes(id) && depth === 1) {
       try { history.pushState({ inApp: true, depth: 2 }, ''); } catch (e) { /* noop */ }
     }
   }
@@ -2591,14 +2729,17 @@
       try { history.go(-depth); } catch (e) { /* noop */ }
     }
   }
-  // Із вправи Детоксу — до списку Детоксу (кнопка ✕ і «Назад» телефона)
-  function backToDetox() {
-    openDetox();
-    praiseIfStayed();
-    if (history.state && history.state.depth === 2) {
+  /* Екрани другого рівня: «Назад» веде не додому, а до батьківського екрана.
+     Вправа Детоксу → список Детоксу; сон → налаштування сну. */
+  const SUBSCREENS = ['s-d-act', 's-b2'];
+  function goParent(fromHistory) {
+    if (currentScreen === 's-d-act') { openDetox(); praiseIfStayed(); }
+    else if (currentScreen === 's-b2') { stopEverything(); updateVoiceHint(); showScreen('s-b1'); }
+    if (!fromHistory && history.state && history.state.depth === 2) {
       try { history.back(); } catch (e) { /* noop */ }
     }
   }
+  const backToDetox = () => goParent(false);
 
   /* Радиогруппы: выделяют активную кнопку и сохраняют выбор. */
   function bindRadio(group, attr, current, onChange) {
@@ -2636,11 +2777,21 @@
     else if (!Speech.available(settings.lang)) text = tr('hintNoVoice');
     hint.textContent = text;
     hint.hidden = !text;
+    // «Радіо» показуємо, лише коли в телефоні є голос іспанської, італійської чи португальської
+    const radio = $('tab-radio');
+    if (radio) {
+      const ok = !!radioLang();
+      radio.hidden = !ok;
+      if (!ok && settings.sleepMode === 'radio') {
+        settings.sleepMode = 'count';
+        $('sleep-mode').querySelectorAll('button').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.value === 'count')));
+      }
+    }
   }
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 31;
+  const APP_VERSION = 33;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
@@ -2754,7 +2905,25 @@
     location.replace(new URL('./', location.href).href);
   }
 
+  /* Тема: атрибут на <html>, колір системних рядків (у браузері — theme-color,
+     у застосунку — нативно, щоб значки годинника й заряду були видні) */
+  const THEME_BG = { night: '#0B0D10', dusk: '#13121B', dawn: '#ECE5DA' };
+  function applyTheme(name, onBlack) {
+    const root = document.documentElement;
+    if (name === 'night') delete root.dataset.theme; else root.dataset.theme = name;
+    const dark = onBlack || name !== 'dawn';
+    const color = onBlack ? '#000000' : THEME_BG[name];
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = color;
+    const imm = plugin('Immersive');
+    if (imm && imm.bars) imm.bars({ color, light: !dark }).catch(() => {});
+  }
+
   function bindSettings() {
+    applyTheme(settings.theme);
+    bindRadio($('set-theme'), 'value', settings.theme, (v) => {
+      settings.theme = v; Store.set('theme', v); applyTheme(v);
+    });
     $('btn-settings').addEventListener('click', openSettings);
     $('settings-exit').addEventListener('click', goHome);
     const langGroup = $('set-lang');
@@ -2839,14 +3008,14 @@
     window.addEventListener('popstate', (e) => {
       if (NATIVE) return;
       const depth = (e.state && e.state.depth) || 0;
-      if (currentScreen === 's-d-act') { openDetox(); praiseIfStayed(); }
+      if (SUBSCREENS.includes(currentScreen)) goParent(true);
       if (depth === 0 && currentScreen !== 's-home' && currentScreen !== 's-intro') leaveToHome();
     });
     // У застосунку Android: свайп чи кнопка «Назад»
     const capApp = plugin('App');
     if (capApp) {
       capApp.addListener('backButton', () => {
-        if (currentScreen === 's-d-act') backToDetox();
+        if (SUBSCREENS.includes(currentScreen)) goParent(false);
         else if (currentScreen === 's-home' || currentScreen === 's-intro') capApp.minimizeApp();
         else leaveToHome();
       });
@@ -2945,7 +3114,15 @@
     bindSettings();
     applyLang();
     if (!['off', 'brown', 'rain'].includes(settings.bg)) settings.bg = 'off';
-    bindRadio($('bg-sound'), 'value', settings.bg, (v) => { settings.bg = v; Store.set('sleepBg', v); });
+    bindRadio($('bg-sound'), 'value', settings.bg, (v) => {
+      settings.bg = v; Store.set('sleepBg', v);
+      // зразок обраного фону на 3 с, щоб почути різницю ще до сну
+      Sound.unlock();
+      clearTimeout(previewTimer);
+      if (v === 'off') { Sound.stopNoise(0.4); return; }
+      Sound.startNoise(0.4, NOISE_LEVEL[v], v);
+      previewTimer = setTimeout(() => { if (currentScreen === 's-b1') Sound.stopNoise(1.2); }, 3000);
+    });
     $('btn-sleep-start').addEventListener('click', () => { Sound.unlock(); startSleep(); });
 
     // Б2: выход только удержанием
