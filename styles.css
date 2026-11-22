@@ -52,14 +52,14 @@ html[data-theme="dusk"] {
   --on-accent: #15131D;
   --bg-grad: linear-gradient(180deg, #24203A 0%, #17151F 50%, #111017 100%);
 }
-/* Світанок: світла тема — теплий пісочний папір, без яскравого білого */
+/* Світанок: світла тема — теплий бежевий, як льон чи стара бумага; без білого */
 html[data-theme="dawn"] {
-  --bg: #ECE5DA;
-  --surface: #F5F0E7;
-  --surface-2: #F8F4EC;
-  --line: #D8CDBC;
+  --bg: #E5D9C8;
+  --surface: #EDE3D5;
+  --surface-2: #F0E7DA;
+  --line: #D1C2AD;
   --text: #36312B;
-  --muted: #776D61;
+  --muted: #73685B;
   --sage: #5B7A66;
   --sage-rgb: 91, 122, 102;
   --sage-dim: rgba(91, 122, 102, .16);
@@ -68,15 +68,15 @@ html[data-theme="dawn"] {
   --amber-dim: rgba(176, 115, 75, .14);
   --soft: #5E564C;
   --soft-2: #463F37;
-  --cloud: #F7F2EA;
-  --veil: rgba(245, 240, 231, .9);
-  --on-accent: #F8F4EC;
-  --bg-grad: linear-gradient(180deg, #F2ECE2 0%, #EBE3D6 58%, #E3D9CA 100%);
+  --cloud: #EFE6D9;
+  --veil: rgba(237, 227, 213, .9);
+  --on-accent: #F3EBDF;
+  --bg-grad: linear-gradient(180deg, #E9DFD0 0%, #E3D7C5 55%, #DCCEBA 100%);
   color-scheme: light;
 }
-/* Чорні екрани (сон, «Побути поруч») лишаються темними в будь-якій темі:
-   світло вночі збиває сонливість */
-html[data-theme="dawn"] .screen--black {
+/* Екран сну лишається чорним у будь-якій темі: світло вночі збиває сонливість.
+   «Побути поруч» буває потрібне й удень — у «Світанку» він світлий */
+html[data-theme="dawn"] #s-b2 {
   --text: #E2E4E9; --muted: #8B9099; --line: #252A32; --surface: #13161B; --surface-2: #1A1E24;
   --sage: #6B8E78; --sage-rgb: 107, 142, 120; --amber: #C88A55; --amber-rgb: 200, 138, 85;
   --soft: #B4B8C0; --soft-2: #C9CCD2; --on-accent: #0B0D10;
@@ -203,7 +203,7 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 .theme-dot { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(128, 128, 128, .35); }
 .theme-dot--night { background: linear-gradient(135deg, #121821 0 50%, #6B8E78 50% 72%, #C88A55 72%); }
 .theme-dot--dusk { background: linear-gradient(135deg, #24203A 0 50%, #9088C2 50% 72%, #C9907E 72%); }
-.theme-dot--dawn { background: linear-gradient(135deg, #F2ECE2 0 50%, #5B7A66 50% 72%, #B0734B 72%); }
+.theme-dot--dawn { background: linear-gradient(135deg, #E9DFD0 0 50%, #5B7A66 50% 72%, #B0734B 72%); }
 .set-card--links { background: none; border: 0; padding: 0; }
 .set-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
 .set-label { flex: 0 1 auto; min-width: 0; padding-left: 4px; font-size: calc(15px * var(--fs)); color: var(--text); line-height: 1.25; }
@@ -365,6 +365,14 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 @keyframes near-breathe { 0%, 100% { transform: scale(.72); opacity: .55; } 40% { transform: scale(1.06); opacity: 1; } }
 .near-text { margin: 0; color: #8A7A66; font-size: calc(21px * var(--fs)); text-align: center; text-wrap: balance; padding-inline: 24px; }
 .near-anchor { margin: 0; color: #A07C55; font-size: calc(19px * var(--fs)); font-style: italic; text-align: center; padding-inline: 24px; overflow-wrap: anywhere; }
+/* «Побути поруч» у «Світанку»: тепле денне світло замість чорного */
+html[data-theme="dawn"] #s-near { background: var(--bg) var(--bg-grad); }
+html[data-theme="dawn"] .near-glow { background: radial-gradient(circle, rgba(var(--amber-rgb),.34) 0%, rgba(var(--amber-rgb),.12) 55%, transparent 72%); }
+html[data-theme="dawn"] .near-text { color: #6E5B45; }
+html[data-theme="dawn"] .near-anchor { color: #8E6440; }
+html[data-theme="dawn"] .near-close { border-color: var(--line); color: var(--muted); }
+html[data-theme="dawn"] .near-sound { border-color: var(--line); color: #7A6A57; }
+html[data-theme="dawn"] .near-sound[data-on="1"] { color: #8E6440; border-color: rgba(var(--amber-rgb),.45); }
 
 /* «Моя опора» */
 #anchor-input { flex: 0 0 auto; min-height: 120px; }
@@ -452,10 +460,12 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 .d-pane canvas {
   position: absolute; inset: 0; width: 100%; height: 100%;
   border-radius: var(--radius);
-  background: #07090B;
+  background: var(--canvas-bg, #07090B);
   border: 1px solid var(--line);
   touch-action: none;
 }
+/* Малювання, Сад, Бульбашки у «Світанку»: світле «полотно» */
+html[data-theme="dawn"] { --canvas-bg: #EEE5D8; }
 .d-toggle { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); background: var(--veil); }
 .d-float { position: relative; pointer-events: none; transition: opacity 1.2s ease; }
 .d-float.gone { opacity: 0; }
@@ -659,6 +669,12 @@ button:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
 [aria-checked="true"] > .switch { background: rgba(var(--amber-rgb),.45); }
 [aria-checked="true"] > .switch::after { transform: translateX(26px); background: var(--amber); }
 .hint { margin: 4px 6px 0; font-size: calc(15px * var(--fs)); color: var(--muted); text-align: center; }
+.hint[hidden] { display: none; }
+/* «Мова радіо»: підпис зверху, мови — на всю ширину (до 4 штук, по дві в ряд) */
+.radio-lang-row { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px 12px 12px 12px; }
+.radio-lang-row > span { padding-left: 8px; }
+.radio-lang-row[hidden] { display: none; }
+.segmented--wrap { grid-auto-flow: row; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); min-width: 0; }
 
 /* ===== Б2: OLED-чёрный экран сна ===== */
 .screen--black {

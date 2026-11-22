@@ -1,7 +1,7 @@
 /* Service Worker: при установке кладёт все файлы приложения в кэш,
    дальше отвечает из кэша (cache-first) — приложение работает без сети.
    При обновлении файлов увеличьте номер версии в CACHE. */
-const CACHE = 'anchor-v33'; // разом із APP_VERSION в app.js
+const CACHE = 'anchor-v34'; // разом із APP_VERSION в app.js
 const ASSETS = [
   './',
   './index.html',

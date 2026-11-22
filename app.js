@@ -22,7 +22,8 @@
 
   const settings = {
     feedback: Store.get('feedback', 'sound'),   // sound | vibro | visual
-    sleepMode: Store.get('sleepMode', 'count'), // count | words
+    sleepMode: Store.get('sleepMode', 'count'), // count | words | radio
+    radioLang: Store.get('radioLang', ''),       // es | it | pt | ro — мова «Радіо»; '' — перша наявна
     // фон для сну: off | brown | rain (стара настройка noise='1' → brown)
     bg: Store.get('sleepBg', Store.get('noise', '0') === '1' ? 'brown' : 'off'),
     voiceCues: Store.get('voiceCues', '1') === '1', // голосові команди в потоці «Скинути напругу»
@@ -117,6 +118,8 @@
       countTitle: 'Зворотний відлік (100 → 0)', countSub: 'Монотонний рахунок назад, темп сповільнюється',
       wordsTitle: 'Образи (Перемішування)', wordsSub: 'Випадкові спокійні слова, {m} хвилин',
       radioTitle: 'Радіо здалеку', radioSub: 'Тихий голос читає незнайомою мовою — як прогноз погоди вночі',
+      radioLangLbl: 'Мова радіо',
+      radioNoVoice: 'Для радіо потрібен голос іспанської, італійської, португальської або румунської мови. Додай його в налаштуваннях телефона: Синтезатор мовлення Google → Встановити голосові дані',
       bgSound: 'Фоновий звук', bgOff: 'Без', bgBrown: 'Шум', bgRain: 'Дощ',
       noteTap: 'Торкнись екрана, щоб почати одразу', voiceLang: 'Мова озвучення',
       sleepStart: 'Заплющити очі й почати',
@@ -214,6 +217,8 @@
       countTitle: 'Countdown (100 → 0)', countSub: 'Steady counting down, slowing as it goes',
       wordsTitle: 'Images (Shuffle)', wordsSub: 'Random calm words, {m} minutes',
       radioTitle: 'Distant radio', radioSub: 'A quiet voice reads in an unfamiliar language — like a night weather forecast',
+      radioLangLbl: 'Radio language',
+      radioNoVoice: 'The radio needs a Spanish, Italian, Portuguese or Romanian voice. Add one in your phone settings: Speech Recognition & Synthesis by Google → Install voice data',
       bgSound: 'Background sound', bgOff: 'None', bgBrown: 'Noise', bgRain: 'Rain',
       noteTap: 'Tap the screen to start right away', voiceLang: 'Voice language',
       sleepStart: 'Close your eyes and start',
@@ -310,6 +315,8 @@
       countTitle: 'Обратный отсчет (100 → 0)', countSub: 'Монотонный счет назад, темп замедляется',
       wordsTitle: 'Образы (Перемешивание)', wordsSub: 'Случайные спокойные слова, {m} минут',
       radioTitle: 'Радио издалека', radioSub: 'Тихий голос читает на незнакомом языке — как прогноз погоды ночью',
+      radioLangLbl: 'Язык радио',
+      radioNoVoice: 'Для радио нужен голос испанского, итальянского, португальского или румынского языка. Добавь его в настройках телефона: Синтезатор речи Google → Установить голосовые данные',
       bgSound: 'Фоновый звук', bgOff: 'Без', bgBrown: 'Шум', bgRain: 'Дождь',
       noteTap: 'Коснись экрана, чтобы начать сразу', voiceLang: 'Язык озвучки',
       sleepStart: 'Закрыть глаза и начать',
@@ -1857,17 +1864,40 @@
       'Mistura-se tudo com calma e deixa-se a massa descansar durante uma hora.',
       'O forno aquece devagar. Não há pressa.',
       'Os sinos da igreja tocam as nove. A rua está em silêncio.',
+      'Na costa alentejana, mar chão e vento fraco.',
+      'Ao fim da tarde, os pescadores recolhem as redes devagar.',
+    ],
+    ro: [
+      'Bună seara. Urmează prognoza meteo pentru mâine.',
+      'În nordul țării, cer variabil și temperaturi plăcute.',
+      'La munte, ceață dimineața, apoi cer senin.',
+      'Vântul va sufla slab, din direcția vest.',
+      'Pe litoral, marea va fi liniștită. Vizibilitate bună.',
+      'În câmpie, vreme stabilă pe tot parcursul zilei.',
+      'Satul se află la poalele dealului, printre livezi de meri și pruni.',
+      'Dimineața, brutarul deschide devreme și mirosul de pâine caldă umple strada.',
+      'Pe marginea râului, o potecă duce până la moara veche.',
+      'Pentru rețeta de azi avem nevoie de făină, apă călduță, sare și puțin ulei.',
+      'Se amestecă totul încet și se lasă aluatul să se odihnească o oră.',
+      'Cuptorul se încălzește încet. Nu ne grăbim.',
+      'Clopotele bisericii bat ora nouă. Strada este liniștită.',
     ],
   };
-  const RADIO_LANGS = [['es', 'es-ES'], ['it', 'it-IT'], ['pt', 'pt-PT']];
-  /* Перша мова «радіо», для якої в телефоні є голос; null — голосу немає */
-  function radioLang() {
-    for (const [key, tag] of RADIO_LANGS) {
+  const RADIO_LANGS = [['es', 'es-ES', 'Español'], ['it', 'it-IT', 'Italiano'], ['pt', 'pt-PT', 'Português'], ['ro', 'ro-RO', 'Română']];
+  /* Мови «Радіо», для яких у телефоні є голос: [{key, tag, name}] */
+  function radioLangs() {
+    const out = [];
+    for (const [key, tag, name] of RADIO_LANGS) {
       const found = Speech.hasLang(key);
       // перевага — «рідному» варіанту мови (es-ES), інакше той, що є (es-US)
-      if (found) return { key, tag: found.toLowerCase() === tag.toLowerCase() ? tag : (Speech.hasLang(tag.toLowerCase()) || found) };
+      if (found) out.push({ key, name, tag: found.toLowerCase() === tag.toLowerCase() ? tag : (Speech.hasLang(tag.toLowerCase()) || found) });
     }
-    return null;
+    return out;
+  }
+  /* Обрана мова «Радіо» (або перша наявна); null — жодного голосу немає */
+  function radioLang() {
+    const list = radioLangs();
+    return list.find((l) => l.key === settings.radioLang) || list[0] || null;
   }
   async function runRadio(t) {
     const rl = radioLang();
@@ -1891,7 +1921,8 @@
         new Promise((r) => setTimeout(r, 25000)),
       ]);
       if (t.cancelled) return;
-      await wait(1400 + Math.random() * 1200 + p * 4000, t);
+      // коротка пауза між фразами; ближче до кінця — трохи довша
+      await wait(500 + Math.random() * 600 + p * 1800, t);
     }
     endSleep(t);
   }
@@ -1982,6 +2013,13 @@
      LIFE мс. У режимі калейдоскопа відрізок повторюється 6 разів навколо
      центру разом із дзеркальною копією. */
   const draw = { segs: [], last: new Map(), view: null, kaleido: Store.get('kaleido', '1') === '1' };
+  /* Світла тема: ті самі відтінки, але глибші — щоб світилися на бежевому */
+  const isLight = () => settings.theme === 'dawn';
+  const L = (l) => (isLight() ? l - 24 : l);
+  const SCENE_INK = {
+    dark: { rain: 'rgba(150, 172, 160, 0.26)', trail: 'rgba(160, 182, 170, 0.07)', drop: 'rgba(165, 188, 176, 0.16)', rim: 'rgba(190, 206, 196, 0.3)' },
+    light: { rain: 'rgba(78, 104, 90, 0.32)', trail: 'rgba(90, 115, 100, 0.09)', drop: 'rgba(95, 120, 105, 0.14)', rim: 'rgba(70, 95, 82, 0.38)' },
+  };
   const DRAW_LIFE = 5200;
   const DRAW_PASSES = [[10, 0.10], [2.6, 0.8]]; // широке світіння + тонка яскрава лінія
 
@@ -2002,7 +2040,7 @@
       const alpha = 1 - (now - s.t) / DRAW_LIFE;
       for (const [width, strength] of DRAW_PASSES) {
         ctx.lineWidth = width;
-        ctx.strokeStyle = `hsla(${s.hue}, 45%, 64%, ${alpha * strength})`;
+        ctx.strokeStyle = `hsla(${s.hue}, 45%, ${L(64)}%,${alpha * strength})`;
         ctx.beginPath();
         for (let k = 0; k < folds; k++) {
           const a = (k * 2 * Math.PI) / folds, cos = Math.cos(a), sin = Math.sin(a);
@@ -2068,11 +2106,11 @@
       ctx.beginPath();
       ctx.arc(r.x, r.y, 12 + p * 110, 0, Math.PI * 2);
       ctx.lineWidth = 2;
-      ctx.strokeStyle = `hsla(${r.hue}, 45%, 64%, ${fade * 0.55})`;
+      ctx.strokeStyle = `hsla(${r.hue}, 45%, ${L(64)}%,${fade * 0.55})`;
       ctx.stroke();
       ctx.beginPath();
       ctx.arc(r.x, r.y, 7, 0, Math.PI * 2);
-      ctx.fillStyle = `hsla(${r.hue}, 45%, 64%, ${fade * fade * 0.7})`;
+      ctx.fillStyle = `hsla(${r.hue}, 45%, ${L(64)}%,${fade * fade * 0.7})`;
       ctx.fill();
     }
     Detox.raf = requestAnimationFrame(gardenFrame);
@@ -2127,11 +2165,12 @@
   }
   function drawScene(name, alpha, dt, now) {
     const { ctx, w, h } = bubbles.view;
+    const ink = isLight() ? SCENE_INK.light : SCENE_INK.dark;
     ctx.save();
     ctx.globalAlpha = alpha;
     ctx.lineCap = 'round';
     if (name === 'rain') {
-      ctx.strokeStyle = 'rgba(150, 172, 160, 0.26)';
+      ctx.strokeStyle = ink.rain;
       ctx.lineWidth = 1.2;
       ctx.beginPath();
       for (const d of scene.rain) {
@@ -2154,16 +2193,16 @@
           ctx.moveTo(d.x * w, d.y0);
           ctx.lineTo(d.x * w, d.y);
           ctx.lineWidth = d.r * 0.7;
-          ctx.strokeStyle = 'rgba(160, 182, 170, 0.07)';
+          ctx.strokeStyle = ink.trail;
           ctx.stroke();
           if (d.y > h + 12) { scene.glass[i] = newGlassDrop(h, true); return; }
         }
         ctx.beginPath();
         ctx.arc(d.x * w, d.y, d.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(165, 188, 176, 0.16)';
+        ctx.fillStyle = ink.drop;
         ctx.fill();
         ctx.lineWidth = 1;
-        ctx.strokeStyle = 'rgba(190, 206, 196, 0.3)';
+        ctx.strokeStyle = ink.rim;
         ctx.stroke();
       });
     } else {
@@ -2211,16 +2250,16 @@
       const x = bubbleX(b);
       ctx.beginPath();
       ctx.arc(x, b.y, b.r, 0, Math.PI * 2);
-      ctx.fillStyle = `hsla(${b.hue}, 45%, 64%, 0.07)`;
+      ctx.fillStyle = `hsla(${b.hue}, 45%, ${L(64)}%,0.07)`;
       ctx.fill();
       ctx.lineWidth = 1.6;
-      ctx.strokeStyle = `hsla(${b.hue}, 45%, 66%, 0.5)`;
+      ctx.strokeStyle = `hsla(${b.hue}, 45%, ${L(66)}%, 0.5)`;
       ctx.stroke();
       ctx.beginPath(); // відблиск
       ctx.arc(x, b.y, b.r * 0.68, Math.PI * 1.1, Math.PI * 1.45);
       ctx.lineWidth = 2.4;
       ctx.lineCap = 'round';
-      ctx.strokeStyle = `hsla(${b.hue}, 50%, 78%, 0.45)`;
+      ctx.strokeStyle = isLight() ? `hsla(${b.hue}, 40%, 96%, 0.8)` : `hsla(${b.hue}, 50%, 78%, 0.45)`;
       ctx.stroke();
     });
     while (bubbles.pops.length && now - bubbles.pops[0].t > POP_LIFE) bubbles.pops.shift();
@@ -2229,7 +2268,7 @@
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r * (1 + k * 0.6), 0, Math.PI * 2);
       ctx.lineWidth = 2;
-      ctx.strokeStyle = `hsla(${p.hue}, 45%, 70%, ${(1 - k) * 0.6})`;
+      ctx.strokeStyle = `hsla(${p.hue}, 45%, ${L(70)}%, ${(1 - k) * 0.6})`;
       ctx.stroke();
     }
     Detox.raf = requestAnimationFrame(bubblesFrame);
@@ -2688,7 +2727,7 @@
     currentScreen = id;
     screens.forEach((el) => { el.hidden = el.id !== id; });
     // у світлій темі сон і «Побути поруч» лишаються чорними — системні рядки теж
-    if (settings.theme === 'dawn') applyTheme('dawn', id === 's-b2' || id === 's-near');
+    if (settings.theme === 'dawn') applyTheme('dawn', id === 's-b2');
     // Один запис в історії на весь час поза головним екраном — щоб системна
     // кнопка «Назад» вела додому (див. обробник popstate в init)
     // У застосунку «Назад» обробляє App.backButton, історія не потрібна.
@@ -2777,21 +2816,39 @@
     else if (!Speech.available(settings.lang)) text = tr('hintNoVoice');
     hint.textContent = text;
     hint.hidden = !text;
-    // «Радіо» показуємо, лише коли в телефоні є голос іспанської, італійської чи португальської
-    const radio = $('tab-radio');
-    if (radio) {
-      const ok = !!radioLang();
-      radio.hidden = !ok;
-      if (!ok && settings.sleepMode === 'radio') {
-        settings.sleepMode = 'count';
-        $('sleep-mode').querySelectorAll('button').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.value === 'count')));
-      }
+    paintRadioLangs();
+  }
+
+  /* «Радіо»: вкладка є завжди. Коли воно обране — вибір мови з наявних
+     голосів або підказка, як додати голос у налаштуваннях телефона. */
+  function paintRadioLangs() {
+    const row = $('radio-lang-row'), group = $('radio-lang'), note = $('radio-hint');
+    if (!row || !group || !note) return;
+    const on = settings.sleepMode === 'radio';
+    const list = radioLangs();
+    const cur = radioLang();
+    row.hidden = !on || list.length < 2;
+    note.hidden = !on || list.length > 0;
+    note.textContent = tr('radioNoVoice');
+    const sig = list.map((l) => l.key).join(',');
+    if (group.dataset.sig !== sig) {
+      group.dataset.sig = sig;
+      group.innerHTML = list.map((l) => `<button type="button" role="radio" data-value="${l.key}" lang="${l.key}">${l.name}</button>`).join('');
+      bindRadio(group, 'value', cur ? cur.key : '', (v) => {
+        settings.radioLang = v; Store.set('radioLang', v);
+        // зразок голосу, щоб почути мову ще до сну
+        const pick = radioLang();
+        stopVoice();
+        if (pick) Speech.speakForeign(RADIO_TEXT[pick.key][0], pick.tag, 0.82, SPEECH_BASE_VOLUME);
+      });
+    } else {
+      group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-checked', String(!!cur && b.dataset.value === cur.key)));
     }
   }
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 33;
+  const APP_VERSION = 34;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
@@ -2907,7 +2964,7 @@
 
   /* Тема: атрибут на <html>, колір системних рядків (у браузері — theme-color,
      у застосунку — нативно, щоб значки годинника й заряду були видні) */
-  const THEME_BG = { night: '#0B0D10', dusk: '#13121B', dawn: '#ECE5DA' };
+  const THEME_BG = { night: '#0B0D10', dusk: '#13121B', dawn: '#E5D9C8' };
   function applyTheme(name, onBlack) {
     const root = document.documentElement;
     if (name === 'night') delete root.dataset.theme; else root.dataset.theme = name;
@@ -3108,7 +3165,8 @@
 
     // Б1
     $('b1-exit').addEventListener('click', goHome);
-    bindRadio($('sleep-mode'), 'value', settings.sleepMode, (v) => { settings.sleepMode = v; Store.set('sleepMode', v); });
+    if (!['count', 'words', 'radio'].includes(settings.sleepMode)) settings.sleepMode = 'count';
+    bindRadio($('sleep-mode'), 'value', settings.sleepMode, (v) => { settings.sleepMode = v; Store.set('sleepMode', v); paintRadioLangs(); });
     document.querySelectorAll('.lang-btn').forEach((b) => b.addEventListener('click', nextLang));
     bindDetox();
     bindSettings();

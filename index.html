@@ -420,7 +420,7 @@
           <span class="tabs__title" data-i18n="wordsTitle">Образи (Перемішування)</span>
           <span class="tabs__sub" data-i18n="wordsSub">Випадкові спокійні слова, 15 хвилин</span>
         </button>
-        <button type="button" role="radio" data-value="radio" id="tab-radio" hidden>
+        <button type="button" role="radio" data-value="radio" id="tab-radio">
           <span class="tabs__title" data-i18n="radioTitle">Радіо здалеку</span>
           <span class="tabs__sub" data-i18n="radioSub">Тихий голос читає незнайомою мовою — як прогноз погоди вночі</span>
         </button>
@@ -434,6 +434,13 @@
           <button type="button" role="radio" data-value="rain" data-i18n="bgRain">Дощ</button>
         </div>
       </div>
+
+      <!-- «Радіо»: мова з тих, для яких у телефоні є голос -->
+      <div class="row row--static radio-lang-row" id="radio-lang-row" hidden>
+        <span data-i18n="radioLangLbl">Мова радіо</span>
+        <div class="segmented segmented--small segmented--wrap" id="radio-lang" role="radiogroup" data-i18n-aria="radioLangLbl"></div>
+      </div>
+      <p class="hint" id="radio-hint" hidden></p>
 
       <p class="hint" id="voice-hint" hidden></p>
     </div>
