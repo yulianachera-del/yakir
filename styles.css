@@ -670,11 +670,19 @@ html[data-theme="dawn"] { --canvas-bg: #EEE5D8; }
 [aria-checked="true"] > .switch::after { transform: translateX(26px); background: var(--amber); }
 .hint { margin: 4px 6px 0; font-size: calc(15px * var(--fs)); color: var(--muted); text-align: center; }
 .hint[hidden] { display: none; }
-/* «Мова радіо»: підпис зверху, мови — на всю ширину (до 4 штук, по дві в ряд) */
-.radio-lang-row { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px 12px 12px 12px; }
-.radio-lang-row > span { padding-left: 8px; }
-.radio-lang-row[hidden] { display: none; }
-.segmented--wrap { grid-auto-flow: row; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); min-width: 0; }
+/* «Радіо здалеку»: кнопка мови прямо в рядку, праворуч */
+.tab-wrap { position: relative; display: flex; flex-direction: column; }
+.tab-wrap:has(.lang-chip:not([hidden])) #tab-radio { padding-right: 96px; }
+.tabs .lang-chip {
+  position: absolute; top: 50%; right: 12px; transform: translateY(-50%);
+  min-height: var(--tap); min-width: 72px; padding: 0 14px;
+  display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px;
+  border-radius: 28px; background: var(--bg); border: 1px solid rgba(var(--amber-rgb),.45);
+  color: var(--amber); font-size: calc(17px * var(--fs)); font-weight: 700; letter-spacing: .06em;
+}
+.tabs .lang-chip svg { flex: none; opacity: .8; }
+.tabs .lang-chip:active { filter: brightness(1.25); }
+.tabs .lang-chip[hidden] { display: none; }
 
 /* ===== Б2: OLED-чёрный экран сна ===== */
 .screen--black {

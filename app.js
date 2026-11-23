@@ -1157,15 +1157,17 @@
     },
     /* Фраза чужою мовою для «Радіо». Повертає Promise, що завершується,
        коли фразу дочитано (або сталася помилка). */
-    speakForeign(text, tag, rate, volume) {
+    speakForeign(text, tag, rate, volume, interrupt) {
       const pitch = 0.78; // нижчий, рівніший голос
       if (this.tts) {
-        return this.tts.speak({ text, lang: tag, rate, pitch, volume, category: 'playback' }).catch(() => {});
+        // У черзі (QUEUE_ADD = 1): фраза дочитується до кінця, а не обривається
+        // наступною. Перервати можна лише зразок мови (interrupt).
+        return this.tts.speak({ text, lang: tag, rate, pitch, volume, category: 'playback', queueStrategy: interrupt ? 0 : 1 }).catch(() => {});
       }
       if (!this.synth) return Promise.resolve();
       return new Promise((resolve) => {
         try {
-          if (this.synth.speaking || this.synth.pending) this.synth.cancel();
+          if (interrupt && (this.synth.speaking || this.synth.pending)) this.synth.cancel();
           const u = new SpeechSynthesisUtterance(text);
           const pre = tag.slice(0, 2);
           const voice = this.voices.find((v) => (v.lang || '').replace('_', '-') === tag)
@@ -1758,6 +1760,7 @@
 
   function startSleep() {
     const t = newToken();
+    stopVoice(); // зразок мови радіо, якщо ще звучить
     showScreen('s-b2');
     sleepText.classList.remove('fade');
     sleepText.textContent = '';
@@ -2782,7 +2785,7 @@
 
   /* Радиогруппы: выделяют активную кнопку и сохраняют выбор. */
   function bindRadio(group, attr, current, onChange) {
-    const buttons = Array.from(group.querySelectorAll('button'));
+    const buttons = Array.from(group.querySelectorAll('button[role="radio"]'));
     const paint = (value) => buttons.forEach((b) => b.setAttribute('aria-checked', String(b.dataset[attr] === value)));
     paint(current);
     buttons.forEach((b) => b.addEventListener('click', () => {
@@ -2822,33 +2825,41 @@
   /* «Радіо»: вкладка є завжди. Коли воно обране — вибір мови з наявних
      голосів або підказка, як додати голос у налаштуваннях телефона. */
   function paintRadioLangs() {
-    const row = $('radio-lang-row'), group = $('radio-lang'), note = $('radio-hint');
-    if (!row || !group || !note) return;
-    const on = settings.sleepMode === 'radio';
+    const chip = $('radio-lang'), note = $('radio-hint');
+    if (!chip || !note) return;
     const list = radioLangs();
     const cur = radioLang();
-    row.hidden = !on || list.length < 2;
-    note.hidden = !on || list.length > 0;
+    chip.hidden = !cur;
+    note.hidden = settings.sleepMode !== 'radio' || !!cur;
     note.textContent = tr('radioNoVoice');
-    const sig = list.map((l) => l.key).join(',');
-    if (group.dataset.sig !== sig) {
-      group.dataset.sig = sig;
-      group.innerHTML = list.map((l) => `<button type="button" role="radio" data-value="${l.key}" lang="${l.key}">${l.name}</button>`).join('');
-      bindRadio(group, 'value', cur ? cur.key : '', (v) => {
-        settings.radioLang = v; Store.set('radioLang', v);
-        // зразок голосу, щоб почути мову ще до сну
-        const pick = radioLang();
-        stopVoice();
-        if (pick) Speech.speakForeign(RADIO_TEXT[pick.key][0], pick.tag, 0.82, SPEECH_BASE_VOLUME);
-      });
-    } else {
-      group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-checked', String(!!cur && b.dataset.value === cur.key)));
+    if (cur) {
+      chip.textContent = cur.key.toUpperCase();
+      chip.setAttribute('lang', cur.key);
+      chip.setAttribute('aria-label', `${tr('radioLangLbl')}: ${cur.name}`);
+      chip.disabled = false;
+      chip.dataset.count = String(list.length);
     }
+  }
+  /* Кнопка мови: перший дотик (якщо «Радіо» ще не обране) — обирає його;
+     далі кожен дотик — наступна наявна мова й коротка фраза-зразок */
+  function cycleRadioLang() {
+    const list = radioLangs();
+    if (!list.length) return;
+    if (settings.sleepMode !== 'radio') $('tab-radio').click();
+    else if (list.length > 1) {
+      const cur = radioLang();
+      const next = list[(list.findIndex((l) => l.key === (cur && cur.key)) + 1) % list.length];
+      settings.radioLang = next.key; Store.set('radioLang', next.key);
+    }
+    paintRadioLangs();
+    const pick = radioLang();
+    stopVoice();
+    if (pick) Speech.speakForeign(RADIO_TEXT[pick.key][0], pick.tag, 0.82, SPEECH_BASE_VOLUME, true);
   }
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 34;
+  const APP_VERSION = 35;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
@@ -3167,6 +3178,7 @@
     $('b1-exit').addEventListener('click', goHome);
     if (!['count', 'words', 'radio'].includes(settings.sleepMode)) settings.sleepMode = 'count';
     bindRadio($('sleep-mode'), 'value', settings.sleepMode, (v) => { settings.sleepMode = v; Store.set('sleepMode', v); paintRadioLangs(); });
+    $('radio-lang').addEventListener('click', cycleRadioLang);
     document.querySelectorAll('.lang-btn').forEach((b) => b.addEventListener('click', nextLang));
     bindDetox();
     bindSettings();
