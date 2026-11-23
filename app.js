@@ -1302,7 +1302,7 @@
      рисунок вибрации и скольжение тона. Вибромотор не умеет менять силу,
      поэтому «нарастание» — удлиняющиеся импульсы, «затухание» — укорачивающиеся
      с растущими паузами. */
-  const BREATH_REST = 0.45;
+  const BREATH_REST = 0.55;
   /* Вібрація — лише один м'який поштовх на початку кожної фази (вдих,
      довдих, видих): безперервне дзижчання радше тривожить, ніж заспокоює. */
   const BREATH_PHASES = [
@@ -1314,8 +1314,13 @@
 
   async function runBreathing(t) {
     const circle = $('breath-circle'), cmd = $('breath-cmd'), count = $('breath-count');
-    circle.style.transitionDuration = '0ms';
-    circle.style.transform = `scale(${BREATH_REST})`;
+    const label = circle.parentElement.querySelector('.breath__label');
+    // коло й напис дихають разом: однаковий масштаб і однаковий час
+    const breathTo = (scale, ms) => [circle, label].forEach((el) => {
+      el.style.transitionDuration = ms + 'ms';
+      el.style.transform = `scale(${scale})`;
+    });
+    breathTo(BREATH_REST, 0);
     cmd.textContent = tr('ready');
     count.textContent = '';
     await wait(1200, t);
@@ -1324,8 +1329,7 @@
       count.textContent = `${cycle} / ${BREATH_CYCLES}`;
       for (const phase of BREATH_PHASES) {
         cmd.textContent = tr(phase.text);
-        circle.style.transitionDuration = phase.ms + 'ms';
-        circle.style.transform = `scale(${phase.scale})`;
+        breathTo(phase.scale, phase.ms);
         Haptic.play(phase.vib);
         // з голосом тон стає тихішим тлом, без голосу — основним орієнтиром
         if (soundOn()) Sound.glide(phase.tone[0], phase.tone[1], phase.ms / 1000, voiceOn() ? 0.035 : 0.07);
@@ -1762,7 +1766,8 @@
     const t = newToken();
     stopVoice(); // зразок мови радіо, якщо ще звучить
     showScreen('s-b2');
-    sleepText.classList.remove('fade');
+    sleepText.classList.remove('fade', 'warm');
+    setTimeout(() => sleepText.classList.add('warm'), 400); // поступово — в бурштин
     sleepText.textContent = '';
     Wake.on();
     if (settings.bg !== 'off') Sound.startNoise(6, NOISE_LEVEL[settings.bg], settings.bg);
@@ -1924,8 +1929,8 @@
         new Promise((r) => setTimeout(r, 25000)),
       ]);
       if (t.cancelled) return;
-      // коротка пауза між фразами; ближче до кінця — трохи довша
-      await wait(500 + Math.random() * 600 + p * 1800, t);
+      // пауза як між реченнями у звичайному мовленні; під кінець ледь довша
+      await wait(120 + Math.random() * 160 + p * 500, t);
     }
     endSleep(t);
   }
@@ -2726,9 +2731,20 @@
   /* ================= 8. Навигация и события ================= */
   const screens = Array.from(document.querySelectorAll('.screen'));
   let currentScreen = '';
+  let leaving = null, leaveTimer = 0;
   function showScreen(id) {
+    // м'яке розчинення: попередній екран ще 0,45 с тане під новим
+    if (leaving) { clearTimeout(leaveTimer); leaving.classList.remove('leaving'); leaving.inert = false; leaving = null; }
+    const prev = Array.from(screens).find((el) => !el.hidden && el.id !== id);
     currentScreen = id;
     screens.forEach((el) => { el.hidden = el.id !== id; });
+    document.body.dataset.screen = id;
+    if (prev) {
+      leaving = prev;
+      prev.inert = true;
+      prev.classList.add('leaving');
+      leaveTimer = setTimeout(() => { prev.classList.remove('leaving'); prev.inert = false; if (leaving === prev) leaving = null; }, 460);
+    }
     // у світлій темі сон і «Побути поруч» лишаються чорними — системні рядки теж
     if (settings.theme === 'dawn') applyTheme('dawn', id === 's-b2');
     // Один запис в історії на весь час поза головним екраном — щоб системна
@@ -2859,7 +2875,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 35;
+  const APP_VERSION = 37;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —

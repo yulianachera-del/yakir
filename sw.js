@@ -1,7 +1,7 @@
 /* Service Worker: при установке кладёт все файлы приложения в кэш,
    дальше отвечает из кэша (cache-first) — приложение работает без сети.
    При обновлении файлов увеличьте номер версии в CACHE. */
-const CACHE = 'anchor-v35'; // разом із APP_VERSION в app.js
+const CACHE = 'anchor-v37'; // разом із APP_VERSION в app.js
 const ASSETS = [
   './',
   './index.html',
@@ -17,6 +17,10 @@ const ASSETS = [
   './icons/icon-bright-512.png',
   './icons/icon-calm-192.png',
   './icons/icon-calm-512.png',
+  './fonts/nunito-cyrillic-wght-normal.woff2',
+  './fonts/nunito-cyrillic-ext-wght-normal.woff2',
+  './fonts/nunito-latin-wght-normal.woff2',
+  './fonts/nunito-latin-ext-wght-normal.woff2',
 ];
 
 // «Оновити зараз» у Налаштуваннях: нова версія не чекає закриття застосунку
