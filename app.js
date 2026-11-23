@@ -540,14 +540,15 @@
        і додаємо обертони (2-й і 3-й), за якими вухо «добудовує» основний тон. */
     chime(freq) {
       if (!this.ready) return;
-      const low = Math.min(1, Math.max(0, (440 - freq) / 244)); // 0 для високих, 1 для найнижчої (196 Гц)
-      const level = 0.2 + low * 0.1;
+      const low = Math.min(1, Math.max(0, (520 - freq) / 258)); // 1 для найнижчої (262 Гц), 0 від 520 Гц
+      const high = Math.min(1, Math.max(0, (freq - 600) / 280)); // високі вухо чує гучніше — трохи тихіше
+      const level = 0.2 + low * 0.14 - high * 0.05;
       const c = this.ctx, t0 = c.currentTime, g = c.createGain();
       g.gain.setValueAtTime(0.0001, t0);
       g.gain.exponentialRampToValueAtTime(level, t0 + 0.02);
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.8);
       g.connect(this._out('fx'));
-      [[1, 1], [2, 0.22 + low * 0.38], [3, low * 0.16]].forEach(([mult, part]) => {
+      [[1, 1], [2, 0.22 + low * 0.5], [3, low * 0.26], [4, low * 0.1]].forEach(([mult, part]) => {
         if (part <= 0) return;
         const osc = c.createOscillator(), pg = c.createGain();
         osc.type = 'sine';
@@ -2128,7 +2129,8 @@
      будь-які поєднання звучать злагоджено, тож «сфальшивити» неможливо.
      Кожен дотик лишає коло, що повільно розходиться. Звук є лише в режимі
      «Звук + Вібро»; в інших режимах лишаються кола й легка вібрація. */
-  const GARDEN_NOTES = [196.0, 220.0, 261.63, 293.66, 329.63, 392.0, 440.0, 523.25, 587.33, 659.25];
+  // Від «до» першої октави (262 Гц): нижчі ноти динамік телефона майже не відтворює
+  const GARDEN_NOTES = [261.63, 293.66, 329.63, 392.0, 440.0, 523.25, 587.33, 659.25, 783.99, 880.0];
   const garden = { ripples: [], lastNote: new Map(), view: null };
   const RIPPLE_LIFE = 2200;
 
@@ -2923,7 +2925,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 39;
+  const APP_VERSION = 40;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
