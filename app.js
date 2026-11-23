@@ -968,20 +968,28 @@
       } catch (e) { /* файлів немає — працює синтезатор */ }
     },
     has(path) { return Sound.ready && this.available.has(path); },
-    async _load(path) {
+    _load(path) {
+      // кешуємо саме обіцянку: два одночасні запити не тягнуть файл двічі
       if (this.buffers.has(path)) return this.buffers.get(path);
-      const res = await fetch('audio/' + path);
-      const raw = await res.arrayBuffer();
-      const buffer = await new Promise((ok, fail) => Sound.ctx.decodeAudioData(raw, ok, fail));
-      this.buffers.set(path, buffer);
-      return buffer;
+      const p = fetch('audio/' + path)
+        .then((res) => res.arrayBuffer())
+        .then((raw) => new Promise((ok, fail) => Sound.ctx.decodeAudioData(raw, ok, fail)));
+      this.buffers.set(path, p);
+      p.catch(() => this.buffers.delete(path));
+      // розпакований звук важкий — тримаємо в пам'яті лише останні 40 кліпів
+      if (this.buffers.size > 40) this.buffers.delete(this.buffers.keys().next().value);
+      return p;
     },
     // Завантажити наперед, поки триває пауза, — щоб наступне число не запізнювалось
     preload(path) {
       if (this.has(path) && !this.buffers.has(path)) this._load(path).catch(() => {});
     },
     async play(path, volume, onFail) {
-      this.stop();
+      // Якщо попередній кліп от-от закінчиться (≤ 0,7 с), новий стане в чергу
+      // одразу за ним, а не обірве останнє слово.
+      const prev = this.current, c0 = Sound.ctx;
+      const tail = prev && c0 && prev.end - c0.currentTime <= 0.7 ? prev : null;
+      if (tail) { this.gen++; this.current = null; } else this.stop();
       const gen = this.gen;
       try {
         const buffer = await this._load(path);
@@ -990,8 +998,9 @@
         src.buffer = buffer;
         g.gain.value = volume;
         src.connect(g).connect(c.destination);
-        src.start();
-        this.current = { src, g };
+        const at = Math.max(c.currentTime, tail ? tail.end : 0);
+        src.start(at);
+        this.current = { src, g, end: at + buffer.duration };
         src.onended = () => { if (this.current && this.current.src === src) this.current = null; };
       } catch (e) {
         this.available.delete(path);
@@ -1257,6 +1266,14 @@
   function cue(key, text) {
     if (voiceOn()) say(key, text, 0.9, 0.85);
   }
+  /* Те саме, але повертає, скільки чекати: не менше minMs і не менше, ніж
+     звучить записана фраза (записи читаються повільно, з паузами). */
+  async function cueWait(key, text, minMs) {
+    cue(key, text);
+    const path = `${settings.lang}/${key}.mp3`;
+    if (!voiceOn() || !Clips.has(path)) return minMs;
+    try { return Math.max(minMs, (await Clips._load(path)).duration * 1000 + 400); } catch (e) { return minMs; }
+  }
   function paintVoiceButton() {
     const btn = $('a-voice');
     btn.hidden = !soundOn(); // без звуку голос не має сенсу
@@ -1321,8 +1338,8 @@
     const dots = $('bf').children, text = $('bf-text');
     const clear = () => { dots[0].classList.remove('on'); dots[1].classList.remove('on'); };
     text.textContent = tr('bfText');
-    cue('bfText', tr('bfText'));
-    await wait(voiceOn() ? 5500 : 3000, t); // час прочитати й покласти руки
+    // час прочитати (дослухати) й покласти руки
+    await wait(await cueWait('bfText', tr('bfText'), voiceOn() ? 5500 : 3000), t);
     for (let set = 0; set < BUTTERFLY_SETS; set++) {
       text.textContent = tr('bfText');
       for (let i = 0; i < BUTTERFLY_TAPS; i++) {
@@ -1336,8 +1353,7 @@
       clear();
       if (set < BUTTERFLY_SETS - 1) {
         text.textContent = tr('bfPause');
-        cue('bfPause', tr('bfPause'));
-        await wait(BUTTERFLY_REST, t);
+        await wait(await cueWait('bfPause', tr('bfPause'), BUTTERFLY_REST), t);
       }
     }
     finishFlowA();
@@ -1693,8 +1709,7 @@
         stage.classList.add('sniff');
         Haptic.play(35); // лише на зміну дії: «вдих»
         if (soundOn()) Sound.glide(196, 262, KID_IN / 1000, voiceOn() ? 0.035 : 0.06);
-        cue(keys[0], tr(keys[0]));
-        await wait(KID_IN, t);
+        await wait(await cueWait(keys[0], tr(keys[0]), KID_IN), t);
 
         text.textContent = tr(keys[1]);
         stage.classList.remove('sniff');
@@ -1702,8 +1717,7 @@
         setBalloon(0.35 + (0.65 * n) / KID_BREATHS, KID_OUT); // кулька росте з кожним видихом
         Haptic.play([25, 140, 25]); // «видих»
         if (soundOn()) Sound.glide(262, 165, KID_OUT / 1000, voiceOn() ? 0.035 : 0.06);
-        cue(keys[1], tr(keys[1]));
-        await wait(KID_OUT, t);
+        await wait(await cueWait(keys[1], tr(keys[1]), KID_OUT), t);
       }
       stage.classList.remove('blow');
       count.textContent = '';
@@ -1711,8 +1725,7 @@
       if (balloon) stage.classList.add('fly');
       Haptic.play(30);
       if (soundOn()) { Sound.bell(392, 0.07); setTimeout(() => { if (!t.cancelled) Sound.bell(523.25, 0.07); }, 220); }
-      cue(keys[2], tr(keys[2]));
-      await wait(3600, t);
+      await wait(await cueWait(keys[2], tr(keys[2]), 3600), t);
     }
   }
 
@@ -2942,7 +2955,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 43;
+  const APP_VERSION = 44;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
@@ -3098,7 +3111,7 @@
     });
     bindRadio($('set-speed'), 'value', settings.voiceSpeed, (v) => {
       settings.voiceSpeed = v; Store.set('voiceSpeed', v);
-      Sound.unlock(); say('', tr('nearText'), 1, SPEECH_BASE_VOLUME); // одразу чути новий темп
+      Sound.unlock(); say('nearText', tr('nearText'), 1, SPEECH_BASE_VOLUME); // одразу чути новий темп
     });
     // Гучність фону: зразок звуку, щоб одразу почути різницю
     bindRadio($('set-volume'), 'value', settings.volume, (v) => {
