@@ -976,6 +976,10 @@
       this.buffers.set(path, buffer);
       return buffer;
     },
+    // Завантажити наперед, поки триває пауза, — щоб наступне число не запізнювалось
+    preload(path) {
+      if (this.has(path) && !this.buffers.has(path)) this._load(path).catch(() => {});
+    },
     async play(path, volume, onFail) {
       this.stop();
       const gen = this.gen;
@@ -1829,9 +1833,18 @@
     let total = 0;
     for (let n = 100; n >= 0; n--) total += countPace(n).ms;
     const stretch = sleepMs() / total;
+    // Записаний відлік (audio/<мова>/n-100…n-1): числа без файлу (0) не
+    // озвучуються синтезатором, щоб наприкінці не з'явився чужий голос.
+    const recorded = Clips.has(`${settings.lang}/n-1.mp3`);
     for (let n = 100; n >= 0; n--) {
       const pace = countPace(n);
-      sleepTick('n-' + n, n, pace, false);
+      const key = 'n-' + n;
+      if (recorded && !Clips.has(`${settings.lang}/${key}.mp3`)) {
+        sleepText.classList.remove('is-word');
+        sleepText.textContent = n;
+        if (settings.bg !== 'off') Sound.setNoiseLevel(NOISE_LEVEL[settings.bg] * pace.vol, 2);
+      } else sleepTick(key, n, pace, false);
+      if (recorded && n > 1) Clips.preload(`${settings.lang}/n-${n - 1}.mp3`);
       await wait(pace.ms * stretch, t);
     }
     endSleep(t);
@@ -2925,7 +2938,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 40;
+  const APP_VERSION = 41;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
