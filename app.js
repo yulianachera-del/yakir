@@ -366,10 +366,27 @@
       b.setAttribute('aria-label', `${tr('langLabel')}: ${code}`);
     });
     paintFeedback();
+    glueTileIcons();
     document.querySelectorAll('#set-lang button').forEach((b) => {
       b.setAttribute('aria-checked', String(b.dataset.value === settings.lang));
     });
     updateVoiceHint();
+  }
+  /* Детокс: значок «приклеєний» до останнього слова назви — переноситься
+     лише разом із ним і ніколи не стоїть сам на рядку. */
+  function glueTileIcons() {
+    document.querySelectorAll('.tile-head').forEach((h) => {
+      const title = h.querySelector('.tabs__title');
+      const ico = h._ico || (h._ico = h.querySelector('svg.ico'));
+      if (!title || !ico) return;
+      const words = tr(title.dataset.i18n).trim().split(/\s+/);
+      const last = words.pop();
+      const tail = document.createElement('span');
+      tail.className = 'tile-tail';
+      tail.append(last, ico);
+      title.textContent = words.length ? words.join(' ') + ' ' : '';
+      title.append(tail);
+    });
   }
   /* Одна кнопка мови: кожне натискання — наступна мова за пріоритетом. */
   function nextLang() {
@@ -508,6 +525,30 @@
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.8);
       g.connect(this._out('fx'));
       [[1, 1], [2, 0.22]].forEach(([mult, part]) => {
+        const osc = c.createOscillator(), pg = c.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq * mult;
+        pg.gain.value = part;
+        osc.connect(pg).connect(g);
+        osc.start(t0); osc.stop(t0 + 2.9);
+        this._track(osc, g);
+      });
+    },
+
+    /* Нота Звукового саду. Динамік телефона майже не відтворює низькі
+       частоти, тож низькі ноти чути як «тихіші»: для них підсилюємо рівень
+       і додаємо обертони (2-й і 3-й), за якими вухо «добудовує» основний тон. */
+    chime(freq) {
+      if (!this.ready) return;
+      const low = Math.min(1, Math.max(0, (440 - freq) / 244)); // 0 для високих, 1 для найнижчої (196 Гц)
+      const level = 0.2 + low * 0.1;
+      const c = this.ctx, t0 = c.currentTime, g = c.createGain();
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(level, t0 + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 2.8);
+      g.connect(this._out('fx'));
+      [[1, 1], [2, 0.22 + low * 0.38], [3, low * 0.16]].forEach(([mult, part]) => {
+        if (part <= 0) return;
         const osc = c.createOscillator(), pg = c.createGain();
         osc.type = 'sine';
         osc.frequency.value = freq * mult;
@@ -1768,6 +1809,12 @@
     showScreen('s-b2');
     sleepText.classList.remove('fade', 'warm');
     setTimeout(() => sleepText.classList.add('warm'), 400); // поступово — в бурштин
+    // «Радіо» — ледь освітлений приймач; системний рядок ховаємо в будь-якому режимі
+    const radioArt = $('sleep-radio');
+    radioArt.classList.remove('fade');
+    // у SVG властивості .hidden немає — лише атрибут
+    radioArt.toggleAttribute('hidden', !(settings.sleepMode === 'radio' && radioLang()));
+    enterFullscreen();
     sleepText.textContent = '';
     Wake.on();
     if (settings.bg !== 'off') Sound.startNoise(6, NOISE_LEVEL[settings.bg], settings.bg);
@@ -1939,6 +1986,7 @@
      тишина и снятие Wake Lock — телефон может погасить экран сам. */
   async function endSleep(t) {
     sleepText.classList.add('fade');
+    $('sleep-radio').classList.add('fade');
     stopVoice();
     Sound.stopNoise(10);
     await wait(10500, t);
@@ -2099,7 +2147,7 @@
     const index = Math.min(GARDEN_NOTES.length - 1, Math.floor(band * GARDEN_NOTES.length));
     if (!isNew && garden.lastNote.get(e.pointerId) === index) return; // при веденні — лише нова нота
     garden.lastNote.set(e.pointerId, index);
-    if (soundOn()) Sound.bell(GARDEN_NOTES[index]);
+    if (soundOn()) Sound.chime(GARDEN_NOTES[index]);
     else Haptic.play(15);
     garden.ripples.push({ x: p.x, y: p.y, t: performance.now(), hue: 25 + index * 13 });
     if (garden.ripples.length > 60) garden.ripples.shift();
@@ -2875,7 +2923,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 37;
+  const APP_VERSION = 39;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
