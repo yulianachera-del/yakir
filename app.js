@@ -1241,7 +1241,8 @@
       Clips.play(path, volume, onFail);
       return true;
     }
-    return Speech.speak(text, settings.lang, rate, volume, onFail);
+    // записаний голос можна підсилити понад 1, синтезатор — ні
+    return Speech.speak(text, settings.lang, rate, Math.min(1, volume), onFail);
   }
   function stopVoice() { Speech.stop(); Clips.stop(); }
 
@@ -1770,7 +1771,10 @@
   /* Гучність шуму на початку (далі стишується разом із голосом). Динаміки
      телефона майже не відтворюють найнижчі частоти, тому шум зроблено
      гучнішим і трохи світлішим (див. startNoise). */
-  const NOISE_LEVEL = { brown: 0.8, rain: 0.55 };
+  const NOISE_LEVEL = { brown: 0.8, rain: 0.42 };
+  /* Дощ шелестить у тих самих частотах, що й мова, і маскує слова сильніше
+     за рівний шум — тому під дощ голос трохи гучніший. */
+  const VOICE_BOOST = { off: 1, brown: 1, rain: 1.3 };
   const sleepText = $('sleep-text');
 
   /* ---- Прогрессивное замедление: обратный отсчёт ----
@@ -1805,7 +1809,7 @@
     sleepText.classList.toggle('is-word', isWord);
     sleepText.textContent = text;
     if (settings.bg !== 'off') Sound.setNoiseLevel(NOISE_LEVEL[settings.bg] * pace.vol, 2);
-    if (sleepVoice()) say(key, String(text), pace.rate, pace.vol * SPEECH_BASE_VOLUME);
+    if (sleepVoice()) say(key, String(text), pace.rate, pace.vol * SPEECH_BASE_VOLUME * (VOICE_BOOST[settings.bg] || 1));
   }
 
   function startSleep() {
@@ -2938,7 +2942,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 42;
+  const APP_VERSION = 43;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
