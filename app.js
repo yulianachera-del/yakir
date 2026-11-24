@@ -106,10 +106,10 @@
       ready: 'Приготуйся', inhale: 'Вдих носом', topup: 'Довдих', exhale: 'Повільний видих ротом',
       m1t: 'Стисни кулаки й підніми плечі до вух', m1r: 'Різко кинь і розслаб',
       m2t: 'Сильно заплющ очі й стисни зуби', m2r: 'Розслаб обличчя й опусти щелепу',
-      m3t: 'Напруж ноги, живіт і спину', m3r: 'Повністю обм’якни',
+      m3t: 'Напруж ноги, живіт і спину', m3r: 'Повністю розслабся',
       g5: 'Знайди поглядом 5 будь-яких предметів навколо й натискай на екран на кожен',
       g4: 'Торкнися 4 різних поверхонь поруч (ковдра, стіна, телефон...)',
-      g3: 'Прислухайся до 3 тихих звуків у кімнаті',
+      g3: 'Прислухайся до 3 звуків',
       g2: 'Зроби 2 глибокі спокійні видихи',
       g1: 'Відчуй, як тіло спирається на ліжко чи підлогу',
       tapAnywhere: 'Натискай будь-де на екрані',
@@ -991,9 +991,13 @@
       const tail = prev && c0 && prev.end - c0.currentTime <= 0.7 ? prev : null;
       if (tail) { this.gen++; this.current = null; } else this.stop();
       const gen = this.gen;
+      // finished — обіцянка «кліп дозвучав» (або не зазвучав зовсім): за нею
+      // відлік рахує паузу від кінця числа, а не від початку
+      let fin;
+      this.finished = new Promise((r) => { fin = r; });
       try {
         const buffer = await this._load(path);
-        if (gen !== this.gen) return;
+        if (gen !== this.gen) { fin(); return; }
         const c = Sound.ctx, src = c.createBufferSource(), g = c.createGain();
         src.buffer = buffer;
         g.gain.value = volume;
@@ -1001,8 +1005,9 @@
         const at = Math.max(c.currentTime, tail ? tail.end : 0);
         src.start(at);
         this.current = { src, g, end: at + buffer.duration };
-        src.onended = () => { if (this.current && this.current.src === src) this.current = null; };
+        src.onended = () => { if (this.current && this.current.src === src) this.current = null; fin(); };
       } catch (e) {
+        fin();
         this.available.delete(path);
         if (gen === this.gen && onFail) onFail();
       }
@@ -1793,16 +1798,19 @@
   /* ---- Прогрессивное замедление: обратный отсчёт ----
      Чем ближе к нулю, тем длиннее пауза, медленнее и тише голос —
      счёт «растворяется» вместе с вниманием.
-       100–80: 2.5 с, скорость 0.95, громкость 100%
-        79–50: пауза плавно растёт 2.5 → 4.0 с, 0.85, 80%
-        49–20: 6.0 с, 0.75, 60%
-        19–0 : 8.5 с, 0.70, 40% */
+     Пауза рахується від КІНЦЯ числа: 1 с тиші на початку (base) плюс
+     надбавка extra, яку runCountdown розтягує, щоб відлік зайняв 8/15/25 хв.
+       100–80: 1 с, скорость 0.95, громкость 100%
+        79–50: надбавка плавно растёт 0 → 1.5 с (×k), 0.85, 80%
+        49–20: +3.5 с (×k), 0.75, 60%
+        19–0 : +6 с (×k), 0.70, 40% */
   function countPace(n) {
-    if (n >= 80) return { ms: 2500, rate: 0.95, vol: 1.0 };
-    if (n >= 50) return { ms: 2500 + ((79 - n) / 29) * 1500, rate: 0.85, vol: 0.8 };
-    if (n >= 20) return { ms: 6000, rate: 0.75, vol: 0.6 };
-    return { ms: 8500, rate: 0.70, vol: 0.4 };
+    if (n >= 80) return { base: 1000, extra: 0, rate: 0.95, vol: 1.0 };
+    if (n >= 50) return { base: 1000, extra: ((79 - n) / 29) * 1500, rate: 0.85, vol: 0.8 };
+    if (n >= 20) return { base: 1000, extra: 3500, rate: 0.75, vol: 0.6 };
+    return { base: 1000, extra: 6000, rate: 0.70, vol: 0.4 };
   }
+  const COUNT_SPEECH_MS = 1500; // приблизна тривалість одного числа вголос
 
   /* ---- Прогрессивное замедление: образы ----
      p — доля прошедшего времени (0..1) из 15 минут:
@@ -1843,26 +1851,32 @@
     ({ count: runCountdown, words: runWords, radio: runRadio }[settings.sleepMode] || runCountdown)(t);
   }
 
-  /* Тривалість із Налаштувань: паузи між числами розтягуються пропорційно,
-     щоб весь відлік тривав 8, 15 або 25 хвилин. */
+  /* Тривалість із Налаштувань: розтягується лише надбавка до паузи (перші
+     числа завжди йдуть з 1 с тиші), щоб весь відлік тривав 8, 15 або 25 хв. */
   const sleepMs = () => Number(settings.sleepMin) * 60 * 1000;
   async function runCountdown(t) {
-    let total = 0;
-    for (let n = 100; n >= 0; n--) total += countPace(n).ms;
-    const stretch = sleepMs() / total;
+    let fixed = 0, extra = 0;
+    for (let n = 100; n >= 0; n--) { const p = countPace(n); fixed += p.base + COUNT_SPEECH_MS; extra += p.extra; }
+    const stretch = Math.max(0.3, (sleepMs() - fixed) / extra);
     // Записаний відлік (audio/<мова>/n-100…n-1): числа без файлу (0) не
     // озвучуються синтезатором, щоб наприкінці не з'явився чужий голос.
     const recorded = Clips.has(`${settings.lang}/n-1.mp3`);
     for (let n = 100; n >= 0; n--) {
       const pace = countPace(n);
       const key = 'n-' + n;
+      const clip = sleepVoice() && Clips.has(`${settings.lang}/${key}.mp3`);
       if (recorded && !Clips.has(`${settings.lang}/${key}.mp3`)) {
         sleepText.classList.remove('is-word');
         sleepText.textContent = n;
         if (settings.bg !== 'off') Sound.setNoiseLevel(NOISE_LEVEL[settings.bg] * pace.vol, 2);
       } else sleepTick(key, n, pace, false);
       if (recorded && n > 1) Clips.preload(`${settings.lang}/n-${n - 1}.mp3`);
-      await wait(pace.ms * stretch, t);
+      // записане число: чекаємо, поки дозвучить (не довше 5 с); синтезатор чи
+      // беззвучний режим — приблизна тривалість числа
+      if (clip) await Promise.race([Clips.finished, wait(5000, t)]);
+      else await wait(COUNT_SPEECH_MS, t);
+      if (t.cancelled) return;
+      await wait(pace.base + pace.extra * stretch, t);
     }
     endSleep(t);
   }
@@ -2955,7 +2969,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 47;
+  const APP_VERSION = 48;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
