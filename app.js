@@ -66,7 +66,7 @@
       updOffline: 'Немає з’єднання з інтернетом. Спробуй пізніше — застосунок працює й так',
       updNoSupport: 'Оновлення приходять самі, коли телефон в інтернеті',
       updPlay: 'Google Play', updAppStore: 'App Store',
-      setText: 'Розмір тексту', textLargeLbl: 'Великий текст', cuesHint: 'Голос веде вправу', grpLook: 'Вигляд', grpVoice: 'Голос і звук', grpPractice: 'Вправи', grpAbout: 'Про застосунок', introT1: 'Працює без інтернету', introP1: 'Навіть в укритті чи без зв’язку. Допомагає скинути напругу після тривоги й заснути', introT2: 'Голос веде тебе', introP2: 'Не треба нічого читати. Коли поруч люди — вистачить вібрації або тихого світла на екрані', introT3: 'Усе лишається тут', introP3: 'Без реєстрації й реклами. Твої записи бачиш лише ти — вони не виходять за межі телефона', introNext: 'Далі', introSkip: 'Пропустити', introBad: 'Мені зараз погано — одразу до вправи', introStep: 'Крок {n} з 3', icVoice: 'Голос', icVibro: 'Вібрація', icScreen: 'Лише екран', textNormal: 'Звичайний', textLarge: 'Великий',
+      setText: 'Розмір тексту', textLargeLbl: 'Великий текст', cuesHint: 'Голос веде вправу', grpLook: 'Вигляд', grpVoice: 'Голос і звук', grpPractice: 'Вправи', grpAbout: 'Про застосунок', introT1: 'Працює без інтернету', introP1: 'Навіть в укритті чи без зв’язку. Допомагає скинути напругу після тривоги й заснути', introT2: 'Звук веде тебе', introP2: 'Не треба нічого читати: вдих і видих можна почути й відчути. Коли поруч люди — вистачить вібрації або тихого світла на екрані', introT3: 'Усе лишається тут', introP3: 'Без реєстрації й реклами. Твої записи бачиш лише ти — вони не виходять за межі телефона', introNext: 'Далі', introSkip: 'Пропустити', introBad: 'Мені зараз погано — одразу до вправи', introStep: 'Крок {n} з 3', icVoice: 'Звук', icVibro: 'Вібрація', icScreen: 'Лише екран', textNormal: 'Звичайний', textLarge: 'Великий',
       setStart: 'Що відкривати при запуску', startHome: 'Головну',
       startHint: 'Одразу потрапиш у вправу, без вибору. На головну — хрестиком', startSub: 'Одразу у вправу, без вибору',
       setVoice: 'Голос', voiceCuesLbl: 'Голосові підказки', on: 'Увімк.', off: 'Вимк.',
@@ -166,7 +166,7 @@
       updOffline: 'No internet connection. Try later — the app works anyway',
       updNoSupport: 'Updates arrive on their own when the phone is online',
       updPlay: 'Google Play', updAppStore: 'App Store',
-      setText: 'Text size', textLargeLbl: 'Large text', cuesHint: 'A voice guides the practice', grpLook: 'Appearance', grpVoice: 'Voice & sound', grpPractice: 'Practices', grpAbout: 'About', introT1: 'Works offline', introP1: 'Even in a shelter or with no signal. Helps you release tension after an alert and fall asleep', introT2: 'A voice guides you', introP2: 'No need to read anything. With people around, vibration or a soft light on the screen is enough', introT3: 'Everything stays here', introP3: 'No sign-up, no ads. Only you can see what you write — it never leaves your phone', introNext: 'Next', introSkip: 'Skip', introBad: 'I feel bad right now — go to the exercise', introStep: 'Step {n} of 3', icVoice: 'Voice', icVibro: 'Vibration', icScreen: 'Screen only', textNormal: 'Normal', textLarge: 'Large',
+      setText: 'Text size', textLargeLbl: 'Large text', cuesHint: 'A voice guides the practice', grpLook: 'Appearance', grpVoice: 'Voice & sound', grpPractice: 'Practices', grpAbout: 'About', introT1: 'Works offline', introP1: 'Even in a shelter or with no signal. Helps you release tension after an alert and fall asleep', introT2: 'Sound guides you', introP2: 'No need to read anything: you hear and feel each breath. With people around, vibration or a soft light on the screen is enough', introT3: 'Everything stays here', introP3: 'No sign-up, no ads. Only you can see what you write — it never leaves your phone', introNext: 'Next', introSkip: 'Skip', introBad: 'I feel bad right now — go to the exercise', introStep: 'Step {n} of 3', icVoice: 'Sound', icVibro: 'Vibration', icScreen: 'Screen only', textNormal: 'Normal', textLarge: 'Large',
       setStart: 'Open on launch', startHome: 'Home',
       startHint: 'Go straight into the practice, no choosing. ✕ takes you home', startSub: 'Straight into the practice',
       setVoice: 'Voice', voiceCuesLbl: 'Voice prompts', on: 'On', off: 'Off',
@@ -267,7 +267,7 @@
       updOffline: 'Нет подключения к интернету. Попробуй позже — приложение работает и так',
       updNoSupport: 'Обновления приходят сами, когда телефон в интернете',
       updPlay: 'Google Play', updAppStore: 'App Store',
-      setText: 'Размер текста', textLargeLbl: 'Крупный текст', cuesHint: 'Голос ведёт упражнение', grpLook: 'Внешний вид', grpVoice: 'Голос и звук', grpPractice: 'Упражнения', grpAbout: 'О приложении', introT1: 'Работает без интернета', introP1: 'Даже в укрытии или без связи. Помогает снять напряжение после тревоги и уснуть', introT2: 'Голос ведёт тебя', introP2: 'Ничего не нужно читать. Если рядом люди — хватит вибрации или тихого света на экране', introT3: 'Всё остаётся здесь', introP3: 'Без регистрации и рекламы. Твои записи видишь только ты — они не покидают телефон', introNext: 'Дальше', introSkip: 'Пропустить', introBad: 'Мне сейчас плохо — сразу к упражнению', introStep: 'Шаг {n} из 3', icVoice: 'Голос', icVibro: 'Вибрация', icScreen: 'Только экран', textNormal: 'Обычный', textLarge: 'Крупный',
+      setText: 'Размер текста', textLargeLbl: 'Крупный текст', cuesHint: 'Голос ведёт упражнение', grpLook: 'Внешний вид', grpVoice: 'Голос и звук', grpPractice: 'Упражнения', grpAbout: 'О приложении', introT1: 'Работает без интернета', introP1: 'Даже в укрытии или без связи. Помогает снять напряжение после тревоги и уснуть', introT2: 'Звук ведёт тебя', introP2: 'Ничего не нужно читать: вдох и выдох можно услышать и почувствовать. Если рядом люди — хватит вибрации или тихого света на экране', introT3: 'Всё остаётся здесь', introP3: 'Без регистрации и рекламы. Твои записи видишь только ты — они не покидают телефон', introNext: 'Дальше', introSkip: 'Пропустить', introBad: 'Мне сейчас плохо — сразу к упражнению', introStep: 'Шаг {n} из 3', icVoice: 'Звук', icVibro: 'Вибрация', icScreen: 'Только экран', textNormal: 'Обычный', textLarge: 'Крупный',
       setStart: 'Что открывать при запуске', startHome: 'Главную',
       startHint: 'Сразу попадёшь в упражнение, без выбора. На главную — крестиком', startSub: 'Сразу в упражнение, без выбора',
       setVoice: 'Голос', voiceCuesLbl: 'Голосовые подсказки', on: 'Вкл.', off: 'Выкл.',
@@ -706,6 +706,51 @@
       s.connect(f).connect(g).connect(this._out('fx'));
       s.start(t0, Math.random() * 2, dur + 0.05);
       this._track(s, g);
+    },
+
+    /* Звуки дихання замість голосових підказок: повітря через фільтр.
+       Вдих — шелест наростає й світлішає; видих — довгий, м'який, униз. */
+    breathIn(sec, level = 1) {
+      if (!this.ready) return;
+      this._whoosh(0, 420, 1500, 0.9, 0.06 * level, sec * 0.85, Math.max(0.25, sec * 0.15));
+    },
+    breathOut(sec, level = 1) {
+      if (!this.ready) return;
+      this._whoosh(0, 1250, 280, 0.7, 0.07 * level, Math.min(0.5, sec * 0.12), sec * 0.88);
+    },
+    /* М'яке постукування (подушечкою пальця): низький глухий тон і ледь
+       чутний шурхіт. side: -1 ліворуч, 1 праворуч, 0 по центру */
+    tap(side = 0, level = 1) {
+      if (!this.ready) return;
+      const c = this.ctx, t0 = c.currentTime;
+      const out = c.createGain();
+      out.gain.value = level;
+      let dest = this._out('fx');
+      if (c.createStereoPanner && side) {
+        const p = c.createStereoPanner();
+        p.pan.value = side * 0.7;
+        p.connect(dest); dest = p;
+      }
+      out.connect(dest);
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(190, t0);
+      o.frequency.exponentialRampToValueAtTime(120, t0 + 0.12);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(0.16, t0 + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.22);
+      o.connect(g).connect(out);
+      o.start(t0); o.stop(t0 + 0.25);
+      this._track(o, g);
+      const s = c.createBufferSource(), f = c.createBiquadFilter(), ng = c.createGain();
+      s.buffer = this._whiteBuf();
+      f.type = 'bandpass'; f.frequency.value = 900; f.Q.value = 1.2;
+      ng.gain.setValueAtTime(0.0001, t0);
+      ng.gain.exponentialRampToValueAtTime(0.03, t0 + 0.004);
+      ng.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.06);
+      s.connect(f).connect(ng).connect(out);
+      s.start(t0, Math.random() * 2, 0.08);
+      this._track(s, ng);
     },
 
     /* Хвилі: м'який сплеск-шелест води, сила 0..1 */
@@ -1278,7 +1323,12 @@
   const stagesA = [$('a1'), $('a2'), $('a3'), $('a4')];
   const progressA = Array.from($('a-progress').querySelectorAll('button'));
   const soundOn = () => settings.feedback === 'sound';
-  const voiceOn = () => soundOn() && settings.voiceCues;
+  /* Перша версія — без голосових підказок у вправах: їх замінюють звуки
+     вдиху, видиху й постукувань. Записи й код лишаються — щоб повернути,
+     досить увімкнути цей прапорець (і рядок у налаштуваннях). Голос сну
+     (відлік, слова, радіо) від цього не залежить. */
+  const VOICE_PROMPTS = false;
+  const voiceOn = () => VOICE_PROMPTS && soundOn() && settings.voiceCues;
 
   /* Голосова команда етапу — лише в режимі «Звук + Вібро» й коли
      користувач не вимкнув голос кнопкою в шапці. */
@@ -1360,7 +1410,8 @@
     const clear = () => { dots[0].classList.remove('on'); dots[1].classList.remove('on'); };
     text.textContent = tr('bfText');
     // час прочитати (дослухати) й покласти руки
-    await wait(await cueWait('bfText', tr('bfText'), voiceOn() ? 5500 : 3000), t);
+    // без голосу інструкцію треба прочитати — даємо на це більше часу
+    await wait(await cueWait('bfText', tr('bfText'), voiceOn() ? 5500 : 6500), t);
     for (let set = 0; set < BUTTERFLY_SETS; set++) {
       text.textContent = tr('bfText');
       for (let i = 0; i < BUTTERFLY_TAPS; i++) {
@@ -1368,12 +1419,17 @@
         dots[side].classList.add('on');
         dots[1 - side].classList.remove('on');
         Haptic.play(30); // ритм «дотиків» — коротким легким поштовхом
-        if (soundOn()) Sound.bell(side ? 147 : 131, 0.05);
+        if (soundOn()) Sound.tap(side ? 1 : -1); // тихий стук з того боку, де «рука»
         await wait(BUTTERFLY_MS, t);
       }
       clear();
       if (set < BUTTERFLY_SETS - 1) {
         text.textContent = tr('bfPause');
+        // пауза на подих: звук повільного вдиху, потім довгого видиху
+        if (soundOn() && !voiceOn()) {
+          Sound.breathIn(2.8);
+          setTimeout(() => { if (!t.cancelled) Sound.breathOut(3.6); }, 3000);
+        }
         await wait(await cueWait('bfPause', tr('bfPause'), BUTTERFLY_REST), t);
       }
     }
@@ -1416,7 +1472,14 @@
         breathTo(phase.scale, phase.ms);
         Haptic.play(phase.vib);
         // з голосом тон стає тихішим тлом, без голосу — основним орієнтиром
-        if (soundOn()) Sound.glide(phase.tone[0], phase.tone[1], phase.ms / 1000, voiceOn() ? 0.035 : 0.07);
+        if (soundOn()) {
+          Sound.glide(phase.tone[0], phase.tone[1], phase.ms / 1000, voiceOn() ? 0.035 : 0.045);
+          // замість слів «вдих / ще трошки / видих» — звук самого дихання
+          if (!voiceOn()) {
+            if (phase.text === 'exhale') Sound.breathOut(phase.ms / 1000);
+            else Sound.breathIn(phase.ms / 1000, phase.text === 'topup' ? 0.7 : 1);
+          }
+        }
         cue(phase.text, tr(phase.voice));
         await wait(phase.ms, t);
       }
@@ -1441,14 +1504,20 @@
       text.textContent = tr(tense);
       cue(tense, tr(tense));
       Haptic.play(40); // один м'який поштовх на початку напруження
-      if (soundOn()) Sound.glide(130, 175, 5, 0.05);
+      if (soundOn()) {
+        Sound.glide(130, 175, 5, 0.05);
+        if (!voiceOn()) Sound.breathIn(1.6); // вдих перед напруженням
+      }
       for (let s = 5; s >= 1; s--) { timer.textContent = s; await wait(1000, t); }
 
       stage.classList.remove('tense');
       text.textContent = tr(release);
       cue(release, tr(release));
       Haptic.play([25, 140, 25]);
-      if (soundOn()) Sound.glide(175, 98, 1.6, 0.06);
+      if (soundOn()) {
+        Sound.glide(175, 98, 1.6, 0.06);
+        if (!voiceOn()) Sound.breathOut(4); // довгий видих — відпустити
+      }
       for (let s = 15; s >= 1; s--) { timer.textContent = s; await wait(1000, t); }
     }
     startStageA(2);
@@ -1752,7 +1821,10 @@
         stage.classList.remove('blow');
         stage.classList.add('sniff');
         Haptic.play(35); // лише на зміну дії: «вдих»
-        if (soundOn()) Sound.glide(196, 262, KID_IN / 1000, voiceOn() ? 0.035 : 0.06);
+        if (soundOn()) {
+          Sound.glide(196, 262, KID_IN / 1000, voiceOn() ? 0.035 : 0.05);
+          if (!voiceOn()) Sound.breathIn(KID_IN / 1000);
+        }
         await wait(await cueWait(keys[0], tr(keys[0]), KID_IN), t);
 
         text.textContent = tr(keys[1]);
@@ -1761,7 +1833,10 @@
         stage.classList.add('blow');
         setBalloon(0.35 + (0.65 * n) / KID_BREATHS, KID_OUT); // кулька росте з кожним видихом
         Haptic.play([25, 140, 25]); // «видих»
-        if (soundOn()) Sound.glide(262, 165, KID_OUT / 1000, voiceOn() ? 0.035 : 0.06);
+        if (soundOn()) {
+          Sound.glide(262, 165, KID_OUT / 1000, voiceOn() ? 0.035 : 0.05);
+          if (!voiceOn()) Sound.breathOut(KID_OUT / 1000);
+        }
         await wait(await cueWait(keys[1], tr(keys[1]), KID_OUT), t);
       }
       stage.classList.remove('blow');
@@ -3334,7 +3409,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 52;
+  const APP_VERSION = 53;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
@@ -3522,7 +3597,7 @@
     });
     bindRadio($('set-speed'), 'value', settings.voiceSpeed, (v) => {
       settings.voiceSpeed = v; Store.set('voiceSpeed', v);
-      Sound.unlock(); say('nearText', tr('nearText'), 1, SPEECH_BASE_VOLUME); // одразу чути новий темп
+      Sound.unlock(); Speech.speak('10, 9, 8', settings.lang, 1, Math.min(1, SPEECH_BASE_VOLUME)); // одразу чути новий темп (синтезатор)
     });
     // Гучність фону: зразок звуку, щоб одразу почути різницю
     bindRadio($('set-volume'), 'value', settings.volume, (v) => {

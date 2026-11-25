@@ -48,12 +48,12 @@
       </div>
       <div class="intro-step" data-step="2" hidden>
         <div class="intro-modes">
-          <span class="is-on"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><b data-i18n="icVoice">Голос</b></span>
+          <span class="is-on"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><b data-i18n="icVoice">Звук</b></span>
           <span><svg class="ico ico--amber" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="4" width="8" height="16" rx="2"/><path d="M4.5 9v6M19.5 9v6"/></svg><b data-i18n="icVibro">Вібрація</b></span>
           <span><svg class="ico ico--soft" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/></svg><b data-i18n="icScreen">Лише екран</b></span>
         </div>
-        <h1 class="intro-title" data-i18n="introT2">Голос веде тебе</h1>
-        <p class="intro-text" data-i18n="introP2">Не треба нічого читати. Коли поруч люди — вистачить вібрації або тихого світла на екрані</p>
+        <h1 class="intro-title" data-i18n="introT2">Звук веде тебе</h1>
+        <p class="intro-text" data-i18n="introP2">Не треба нічого читати: вдих і видих можна почути й відчути. Коли поруч люди — вистачить вібрації або тихого світла на екрані</p>
       </div>
       <div class="intro-step" data-step="3" hidden>
         <div class="intro-art intro-art--phone">
@@ -168,7 +168,8 @@
       <section class="set-group">
         <h2 class="set-group__title" data-i18n="grpVoice">Голос і звук</h2>
         <div class="set-card">
-          <div class="set-row">
+          <!-- Перша версія — без голосових підказок; рядок повернемо разом із ними -->
+          <div class="set-row" id="cues-row" hidden>
             <span class="set-row__text">
               <span class="set-label" id="lbl-cues" data-i18n="voiceCuesLbl">Голосові підказки</span>
               <span class="set-sub" data-i18n="cuesHint">Голос веде вправу</span>

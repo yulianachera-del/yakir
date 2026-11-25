@@ -358,6 +358,7 @@ html[data-theme="dawn"] { --fog-a: .2; --fog-b: .17; }
 .set-group .set-card > * { padding-block: 12px; }
 .set-group .set-card > * + * { border-top: 1px solid var(--line); }
 .set-group .set-card > [hidden] { display: none; }
+.set-group .set-card > [hidden]:first-child + * { border-top: 0; }
 .set-group .set-card > #update-status, .set-group .set-card > #update-apply { border-top: 0; padding-top: 0; }
 .set-group .set-label { padding-left: 0; font-size: calc(16px * var(--fs)); font-weight: 600; }
 .set-group .set-hint { margin: 0; }
