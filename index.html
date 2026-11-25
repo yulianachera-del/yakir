@@ -88,9 +88,8 @@
         <path d="M0 88 C 50 68 90 108 140 88 S 230 68 280 88 S 360 108 410 88" opacity=".35"/>
         <path d="M0 116 C 50 96 90 136 140 116 S 230 96 280 116 S 360 136 410 116" opacity=".18"/>
       </svg>
-      <span class="card__eyebrow" data-i18n="calmEyebrow">Зараз важко</span>
       <span class="card__title" data-i18n="calmTitle">Скинути напругу</span>
-      <span class="card__sub" data-i18n="calmSub">Після тривоги, вибухів або паніки • 4 хвилини</span>
+      <span class="card__sub" data-i18n="calmSub">Після тривоги чи паніки • 4 хвилини</span>
     </button>
     <button class="card card--sleep" id="btn-sleep" type="button">
       <svg class="card__moon" viewBox="0 0 120 120" aria-hidden="true">
@@ -324,42 +323,69 @@
           </g>
         </g>
       </svg>
-      <svg class="kid-art" id="kid-candle" viewBox="0 0 220 300" aria-hidden="true" hidden>
+      <svg class="kid-art" id="kid-candle" viewBox="0 0 240 320" aria-hidden="true" hidden>
         <defs>
-          <radialGradient id="kcFlame" cx="50%" cy="72%" r="60%">
+          <radialGradient id="kcFlame" cx="50%" cy="72%" r="62%">
             <stop offset="0" stop-color="#FFF6D8"/><stop offset=".34" stop-color="#FFD27A"/>
-            <stop offset=".66" stop-color="#FF9A3C"/><stop offset="1" stop-color="#FF6E28" stop-opacity="0"/>
+            <stop offset=".68" stop-color="#FF9A3C"/><stop offset="1" stop-color="#FF6E28" stop-opacity="0"/>
           </radialGradient>
-          <radialGradient id="kcGlow"><stop offset="0" stop-color="#FFBA6E" stop-opacity=".38"/><stop offset="1" stop-color="#FFA05A" stop-opacity="0"/></radialGradient>
-          <linearGradient id="kcWax" x1="0" x2="1"><stop offset="0" stop-color="#D8C3A2"/><stop offset=".45" stop-color="#FBF2E3"/><stop offset=".8" stop-color="#E2CFB0"/><stop offset="1" stop-color="#BFA784"/></linearGradient>
-          <radialGradient id="kcPetal" cx="40%" cy="35%"><stop offset="0" stop-color="#FFE0C8"/><stop offset="1" stop-color="#F2A07E"/></radialGradient>
+          <radialGradient id="kcCore" cx="50%" cy="70%" r="60%"><stop offset="0" stop-color="#fff"/><stop offset=".6" stop-color="#FFF3C9"/><stop offset="1" stop-color="#FFF3C9" stop-opacity="0"/></radialGradient>
+          <radialGradient id="kcBlue"><stop offset="0" stop-color="#6E96FF" stop-opacity=".8"/><stop offset="1" stop-color="#6E96FF" stop-opacity="0"/></radialGradient>
+          <radialGradient id="kcGlow"><stop offset="0" stop-color="#FFBA6E" stop-opacity=".34"/><stop offset=".45" stop-color="#FFA05A" stop-opacity=".1"/><stop offset="1" stop-color="#FFA05A" stop-opacity="0"/></radialGradient>
+          <linearGradient id="kcWax" x1="0" x2="1"><stop offset="0" stop-color="#D8C3A2"/><stop offset=".38" stop-color="#F3E6CF"/><stop offset=".52" stop-color="#FBF2E3"/><stop offset=".78" stop-color="#E2CFB0"/><stop offset="1" stop-color="#BFA784"/></linearGradient>
+          <linearGradient id="kcWaxTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE2B0" stop-opacity=".55"/><stop offset="1" stop-color="#FFE2B0" stop-opacity="0"/></linearGradient>
+          <radialGradient id="kcDish" cx="50%" cy="40%"><stop offset="0" stop-color="#6E5A48"/><stop offset=".7" stop-color="#3E3128"/></radialGradient>
+          <radialGradient id="kcShadow"><stop offset="0" stop-color="#000" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+          <linearGradient id="kfPetalA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE6D8"/><stop offset=".55" stop-color="#F6A88C"/><stop offset="1" stop-color="#D8695E"/></linearGradient>
+          <linearGradient id="kfPetalB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF1E8"/><stop offset=".6" stop-color="#FFC2A6"/><stop offset="1" stop-color="#E88470"/></linearGradient>
+          <linearGradient id="kfLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A6CDB0"/><stop offset="1" stop-color="#5E8A6C"/></linearGradient>
+          <linearGradient id="kcAirG" gradientUnits="userSpaceOnUse" x1="60" y1="0" x2="112" y2="0"><stop offset="0" stop-color="#DCE6FF" stop-opacity="0"/><stop offset="1" stop-color="#DCE6FF" stop-opacity=".75"/></linearGradient>
+          <filter id="kcSoft"x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.4"/></filter>
         </defs>
         <g class="kc-candle">
-          <circle class="kc-glow" cx="132" cy="96" r="96" fill="url(#kcGlow)"/>
+          <circle class="kc-glow" cx="150" cy="104" r="104" fill="url(#kcGlow)"/>
+          <ellipse cx="150" cy="300" rx="82" ry="10" fill="url(#kcShadow)"/>
+          <ellipse cx="150" cy="288" rx="58" ry="11" fill="url(#kcDish)"/>
+          <rect x="112" y="150" width="76" height="140" rx="10" fill="url(#kcWax)"/>
+          <rect x="112" y="150" width="76" height="40" rx="10" fill="url(#kcWaxTop)"/>
+          <ellipse cx="150" cy="151" rx="38" ry="7" fill="#FFF3DC"/>
+          <path d="M126 152v26q0 6 5 6t5-6v-26z" fill="#F7EAD4"/>
+          <path d="M168 152v12q0 4 3.5 4t3.5-4v-12z" fill="#F1E1C6"/>
+          <path d="M150 132v18" stroke="#2B1E17" stroke-width="3" stroke-linecap="round"/>
           <g class="kc-flame">
-            <path d="M132 44C150 72 156 92 146 112 140 124 124 124 118 112 108 92 114 72 132 44Z" fill="url(#kcFlame)"/>
-            <path d="M132 82C139 94 140 104 136 112 134 116 130 116 128 112 124 104 125 94 132 82Z" fill="#FFFDF2"/>
-            <ellipse cx="132" cy="118" rx="6" ry="4" fill="#6E96FF" opacity=".5"/>
+            <path d="M150 44C170 76 176 100 166 122 160 136 140 136 134 122 124 100 130 76 150 44Z" fill="url(#kcFlame)" filter="url(#kcSoft)"/>
+            <path d="M150 88C158 100 159 114 155 124 153 128 147 128 145 124 141 114 142 100 150 88Z" fill="url(#kcCore)"/>
+            <ellipse cx="150" cy="130" rx="7" ry="6" fill="url(#kcBlue)"/>
           </g>
-          <path d="M132 118v14" stroke="#2B1E17" stroke-width="3" stroke-linecap="round"/>
-          <rect x="102" y="130" width="60" height="130" rx="10" fill="url(#kcWax)"/>
-          <ellipse cx="132" cy="131" rx="30" ry="6" fill="#FFF3DC"/>
-          <path d="M116 134v22q0 5 4 5t4-5v-22z" fill="#F7EAD4"/>
-          <ellipse cx="132" cy="262" rx="52" ry="9" fill="#5A4838"/>
+          <g class="kc-air" fill="none" stroke="url(#kcAirG)" stroke-linecap="round" stroke-width="3">
+            <path d="M64 92h44"/>
+            <path d="M76 106h34"/>
+            <path d="M68 120h40"/>
+          </g>
+          <g class="kc-smoke" fill="none" stroke="#E9DED0" stroke-width="2" stroke-linecap="round" opacity="0">
+            <path d="M150 126c-8-12 8-18 0-30s8-18 0-30"/>
+          </g>
         </g>
         <g class="kc-flower">
-          <path d="M42 270c0-30 2-52 0-72" stroke="#7FA88C" stroke-width="3.4" fill="none" stroke-linecap="round"/>
-          <path d="M42 240c-14-2-22-10-24-20 12 0 20 6 24 20z" fill="#7FA88C"/>
-          <g fill="url(#kcPetal)">
-            <ellipse cx="42" cy="180" rx="9" ry="13"/><ellipse cx="42" cy="180" rx="9" ry="13" transform="rotate(72 42 194)"/>
-            <ellipse cx="42" cy="180" rx="9" ry="13" transform="rotate(144 42 194)"/><ellipse cx="42" cy="180" rx="9" ry="13" transform="rotate(216 42 194)"/>
-            <ellipse cx="42" cy="180" rx="9" ry="13" transform="rotate(288 42 194)"/>
+          <g class="kf-scent" fill="none" stroke="#FFE7D6" stroke-width="2" stroke-linecap="round">
+            <path d="M42 150c-6-8 6-14 0-22s6-14 0-22"/>
+            <path d="M28 158c-5-7 5-12 0-19s5-12 0-19"/>
+            <path d="M56 158c-5-7 5-12 0-19s5-12 0-19"/>
           </g>
-          <circle cx="42" cy="194" r="7" fill="#FFD27A"/>
+          <path d="M42 214C46 246 36 272 42 306" stroke="#6F9A7C" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+          <path d="M41 262C22 254 12 236 14 222 30 230 38 244 41 262Z" fill="url(#kfLeaf)"/>
+          <path d="M43 284C60 276 70 260 68 246 53 254 45 268 43 284Z" fill="url(#kfLeaf)"/>
+          <g class="kf-bloom">
+            <path d="M42 218C22 216 16 190 26 168 34 178 39 190 42 202Z" fill="url(#kfPetalA)"/>
+            <path d="M42 218C62 216 68 190 58 168 50 178 45 190 42 202Z" fill="url(#kfPetalA)"/>
+            <path d="M42 220C28 218 26 192 42 166 58 192 56 218 42 220Z" fill="url(#kfPetalB)"/>
+            <path d="M38 180c2 8 3 18 4 28" stroke="#fff" stroke-opacity=".45" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </g>
         </g>
       </svg>
       </div>
       <p class="instruction" id="kid-text" aria-live="polite"></p>
+      <p class="kid-sub" id="kid-sub"></p>
       <div class="kid-dots" id="kid-count" role="img"></div>
     </div>
     <details class="kid-tip">
@@ -385,7 +411,7 @@
         <span class="tabs__sub" data-i18n="dDrawSub">Води пальцем — лінії світяться й тануть</span>
       </button>
       <button type="button" data-act="bubbles">
-        <span class="tile-head"><span class="tabs__title" data-i18n="dBubbles">Бульбашки</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="14" r="5"/><circle cx="17" cy="7" r="3"/><circle cx="18" cy="16.5" r="1.6"/><path d="M6.8 12.2a2.6 2.6 0 0 1 1.6-1.4" opacity=".7"/></svg></span>
+        <span class="tile-head"><span class="tabs__title" data-i18n="dBubbles">Тиха вода</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="14" r="5"/><circle cx="17" cy="7" r="3"/><circle cx="18" cy="16.5" r="1.6"/><path d="M6.8 12.2a2.6 2.6 0 0 1 1.6-1.4" opacity=".7"/></svg></span>
         <span class="tabs__sub" data-i18n="dBubblesSub">Повільні бульбашки під дощ або хвилі</span>
       </button>
       <button type="button" data-act="garden">

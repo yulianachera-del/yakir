@@ -660,18 +660,49 @@ html[data-theme="dawn"] .near-sound[data-on="1"] { color: #8E6440; border-color:
 .fly .kid-ring { opacity: 0; }
 /* Свічка: на вдиху квітка «під'їжджає» до носа й виростає, свічка відступає;
    на видиху квітка йде на задній план, а свічка наближається, полум'я хилиться */
-.kc-flame { transform-origin: 132px 120px; animation: kc-idle 1.6s ease-in-out infinite alternate; }
-.kc-glow { transform-origin: 132px 96px; animation: kc-glow 2.4s ease-in-out infinite; }
-@keyframes kc-glow { 0%, 100% { opacity: .9; transform: scale(1); } 50% { opacity: .65; transform: scale(.93); } }
-.kc-flower { transform-origin: 42px 230px; transition: transform 1.4s cubic-bezier(.3, .8, .3, 1), opacity 1.2s ease; }
-.kc-candle { transform-origin: 132px 262px; transition: transform 1.4s cubic-bezier(.3, .8, .3, 1), opacity 1.2s ease; }
-.sniff .kc-flower { transform: translate(66px, -60px) scale(2.2) rotate(-8deg); }
-.sniff .kc-candle { transform: scale(.76); opacity: .35; }
-.blow .kc-flower { transform: translate(-4px, 6px) scale(.66); opacity: .4; }
-.blow .kc-candle { transform: scale(1.12); }
+.kc-flame { transform-origin: 150px 132px; animation: kc-idle 1.8s ease-in-out infinite; }
+.kc-glow { transform-origin: 150px 104px; animation: kc-glow 2.4s ease-in-out infinite; transition: opacity 1s ease; }
+@keyframes kc-glow { 0%, 100% { opacity: .9; transform: scale(1); } 50% { opacity: .65; transform: scale(.94); } }
+@keyframes kc-idle { 0%, 100% { transform: skewX(-2deg) scale(1, 1); } 35% { transform: skewX(2deg) scale(.97, 1.05); } 70% { transform: skewX(-1deg) scale(1.02, .97); } }
+/* видих: вогник лише хилиться від подиху, як у макеті, і мерехтить */
+@keyframes kc-lean { 0%, 100% { transform: rotate(14deg) skewX(-9deg) scale(.94, 1); } 30% { transform: rotate(20deg) skewX(-14deg) scale(.9, .92); } 60% { transform: rotate(10deg) skewX(-6deg) scale(.96, 1.04); } }
+/* похвала: вогник махає — хитається з боку в бік, світло тепліше */
+@keyframes kc-wave { 0%, 100% { transform: rotate(-12deg) scale(1.04, 1.08); } 50% { transform: rotate(12deg) scale(1.04, 1.08); } }
+.blow .kc-flame { animation: kc-lean 1.6s ease-in-out infinite; }
+.cwave .kc-flame { animation: kc-wave 1.1s ease-in-out 3; }
+.cwave .kc-glow { opacity: 1; }
+/* потоки повітря летять зліва до вогника лише на видиху */
+.kc-air path { opacity: 0; }
+.blow .kc-air path { animation: kc-air 2.4s ease-out infinite; }
+.blow .kc-air path:nth-child(2) { animation-delay: .5s; }
+.blow .kc-air path:nth-child(3) { animation-delay: 1.1s; }
+@keyframes kc-air { 0% { transform: translateX(-20px); opacity: 0; } 30% { opacity: .8; } 100% { transform: translateX(40px); opacity: 0; } }
+/* квітка: на вдиху виходить уперед, пелюстки трохи розкриваються, угору
+   тягнуться завитки аромату; на видиху тихо відходить на задній план */
+.kc-flower, .kc-candle { transition: transform 1.6s cubic-bezier(.3, .8, .3, 1), opacity 1.2s ease; }
+.kc-flower { transform-origin: 42px 306px; }
+.kc-candle { transform-origin: 150px 290px; }
+.kf-bloom { transform-origin: 42px 214px; transition: transform 1.6s ease; }
+.kf-scent path { stroke-dasharray: 60; stroke-dashoffset: 60; opacity: 0; }
+.sniff .kc-flower { transform: translate(56px, -10px) scale(1.45); }
+.sniff .kf-bloom { transform: scale(1.08, 1.04); animation: kf-sway 3s ease-in-out infinite; }
+.sniff .kf-scent path { animation: kf-scent 2.6s ease-out infinite; }
+.sniff .kf-scent path:nth-child(2) { animation-delay: .7s; }
+.sniff .kf-scent path:nth-child(3) { animation-delay: 1.4s; }
+@keyframes kf-sway { 0%, 100% { rotate: -3deg; } 50% { rotate: 3deg; } }
+@keyframes kf-scent { 0% { stroke-dashoffset: 60; opacity: 0; transform: translateY(8px); } 40% { opacity: .7; } 100% { stroke-dashoffset: 0; opacity: 0; transform: translateY(-14px); } }
+.sniff .kc-candle { transform: scale(.82); opacity: .35; }
+.blow .kc-flower { transform: scale(.72); opacity: .35; }
+.blow .kc-candle { transform: scale(1.06); }
+@media (prefers-reduced-motion: reduce) {
+  .kc-flame, .blow .kc-flame, .cwave .kc-flame, .sniff .kf-bloom, .sniff .kf-scent path, .blow .kc-air path { animation: none; }
+  .sniff .kf-scent path { opacity: .5; stroke-dashoffset: 0; }
+  .blow .kc-flame { transform: rotate(14deg) skewX(-9deg); }
+}
 /* Кулька: на вдиху нетерпляче погойдується, на видиху росте */
 .sniff .kb-scale { animation: kb-wiggle .9s ease-in-out infinite alternate; }
 @keyframes kb-wiggle { from { rotate: -5deg; } to { rotate: 5deg; } }
+.kid-sub { margin: -4px 0 0; min-height: 1.3em; text-align: center; font-size: calc(17px * var(--fs)); font-weight: 600; color: var(--kid-soft); }
 /* Кроки — крапки; поточна — довша */
 .kid-dots { display: flex; gap: 10px; justify-content: center; min-height: 10px; margin-top: 8px; }
 .kid-dots i { width: 10px; height: 10px; border-radius: 5px; background: rgba(255,255,255,.22); transition: width .4s ease, background .4s ease; }
@@ -705,9 +736,6 @@ html[data-theme="dawn"] .near-sound[data-on="1"] { color: #8E6440; border-color:
 }
 .near-sound { background: transparent; border-color: #23262C; color: #6F6658; font-weight: 500; margin-top: 10px; }
 .near-sound[data-on="1"] { color: #A07C55; border-color: rgba(var(--amber-rgb),.35); }
-.blow .kc-flame { animation: kc-blow .45s ease-in-out infinite alternate; }
-@keyframes kc-idle { from { transform: scale(1, 1); } to { transform: scale(.96, 1.07); } }
-@keyframes kc-blow { from { transform: rotate(16deg) scale(.86, .8) skewX(-8deg); } to { transform: rotate(26deg) scale(.74, .66) skewX(-14deg); } }
 .lang-btn, .pill-btn {
   min-height: var(--tap);
   padding: 0 24px;

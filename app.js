@@ -56,7 +56,7 @@
       appName: 'Якір',
       intro: 'Працює повністю без інтернету. Допомагає швидко скинути напругу після тривоги або заснути',
       start: 'Почати',
-      calmTitle: 'Скинути напругу', calmSub: 'Після тривоги, вибухів або паніки •\u00A04\u00A0хвилини',
+      calmTitle: 'Скинути напругу', calmSub: 'Після тривоги чи паніки •\u00A04\u00A0хвилини',
       near: 'Побути поруч', nearText: 'Я поруч. Нічого не треба робити',
       settings: 'Налаштування', setLang: 'Мова', setTheme: 'Тема', themeNight: 'Ніч', themeDusk: 'Сутінки', themeDawn: 'Світанок', setIcon: 'Іконка застосунку',
       iconDefault: 'Звичайна', iconBright: 'Помітна', iconCalm: 'Спокійна',
@@ -84,7 +84,7 @@
       privacy: 'Приватність', kid: 'Для дитини', kBalloon: 'Кулька', kCandle: 'Свічка', kidTipBtn: 'Порада дорослому', kidStep: 'Крок {n} з {total}',
       kidTip: 'Дорослому: дихайте разом із дитиною, повільно й уголос. Не виправляйте — хваліть за кожен видих',
       kInB: 'Вдихни носиком — набери повітря', kOutB: 'А тепер дуй у кульку!', kDoneB: 'Вийшло! Кулька полетіла',
-      kInC: 'Понюхай квіточку', kOutC: 'Тихенько подуй на свічку', kDoneC: 'Чудово! Вогник тобі помахав',
+      kInC: 'Понюхай квіточку', kOutC: 'Тихенько подуй на свічку', kDoneC: 'Чудово! Вогник тобі помахав', kSubInC: 'повільно, носиком', kSubOutC: 'щоб вогник лише хитнувся',
       st4: 'Обійми', noteA4: 'Добре. Наостанок — обійми себе',
       bfText: 'Схрести руки на грудях, долоні під ключицями. Постукуй по черзі: ліва долоня, права — як крила метелика',
       bfHint: 'Телефон можна покласти. Якщо стає важче — зупинись і подивись навколо',
@@ -131,7 +131,7 @@
       detoxLead: 'Тут немає завдань і оцінок. Обери те, що зараз ближче',
       dDraw: 'Малювання світлом', dDrawSub: 'Лінії світяться й тануть',
       dGarden: 'Звуковий сад', dGardenSub: 'Кожен дотик звучить м’яко',
-      dBubbles: 'Бульбашки', dBubblesSub: 'Бульбашки, краплі на склі, хвилі',
+      dBubbles: 'Тиха вода', dBubblesSub: 'Дощ із бульбашками, краплі на склі, хвилі', wavesHint: 'Торкнися води або веди по ній пальцем',
       scRain: 'Дощ', scGlass: 'Краплі на склі', scWaves: 'Хвилі',
       dSmile: 'Про те, про се', dSmileSub: 'Знайоме ні про що', smileNext: 'Ще одну',
       dThought: 'Відпустити думку', dThoughtSub: 'Напиши — і дивись, як воно тане',
@@ -156,7 +156,7 @@
       appName: 'Anchor',
       intro: 'Works fully offline. Helps you quickly release tension after an alert, or fall asleep',
       start: 'Start',
-      calmTitle: 'Release tension', calmSub: 'After an alert, explosions or panic •\u00A04\u00A0minutes',
+      calmTitle: 'Release tension', calmSub: 'After anxiety or panic •\u00A04\u00A0minutes',
       near: 'Stay with me', nearText: 'I’m here. You don’t have to do anything',
       settings: 'Settings', setLang: 'Language', setTheme: 'Theme', themeNight: 'Night', themeDusk: 'Dusk', themeDawn: 'Dawn', setIcon: 'App icon',
       iconDefault: 'Standard', iconBright: 'Bright', iconCalm: 'Calm',
@@ -184,7 +184,7 @@
       privacy: 'Privacy', kid: 'For a child', kBalloon: 'Balloon', kCandle: 'Candle', kidTipBtn: 'Tip for the adult', kidStep: 'Step {n} of {total}',
       kidTip: 'For the adult: breathe together with the child, slowly and out loud. Don’t correct — praise every breath out',
       kInB: 'Breathe in through your nose — fill up with air', kOutB: 'Now blow into the balloon!', kDoneB: 'You did it! The balloon flew away',
-      kInC: 'Smell the flower', kOutC: 'Gently blow on the candle', kDoneC: 'Lovely! The flame waved at you',
+      kInC: 'Smell the flower', kOutC: 'Gently blow on the candle', kDoneC: 'Lovely! The flame waved at you', kSubInC: 'slowly, through your nose', kSubOutC: 'so the flame just wobbles',
       st4: 'Hug', noteA4: 'Good. One last thing — a hug for yourself',
       bfText: 'Cross your arms over your chest, hands just below your collarbones. Tap in turn: left hand, right hand — like butterfly wings',
       bfHint: 'You can put the phone down. If it gets harder, stop and look around you',
@@ -232,7 +232,7 @@
       detoxLead: 'No tasks, no scores. Pick whatever feels closest right now',
       dDraw: 'Light drawing', dDrawSub: 'Move your finger — lines glow and melt away',
       dGarden: 'Sound garden', dGardenSub: 'Touch the screen — every touch sounds soft',
-      dBubbles: 'Bubbles', dBubblesSub: 'Slow bubbles with rain or waves',
+      dBubbles: 'Quiet water', dBubblesSub: 'Rain with bubbles, drops on glass, waves', wavesHint: 'Touch the water or run a finger across it',
       scRain: 'Rain', scGlass: 'Drops on glass', scWaves: 'Waves',
       dSmile: 'This and that', dSmileSub: 'Familiar things about nothing much', smileNext: 'One more',
       dThought: 'Let a thought go', dThoughtSub: 'Write what keeps circling in your head and watch it fade',
@@ -257,7 +257,7 @@
       appName: 'Якорь',
       intro: 'Работает полностью без интернета. Помогает быстро сбросить напряжение после тревоги или уснуть',
       start: 'Начать',
-      calmTitle: 'Сбросить напряжение', calmSub: 'После тревоги, взрывов или паники •\u00A04\u00A0минуты',
+      calmTitle: 'Сбросить напряжение', calmSub: 'После тревоги или паники •\u00A04\u00A0минуты',
       near: 'Побыть рядом', nearText: 'Я рядом. Ничего не нужно делать',
       settings: 'Настройки', setLang: 'Язык', setTheme: 'Тема', themeNight: 'Ночь', themeDusk: 'Сумерки', themeDawn: 'Рассвет', setIcon: 'Иконка приложения',
       iconDefault: 'Обычная', iconBright: 'Заметная', iconCalm: 'Спокойная',
@@ -285,7 +285,7 @@
       privacy: 'Конфиденциальность', kid: 'Для ребёнка', kBalloon: 'Шарик', kCandle: 'Свеча', kidTipBtn: 'Совет взрослому', kidStep: 'Шаг {n} из {total}',
       kidTip: 'Взрослому: дышите вместе с ребёнком, медленно и вслух. Не поправляйте — хвалите за каждый выдох',
       kInB: 'Вдохни носиком — набери воздух', kOutB: 'А теперь дуй в шарик!', kDoneB: 'Получилось! Шарик улетел',
-      kInC: 'Понюхай цветочек', kOutC: 'Тихонько подуй на свечу', kDoneC: 'Чудесно! Огонёк тебе помахал',
+      kInC: 'Понюхай цветочек', kOutC: 'Тихонько подуй на свечу', kDoneC: 'Чудесно! Огонёк тебе помахал', kSubInC: 'медленно, носиком', kSubOutC: 'чтобы огонёк только качнулся',
       st4: 'Объятие', noteA4: 'Хорошо. Напоследок — обними себя',
       bfText: 'Скрести руки на груди, ладони под ключицами. Постукивай по очереди: левая ладонь, правая — как крылья бабочки',
       bfHint: 'Телефон можно положить. Если становится тяжелее — остановись и посмотри вокруг',
@@ -332,7 +332,7 @@
       detoxLead: 'Здесь нет заданий и оценок. Выбери то, что сейчас ближе',
       dDraw: 'Рисование светом', dDrawSub: 'Води пальцем — линии светятся и тают',
       dGarden: 'Звуковой сад', dGardenSub: 'Касайся экрана — каждое касание звучит мягко',
-      dBubbles: 'Пузыри', dBubblesSub: 'Медленные пузыри под дождь или волны',
+      dBubbles: 'Тихая вода', dBubblesSub: 'Дождь с пузырями, капли на стекле, волны', wavesHint: 'Коснись воды или проведи по ней пальцем',
       scRain: 'Дождь', scGlass: 'Капли на стекле', scWaves: 'Волны',
       dSmile: 'Про то, про сё', dSmileSub: 'Ни о чём и обо всём', smileNext: 'Ещё одну',
       dThought: 'Отпустить мысль', dThoughtSub: 'Напиши то, что крутится в голове, и смотри, как оно исчезает',
@@ -706,6 +706,13 @@
       s.connect(f).connect(g).connect(this._out('fx'));
       s.start(t0, Math.random() * 2, dur + 0.05);
       this._track(s, g);
+    },
+
+    /* Хвилі: м'який сплеск-шелест води, сила 0..1 */
+    splash(strength = 0.5) {
+      if (!this.ready) return;
+      const k = Math.max(0.15, Math.min(1, strength));
+      this._whoosh(0, 1100, 260, 0.6, 0.03 + 0.06 * k, 0.06, 0.7 + 0.6 * k);
     },
 
     /* «Відпустити думку»: м'який видих-розсіювання (шелест, що тане й
@@ -1456,6 +1463,7 @@
     [1, 'g1'], // відчути опору
   ];
   const ground = { step: 0, taps: 0, locked: true, token: null };
+  const GROUND_NOTES = [392, 440, 523.25, 587.33, 659.25]; // соль–ля–до–ре–мі
 
   function runGrounding(t) {
     ground.token = t;
@@ -1476,6 +1484,8 @@
     if (ground.locked || !ground.token || ground.token.cancelled) return;
     const t = ground.token, need = GROUNDING[ground.step][0];
     $('a3-dots').children[ground.taps].classList.add('on');
+    // кожен дотик — тиха нота: по кроку вони йдуть угору м'якою пентатонікою
+    if (soundOn()) Sound.bell(GROUND_NOTES[ground.taps % GROUND_NOTES.length], 0.045);
     ground.taps++;
     if (ground.taps < need) { Haptic.play(15); return; }
 
@@ -1721,7 +1731,7 @@
     runKid(t);
   }
   async function runKid(t) {
-    const stage = $('kid-stage'), text = $('kid-text');
+    const stage = $('kid-stage'), text = $('kid-text'), sub = $('kid-sub');
     const balloon = kid.game === 'balloon';
     const keys = balloon ? ['kInB', 'kOutB', 'kDoneB'] : ['kInC', 'kOutC', 'kDoneC'];
     const setBalloon = (scale, ms) => {
@@ -1729,7 +1739,7 @@
       stage.style.setProperty('--kid-s', scale);
     };
     for (;;) {
-      stage.classList.remove('fly', 'blow', 'sniff');
+      stage.classList.remove('fly', 'blow', 'sniff', 'cwave');
       const [c1, c2, c3] = KID_COLORS[kid.color++ % KID_COLORS.length];
       stage.style.setProperty('--kid-c1', c1);
       stage.style.setProperty('--kid-c2', c2);
@@ -1738,6 +1748,7 @@
       for (let n = 1; n <= KID_BREATHS; n++) {
         kidDots(n);
         text.textContent = tr(keys[0]);
+        sub.textContent = balloon ? '' : tr('kSubInC');
         stage.classList.remove('blow');
         stage.classList.add('sniff');
         Haptic.play(35); // лише на зміну дії: «вдих»
@@ -1745,6 +1756,7 @@
         await wait(await cueWait(keys[0], tr(keys[0]), KID_IN), t);
 
         text.textContent = tr(keys[1]);
+        sub.textContent = balloon ? '' : tr('kSubOutC');
         stage.classList.remove('sniff');
         stage.classList.add('blow');
         setBalloon(0.35 + (0.65 * n) / KID_BREATHS, KID_OUT); // кулька росте з кожним видихом
@@ -1755,7 +1767,8 @@
       stage.classList.remove('blow');
       kidDots(KID_BREATHS + 1); // усі крапки зафарбовані
       text.textContent = tr(keys[2]);
-      if (balloon) stage.classList.add('fly');
+      stage.classList.add(balloon ? 'fly' : 'cwave');
+      sub.textContent = '';
       Haptic.play(30);
       if (soundOn()) { Sound.bell(392, 0.07); setTimeout(() => { if (!t.cancelled) Sound.bell(523.25, 0.07); }, 220); }
       await wait(await cueWait(keys[2], tr(keys[2]), 3600), t);
@@ -2485,22 +2498,173 @@
       for (const d of glass.drops) if (d.moving) drawGlassTrail(ctx, d.trail, Math.max(1.4, d.r * 0.55), 1, light);
       for (const d of glass.drops) drawGlassDrop(ctx, d, light);
     } else {
-      for (let l = 0; l < 4; l++) {
-        const base = h * (0.6 + l * 0.095) + Math.sin(now / 4800 + l * 1.3) * 9;
-        const amp = 9 + l * 3, wave = 85 + l * 28, speed = now / (2900 - l * 350) * (l % 2 ? -1 : 1);
-        ctx.beginPath();
-        ctx.moveTo(0, h);
-        for (let x = 0; x <= w + 12; x += 12) {
-          ctx.lineTo(x, base + Math.sin(x / wave + speed) * amp + Math.sin(x / 37 + now / 2100) * 2);
-        }
-        ctx.lineTo(w, h);
-        ctx.closePath();
-        ctx.fillStyle = `hsla(${152 + l * 5}, 26%, 46%, ${0.1 + l * 0.05})`;
-        ctx.fill();
-      }
+      drawSea(ctx, w, h, dt, now);
     }
     ctx.restore();
   }
+
+  /* ---- Хвилі: гра з водою ----
+     Нічне море: сутінкове небо, місяць і його доріжка на воді, дальні
+     хвилі. Передня вода — жива поверхня (рівняння хвилі на стовпчиках):
+     дотик робить сплеск із бризками, рух пальцем жене хвилю, хвилі
+     розходяться, відбиваються від країв і поволі заспокоюються. */
+  const sea = { step: 6, cols: 0, y: null, v: null, spray: [], stars: [], drag: null, lastSplash: 0 };
+  function seaInit(w, h) {
+    sea.cols = Math.ceil(w / sea.step) + 2;
+    sea.y = new Float32Array(sea.cols);
+    sea.v = new Float32Array(sea.cols);
+    sea.spray = [];
+    sea.stars = Array.from({ length: 26 }, () => ({ x: Math.random(), y: Math.random() * 0.4, r: 0.5 + Math.random() * 1.1, ph: Math.random() * 6 }));
+    sea.w = w; sea.h = h;
+  }
+  const seaBase = (h) => h * 0.6;
+  const seaSwell = (x, now) => Math.sin(x / 120 + now / 1500) * 7 + Math.sin(x / 47 - now / 2300) * 2.5;
+  function seaSurface(i, now) {
+    return seaBase(sea.h) + seaSwell(i * sea.step, now) + sea.y[Math.max(0, Math.min(sea.cols - 1, i))];
+  }
+  function seaStep(dt) {
+    const K = 760, S = 9, D = 1.3, n = sea.cols, y = sea.y, v = sea.v;
+    const steps = Math.max(1, Math.ceil(dt / 0.008)), h = dt / steps;
+    for (let s = 0; s < steps; s++) {
+      for (let i = 0; i < n; i++) {
+        const l = y[i > 0 ? i - 1 : 0], r = y[i < n - 1 ? i + 1 : n - 1];
+        v[i] += (K * (l + r - 2 * y[i]) - S * y[i] - D * v[i]) * h;
+      }
+      for (let i = 0; i < n; i++) y[i] = Math.max(-70, Math.min(70, y[i] + v[i] * h));
+    }
+    for (const p of sea.spray) { p.vy += 520 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; }
+    sea.spray = sea.spray.filter((p) => p.life > 0);
+  }
+  /* Поштовх води біля x: plus — униз (сплеск), minus — угору */
+  function seaPush(x, amount, spread = 4) {
+    const c = Math.round(x / sea.step);
+    for (let j = -spread * 2; j <= spread * 2; j++) {
+      const i = c + j;
+      if (i < 0 || i >= sea.cols) continue;
+      sea.v[i] += amount * Math.exp(-(j * j) / (2 * spread * spread));
+    }
+  }
+  function seaTouch(p, now) {
+    if (!sea.y) return;
+    seaPush(p.x, 240, 4);
+    const sy = seaSurface(Math.round(p.x / sea.step), now);
+    for (let k = 0; k < 14; k++) {
+      const a = -Math.PI / 2 + (Math.random() - 0.5) * 1.6, sp = 120 + Math.random() * 200;
+      sea.spray.push({ x: p.x + (Math.random() - 0.5) * 14, y: sy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 0.7 + Math.random() * 0.6, r: 1 + Math.random() * 2 });
+    }
+    Haptic.play(14);
+    if (soundOn()) Sound.splash(0.7);
+    sea.lastSplash = now;
+  }
+  function seaDrag(p, now) {
+    if (!sea.y || !sea.drag) return;
+    const dx = p.x - sea.drag.x, dy = p.y - sea.drag.y;
+    sea.drag = p;
+    // палець униз тисне воду, угору — тягне; бічний рух жене хвилю вперед
+    seaPush(p.x, Math.max(-160, Math.min(160, dy * 10 + Math.abs(dx) * 2.5)), 3);
+    if (soundOn() && Math.hypot(dx, dy) > 18 && now - sea.lastSplash > 420) {
+      Sound.splash(Math.min(1, Math.hypot(dx, dy) / 60) * 0.5);
+      sea.lastSplash = now;
+    }
+  }
+  function drawSea(ctx, w, h, dt, now) {
+    if (!sea.y || sea.w !== w || sea.h !== h) seaInit(w, h);
+    seaStep(dt);
+    const light = isLight(), hy = h * 0.42, base = seaBase(h);
+    // небо
+    const sky = ctx.createLinearGradient(0, 0, 0, hy);
+    if (light) { sky.addColorStop(0, '#B9C7D3'); sky.addColorStop(1, '#EBD8C6'); }
+    else { sky.addColorStop(0, '#0B1222'); sky.addColorStop(0.6, '#1C2440'); sky.addColorStop(1, '#3E3550'); }
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, w, hy + 2);
+    if (!light) for (const s of sea.stars) {
+      ctx.fillStyle = `rgba(240,232,215,${0.25 + 0.35 * (0.5 + 0.5 * Math.sin(now / 1700 + s.ph))})`;
+      ctx.beginPath(); ctx.arc(s.x * w, s.y * h, s.r, 0, Math.PI * 2); ctx.fill();
+    }
+    // місяць
+    const mx = w * 0.7, my = h * 0.17, mr = Math.min(w, h) * 0.045;
+    const glow = ctx.createRadialGradient(mx, my, mr * 0.5, mx, my, mr * 5);
+    glow.addColorStop(0, light ? 'rgba(255,250,235,.55)' : 'rgba(244,227,195,.28)');
+    glow.addColorStop(1, 'rgba(244,227,195,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(mx - mr * 5, my - mr * 5, mr * 10, mr * 10);
+    ctx.fillStyle = light ? '#FFFBF0' : '#F4E3C3';
+    ctx.beginPath(); ctx.arc(mx, my, mr, 0, Math.PI * 2); ctx.fill();
+    // дальнє море
+    const far = ctx.createLinearGradient(0, hy, 0, h);
+    if (light) { far.addColorStop(0, '#9FB6BC'); far.addColorStop(1, '#6F8E93'); }
+    else { far.addColorStop(0, '#1F2A3E'); far.addColorStop(1, '#0B1420'); }
+    ctx.fillStyle = far;
+    ctx.fillRect(0, hy, w, h - hy);
+    // місячна доріжка — мерехтливі риски, що розходяться до берега
+    for (let yy = hy + 3; yy < h; yy += 5) {
+      const t = (yy - hy) / (h - hy), half = 6 + t * w * 0.16;
+      const shift = Math.sin(yy * 0.13 + now / 600) * half * 0.5;
+      const len = half * (0.4 + 0.6 * (0.5 + 0.5 * Math.sin(yy * 0.71 + now / 380)));
+      ctx.fillStyle = light ? `rgba(255,255,255,${0.5 * (1 - t)})` : `rgba(244,227,195,${0.42 * (1 - t * 0.8)})`;
+      ctx.fillRect(mx + shift - len / 2, yy, len, 1.6);
+    }
+    // дальні хвилі (паралакс)
+    for (let l = 0; l < 3; l++) {
+      const b = hy + (base - hy) * (0.25 + l * 0.27), amp = 2 + l * 2, len = 60 + l * 30, sp = now / (3000 - l * 500) * (l % 2 ? -1 : 1);
+      ctx.beginPath(); ctx.moveTo(0, h);
+      for (let x = 0; x <= w + 10; x += 10) ctx.lineTo(x, b + Math.sin(x / len + sp) * amp);
+      ctx.lineTo(w, h); ctx.closePath();
+      ctx.fillStyle = light ? `rgba(70,110,118,${0.12 + l * 0.06})` : `rgba(40,70,86,${0.25 + l * 0.12})`;
+      ctx.fill();
+    }
+    // передня жива вода
+    const pts = [];
+    for (let i = 0; i < sea.cols; i++) pts.push(seaSurface(i, now));
+    const top = Math.min(...pts);
+    const water = ctx.createLinearGradient(0, top, 0, h);
+    if (light) { water.addColorStop(0, 'rgba(96,150,150,.92)'); water.addColorStop(1, 'rgba(40,82,92,.98)'); }
+    else { water.addColorStop(0, 'rgba(48,104,112,.92)'); water.addColorStop(0.45, 'rgba(22,58,72,.96)'); water.addColorStop(1, 'rgba(8,22,32,1)'); }
+    ctx.beginPath();
+    ctx.moveTo(0, h);
+    for (let i = 0; i < sea.cols; i++) ctx.lineTo(i * sea.step, pts[i]);
+    ctx.lineTo(w, h); ctx.closePath();
+    ctx.fillStyle = water;
+    ctx.fill();
+    // світлий гребінь і піна там, де вода швидко здіймається
+    ctx.beginPath();
+    for (let i = 0; i < sea.cols; i++) (i ? ctx.lineTo : ctx.moveTo).call(ctx, i * sea.step, pts[i]);
+    ctx.lineWidth = 1.6;
+    ctx.strokeStyle = light ? 'rgba(255,255,255,.6)' : 'rgba(190,230,225,.38)';
+    ctx.stroke();
+    for (let i = 1; i < sea.cols - 1; i++) {
+      const rise = -sea.v[i];
+      if (rise < 50) continue;
+      const a = Math.min(0.7, (rise - 50) / 260);
+      ctx.fillStyle = `rgba(235,248,245,${a})`;
+      ctx.beginPath(); ctx.arc(i * sea.step + Math.sin(i * 7.3) * 2, pts[i] - 1, 1 + a * 2.2, 0, Math.PI * 2); ctx.fill();
+    }
+    // відблиск місяця на передній воді
+    const gl = ctx.createRadialGradient(mx, base + 20, 0, mx, base + 20, w * 0.35);
+    gl.addColorStop(0, light ? 'rgba(255,255,255,.16)' : 'rgba(244,227,195,.1)');
+    gl.addColorStop(1, 'rgba(244,227,195,0)');
+    ctx.fillStyle = gl;
+    ctx.fillRect(0, top, w, h - top);
+    // бризки
+    for (const p of sea.spray) {
+      ctx.fillStyle = `rgba(225,242,240,${Math.min(0.8, p.life)})`;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+    }
+    // підказка на початку
+    const since = now - scene.since;
+    if (since < 7000) {
+      ctx.globalAlpha *= Math.min(1, since / 800, (7000 - since) / 1200);
+      ctx.fillStyle = light ? 'rgba(30,50,55,.75)' : 'rgba(230,225,215,.7)';
+      ctx.font = `600 ${Math.round(15 * (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fs')) || 1))}px Nunito, system-ui, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(tr('wavesHint'), w / 2, h * 0.84);
+    }
+  }
+  const sceneWeight = (name, now) => {
+    const k = Math.min(1, (now - scene.since) / SCENE_FADE);
+    return (SCENES[scene.i] === name ? (scene.prev >= 0 ? k : 1) : 0)
+      + (scene.prev >= 0 && SCENES[scene.prev] === name && k < 1 ? 1 - k : 0);
+  };
 
   function startBubbles() {
     bubbles.view = fitCanvas($('bubbles-canvas'));
@@ -2522,8 +2686,8 @@
     const k = Math.min(1, (now - scene.since) / SCENE_FADE);
     if (scene.prev >= 0 && k < 1) drawScene(SCENES[scene.prev], 1 - k, dt, now);
     drawScene(SCENES[scene.i], scene.prev >= 0 ? k : 1, dt, now);
-    // на склі бульбашок немає: вони тануть, поки видно краплі
-    const bubbleAlpha = 1 - glassWeight(now);
+    // бульбашки лише в дощі: на склі — краплі, у хвилях — вода
+    const bubbleAlpha = Math.max(0, 1 - glassWeight(now) - sceneWeight('waves', now));
     ctx.save();
     ctx.globalAlpha = bubbleAlpha;
     bubbles.items.forEach((b, i) => {
@@ -2559,7 +2723,9 @@
   }
   function bubbleTap(e) {
     const p = pointIn($('bubbles-canvas'), e);
-    if (glassWeight(performance.now()) > 0.5) { glassTap(p); return; }
+    const now = performance.now();
+    if (glassWeight(now) > 0.5) { glassTap(p); return; }
+    if (sceneWeight('waves', now) > 0.5) { sea.drag = p; seaTouch(p, now); return; }
     for (let i = bubbles.items.length - 1; i >= 0; i--) {
       const b = bubbles.items[i], x = bubbleX(b);
       if (Math.hypot(p.x - x, p.y - b.y) > b.r + 10) continue;
@@ -2991,7 +3157,16 @@
     gc.addEventListener('pointermove', (e) => { if (garden.lastNote.has(e.pointerId)) gardenTouch(e, false); });
     ['pointerup', 'pointercancel'].forEach((ev) => gc.addEventListener(ev, (e) => garden.lastNote.delete(e.pointerId)));
 
-    $('bubbles-canvas').addEventListener('pointerdown', (e) => { e.preventDefault(); bubbleTap(e); });
+    $('bubbles-canvas').addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) { /* noop */ }
+      bubbleTap(e);
+    });
+    $('bubbles-canvas').addEventListener('pointermove', (e) => {
+      if (!sea.drag) return;
+      seaDrag(pointIn($('bubbles-canvas'), e), performance.now());
+    });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((ev) => $('bubbles-canvas').addEventListener(ev, () => { sea.drag = null; }));
     $('scene-btn').addEventListener('click', () => setScene(scene.i + 1, performance.now()));
 
     $('thought-go').addEventListener('click', releaseThought);
@@ -3159,7 +3334,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 51;
+  const APP_VERSION = 52;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
