@@ -73,42 +73,47 @@
 
   <!-- Екран 1: головний -->
   <section class="screen" id="s-home" hidden>
-    <button class="card card--calm" id="btn-calm" type="button">
-      <svg class="ico card__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9.5c2.2 0 2.2-2.5 4.4-2.5s2.2 2.5 4.4 2.5 2.2-2.5 4.4-2.5 2.2 2.5 4.4 2.5"/><path d="M2.5 14c2.2 0 2.2-2.5 4.4-2.5s2.2 2.5 4.4 2.5 2.2-2.5 4.4-2.5 2.2 2.5 4.4 2.5"/><path d="M5 18.5c1.6 0 1.6-1.8 3.3-1.8s1.6 1.8 3.3 1.8 1.6-1.8 3.3-1.8 1.6 1.8 3.3 1.8" opacity=".55"/></svg>
-      <span class="card__title" data-i18n="calmTitle">Скинути напругу</span>
-      <span class="card__sub" data-i18n="calmSub">Після тривоги, вибухів або паніки • 4 хвилини</span>
-    </button>
-    <button class="card card--sleep" id="btn-sleep" type="button">
-      <svg class="ico card__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14.6A7.5 7.5 0 0 1 9.4 5a7.5 7.5 0 1 0 9.6 9.6z"/><path d="M16.5 4.2v2.6M15.2 5.5h2.6" opacity=".7"/><path d="M20 9.2v1.6M19.2 10h1.6" opacity=".5"/></svg>
-      <span class="card__title" data-i18n="sleepTitle">Допомогти заснути</span>
-      <span class="card__sub" data-i18n="sleepSub">Зворотний відлік і вимкнення думок</span>
-    </button>
-    <button class="home-anchor" id="home-anchor" type="button" hidden>
-      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M12 7v13.5M8.5 10.5h7"/><path d="M4.5 13.5a7.5 7 0 0 0 15 0"/></svg>
-      <span id="home-anchor-text"></span>
-    </button>
-    <div class="home-bar">
-      <div class="home-row">
-        <button class="pill-btn" id="btn-detox" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5.5-13.5 14-14 0 8.5-5.5 14-14 14z"/><path d="M5 19l7.5-7.5"/></svg><span data-i18n="detox">Детокс</span></button>
-        <button class="pill-btn" id="btn-near" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4z"/></svg><span data-i18n="near">Побути поруч</span></button>
-      </div>
-      <div class="home-row">
-        <button class="pill-btn" id="btn-anchor" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M12 7v13.5M8.5 10.5h7"/><path d="M4.5 13.5a7.5 7 0 0 0 15 0"/></svg><span data-i18n="anchorTitle">Моя опора</span></button>
-        <button class="pill-btn" id="btn-kid" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="9" rx="5.5" ry="6.5"/><path d="M11 15.4l1 1.3 1-1.3"/><path d="M12 16.7c-1 1.6 1 2.6 0 4.3"/></svg><span data-i18n="kid">Для дитини</span></button>
-      </div>
-    </div>
-    <div class="home-top">
-      <button class="mode-btn" id="feedback" type="button">
-        <span class="mode-btn__icons" id="fb-icons" aria-hidden="true"></span>
-        <span id="fb-label">Звук + Вібро</span>
-      </button>
+    <div class="home-head">
+      <p class="home-greet" id="home-greet"></p>
       <button class="gear-btn" id="btn-settings" type="button" data-i18n-aria="settings">
-        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="3"/>
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
         </svg>
       </button>
     </div>
+    <button class="card card--calm" id="btn-calm" type="button">
+      <svg class="card__waves" viewBox="0 0 390 160" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 60 C 50 40 90 80 140 60 S 230 40 280 60 S 360 80 410 60" opacity=".55"/>
+        <path d="M0 88 C 50 68 90 108 140 88 S 230 68 280 88 S 360 108 410 88" opacity=".35"/>
+        <path d="M0 116 C 50 96 90 136 140 116 S 230 96 280 116 S 360 136 410 116" opacity=".18"/>
+      </svg>
+      <span class="card__eyebrow" data-i18n="calmEyebrow">Зараз важко</span>
+      <span class="card__title" data-i18n="calmTitle">Скинути напругу</span>
+      <span class="card__sub" data-i18n="calmSub">Після тривоги, вибухів або паніки • 4 хвилини</span>
+    </button>
+    <button class="card card--sleep" id="btn-sleep" type="button">
+      <svg class="card__moon" viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="56" r="40" class="moon-glow"/>
+        <path d="M78 70 A30 30 0 0 1 46 30 A30 30 0 1 0 78 70 Z" class="moon"/>
+        <circle cx="90" cy="30" r="2" class="moon"/><circle cx="100" cy="52" r="1.4" class="moon" opacity=".7"/>
+      </svg>
+      <span class="card__title" data-i18n="sleepTitle">Допомогти заснути</span>
+      <span class="card__sub" data-i18n="sleepSub">Відлік, образи або радіо здалеку</span>
+    </button>
+    <button class="home-anchor" id="home-anchor" type="button">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M12 7v13.5M8.5 10.5h7"/><path d="M4.5 13.5a7.5 7 0 0 0 15 0"/></svg>
+      <span id="home-anchor-text"></span>
+    </button>
+    <div class="home-row">
+      <button class="pill-btn" id="btn-detox" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5.5-13.5 14-14 0 8.5-5.5 14-14 14z"/><path d="M5 19l7.5-7.5"/></svg><span data-i18n="detox">Детокс</span></button>
+      <button class="pill-btn" id="btn-near" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4z"/></svg><span data-i18n="tileNear">Поруч</span></button>
+      <button class="pill-btn" id="btn-kid" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="9" rx="5.5" ry="6.5"/><path d="M11 15.4l1 1.3 1-1.3"/><path d="M12 16.7c-1 1.6 1 2.6 0 4.3"/></svg><span data-i18n="tileKid">Дитині</span></button>
+    </div>
+    <button class="mode-btn" id="feedback" type="button">
+      <span class="mode-btn__icons" id="fb-icons" aria-hidden="true"></span>
+      <span id="fb-label">Звук + Вібро</span>
+    </button>
   </section>
 
   <!-- Налаштування: мова, іконка, оновлення, приватність -->
@@ -122,9 +127,12 @@
       <section class="set-group">
         <h2 class="set-group__title" data-i18n="grpLook">Вигляд</h2>
         <div class="set-card">
-          <div class="set-line">
-            <span class="set-label" data-i18n="setLang">Мова</span>
-            <div class="segmented segmented--line" id="set-lang" role="radiogroup" data-i18n-aria="setLang">
+          <div class="set-block set-fold">
+            <div class="set-row">
+              <span class="set-label" id="lbl-lang" data-i18n="setLang">Мова</span>
+              <button class="set-value" type="button" aria-expanded="false" aria-controls="set-lang" aria-describedby="lbl-lang"><span></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+            <div class="segmented segmented--line" id="set-lang" role="radiogroup" data-i18n-aria="setLang" hidden>
               <button type="button" role="radio" data-value="uk">Українська</button>
               <button type="button" role="radio" data-value="en">English</button>
               <button type="button" role="radio" data-value="ru">Русский</button>
@@ -142,14 +150,17 @@
             <span class="set-label" id="lbl-text" data-i18n="textLargeLbl">Великий текст</span>
             <button class="switch" id="set-text" type="button" role="switch" aria-checked="false" aria-labelledby="lbl-text"><i></i></button>
           </div>
-          <div class="set-block" id="icon-block">
-            <span class="set-label" data-i18n="setIcon">Іконка застосунку</span>
-            <div class="icon-pick" id="set-icon" role="radiogroup" data-i18n-aria="setIcon">
+          <div class="set-block set-fold" id="icon-block">
+            <div class="set-row">
+              <span class="set-label" id="lbl-icon" data-i18n="setIcon">Іконка застосунку</span>
+              <button class="set-value" type="button" aria-expanded="false" aria-controls="set-icon" aria-describedby="lbl-icon"><span></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+            <div class="icon-pick" id="set-icon" role="radiogroup" data-i18n-aria="setIcon" hidden>
               <button type="button" role="radio" data-value="default"><img src="icons/icon-192.png" alt=""><span data-i18n="iconDefault">Звичайна</span></button>
               <button type="button" role="radio" data-value="bright"><img src="icons/icon-bright-192.png" alt=""><span data-i18n="iconBright">Помітна</span></button>
               <button type="button" role="radio" data-value="calm"><img src="icons/icon-calm-192.png" alt=""><span data-i18n="iconCalm">Спокійна</span></button>
             </div>
-            <p class="muted set-hint" data-i18n="iconHint">Нова іконка з’явиться, коли прибереш «Якір» з головного екрана й додаси знову</p>
+            <p class="muted set-hint set-fold__more" data-i18n="iconHint" hidden>Нова іконка з’явиться, коли прибереш «Якір» з головного екрана й додаси знову</p>
           </div>
         </div>
       </section>
@@ -187,14 +198,20 @@
       <section class="set-group">
         <h2 class="set-group__title set-group__title--amber" data-i18n="grpPractice">Вправи</h2>
         <div class="set-card">
-          <div class="set-block">
-            <span class="set-label" data-i18n="setStart">Що відкривати при запуску</span>
-            <div class="segmented segmented--line" id="set-start" role="radiogroup" data-i18n-aria="setStart">
+          <div class="set-block set-fold">
+            <div class="set-row">
+              <span class="set-row__text">
+                <span class="set-label" id="lbl-start" data-i18n="setStart">Що відкривати при запуску</span>
+                <span class="set-sub" data-i18n="startSub">Одразу у вправу, без вибору</span>
+              </span>
+              <button class="set-value" type="button" aria-expanded="false" aria-controls="set-start" aria-describedby="lbl-start"><span></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+            <div class="segmented segmented--line" id="set-start" role="radiogroup" data-i18n-aria="setStart" hidden>
               <button type="button" role="radio" data-value="home" data-i18n="startHome">Головну</button>
               <button type="button" role="radio" data-value="calm" data-i18n="calmTitle">Скинути напругу</button>
               <button type="button" role="radio" data-value="near" data-i18n="near">Побути поруч</button>
             </div>
-            <p class="muted set-hint" data-i18n="startHint">Одразу потрапиш у вправу, без вибору. На головну — хрестиком</p>
+            <p class="muted set-hint set-fold__more" data-i18n="startHint" hidden>Одразу потрапиш у вправу, без вибору. На головну — хрестиком</p>
           </div>
           <div class="set-block">
             <span class="set-label" data-i18n="setSleep">Тривалість сну</span>
@@ -217,8 +234,8 @@
           </div>
           <p class="muted set-hint" id="update-status" aria-live="polite" hidden></p>
           <button class="btn btn--primary" id="update-apply" type="button" data-i18n="updApply" hidden>Оновити зараз</button>
-          <button class="row set-link" id="btn-share" type="button"><span data-i18n="share">Поділитися застосунком</span><span aria-hidden="true">›</span></button>
-          <a class="row set-link" id="privacy-link" href="./privacy.html"><span data-i18n="privacy">Приватність</span><span aria-hidden="true">›</span></a>
+          <button class="row set-link" id="btn-share" type="button"><span data-i18n="share">Поділитися застосунком</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+          <a class="row set-link" id="privacy-link" href="./privacy.html"><span data-i18n="privacy">Приватність</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
         </div>
       </section>
 
@@ -587,8 +604,11 @@
       <rect x="182" y="164" width="22" height="7" rx="3" fill="#1A140F"/>
     </svg>
     <div class="sleep-text" id="sleep-text"></div>
-    <!-- Ледь помітна смужка: скільки часу минуло, без цифр -->
-    <div class="sleep-time" id="sleep-time" aria-hidden="true"><i></i></div>
+    <!-- Ледь помітний місяць росте від молодого до повного: повний — читання завершене -->
+    <svg class="sleep-time" id="sleep-time" viewBox="-12 -12 24 24" aria-hidden="true">
+      <circle class="sleep-time__disk" r="10"/>
+      <path class="sleep-time__lit" d=""/>
+    </svg>
     <svg class="hold-ring" id="hold-ring" viewBox="0 0 100 100" aria-hidden="true">
       <circle cx="50" cy="50" r="44"></circle>
     </svg>

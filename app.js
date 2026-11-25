@@ -56,7 +56,7 @@
       appName: 'Якір',
       intro: 'Працює повністю без інтернету. Допомагає швидко скинути напругу після тривоги або заснути',
       start: 'Почати',
-      calmTitle: 'Скинути напругу', calmSub: 'Після тривоги, вибухів або паніки • 4 хвилини',
+      calmTitle: 'Скинути напругу', calmSub: 'Після тривоги, вибухів або паніки •\u00A04\u00A0хвилини',
       near: 'Побути поруч', nearText: 'Я поруч. Нічого не треба робити',
       settings: 'Налаштування', setLang: 'Мова', setTheme: 'Тема', themeNight: 'Ніч', themeDusk: 'Сутінки', themeDawn: 'Світанок', setIcon: 'Іконка застосунку',
       iconDefault: 'Звичайна', iconBright: 'Помітна', iconCalm: 'Спокійна',
@@ -68,7 +68,7 @@
       updPlay: 'Google Play', updAppStore: 'App Store',
       setText: 'Розмір тексту', textLargeLbl: 'Великий текст', cuesHint: 'Голос веде вправу', grpLook: 'Вигляд', grpVoice: 'Голос і звук', grpPractice: 'Вправи', grpAbout: 'Про застосунок', introT1: 'Працює без інтернету', introP1: 'Навіть в укритті чи без зв’язку. Допомагає скинути напругу після тривоги й заснути', introT2: 'Голос веде тебе', introP2: 'Не треба нічого читати. Коли поруч люди — вистачить вібрації або тихого світла на екрані', introT3: 'Усе лишається тут', introP3: 'Без реєстрації й реклами. Твої записи бачиш лише ти — вони не виходять за межі телефона', introNext: 'Далі', introSkip: 'Пропустити', introBad: 'Мені зараз погано — одразу до вправи', introStep: 'Крок {n} з 3', icVoice: 'Голос', icVibro: 'Вібрація', icScreen: 'Лише екран', textNormal: 'Звичайний', textLarge: 'Великий',
       setStart: 'Що відкривати при запуску', startHome: 'Головну',
-      startHint: 'Одразу потрапиш у вправу, без вибору. На головну — хрестиком',
+      startHint: 'Одразу потрапиш у вправу, без вибору. На головну — хрестиком', startSub: 'Одразу у вправу, без вибору',
       setVoice: 'Голос', voiceCuesLbl: 'Голосові підказки', on: 'Увімк.', off: 'Вимк.',
       voiceSpeed: 'Темп голосу', speedSlow: 'Повільніше', speedNormal: 'Звичайно',
       setVolume: 'Гучність фону', volHint: 'Для шуму, дощу й інших фонових звуків',
@@ -99,7 +99,9 @@
       anchorPh: 'Наприклад: «Це мине. Я впораюся»', anchorNote: 'Зберігається лише на цьому телефоні',
       anchorSave: 'Зберегти', anchorClear: 'Прибрати', anchorSaved: 'Збережено. Я нагадаю, коли буде важко',
       back: 'Назад',
-      sleepTitle: 'Допомогти заснути', sleepSub: 'Зворотний відлік і вимкнення думок',
+      sleepTitle: 'Допомогти заснути', sleepSub: 'Відлік, образи або радіо здалеку',
+      calmEyebrow: 'Зараз важко', tileNear: 'Поруч', tileKid: 'Дитині', anchorAdd: 'Моя опора — додай свою фразу',
+      greetMorning: 'Доброго ранку', greetDay: 'Добрий день', greetEvening: 'Добрий вечір', greetNight: 'Тиха ніч',
       fbSound: 'Звук + Вібро', fbVibro: 'Тільки Вібро', fbVisual: 'Лише візуал',
       feedbackLabel: 'Режим відгуку', langLabel: 'Мова', sleepModeLabel: 'Режим засинання',
       exit: 'Вийти на головний екран', skip: 'Пропустити',
@@ -140,7 +142,7 @@
       thoughtNote: 'Нічого не зберігається', thoughtDone: 'Відпущено. Можна видихнути',
       stepNext: 'Інший крок', stepNote: 'Лише якщо хочеться',
       st1: 'Дихання', st2: 'Тіло', st3: 'Опора', stagesLabel: 'Етапи практики',
-      voiceToggle: 'Голосові команди',
+      voiceToggle: 'Звук',
       vInhale: 'Вдих', vTopup: 'Ще трохи', vExhale: 'Видих',
       noteA1: 'Те, що ти зараз відчуваєш, — нормальна реакція тіла. Подихаймо разом',
       noteA2: 'Добре. Тепер відпустимо напругу з тіла',
@@ -154,7 +156,7 @@
       appName: 'Anchor',
       intro: 'Works fully offline. Helps you quickly release tension after an alert, or fall asleep',
       start: 'Start',
-      calmTitle: 'Release tension', calmSub: 'After an alert, explosions or panic • 4 minutes',
+      calmTitle: 'Release tension', calmSub: 'After an alert, explosions or panic •\u00A04\u00A0minutes',
       near: 'Stay with me', nearText: 'I’m here. You don’t have to do anything',
       settings: 'Settings', setLang: 'Language', setTheme: 'Theme', themeNight: 'Night', themeDusk: 'Dusk', themeDawn: 'Dawn', setIcon: 'App icon',
       iconDefault: 'Standard', iconBright: 'Bright', iconCalm: 'Calm',
@@ -166,7 +168,7 @@
       updPlay: 'Google Play', updAppStore: 'App Store',
       setText: 'Text size', textLargeLbl: 'Large text', cuesHint: 'A voice guides the practice', grpLook: 'Appearance', grpVoice: 'Voice & sound', grpPractice: 'Practices', grpAbout: 'About', introT1: 'Works offline', introP1: 'Even in a shelter or with no signal. Helps you release tension after an alert and fall asleep', introT2: 'A voice guides you', introP2: 'No need to read anything. With people around, vibration or a soft light on the screen is enough', introT3: 'Everything stays here', introP3: 'No sign-up, no ads. Only you can see what you write — it never leaves your phone', introNext: 'Next', introSkip: 'Skip', introBad: 'I feel bad right now — go to the exercise', introStep: 'Step {n} of 3', icVoice: 'Voice', icVibro: 'Vibration', icScreen: 'Screen only', textNormal: 'Normal', textLarge: 'Large',
       setStart: 'Open on launch', startHome: 'Home',
-      startHint: 'Go straight into the practice, no choosing. ✕ takes you home',
+      startHint: 'Go straight into the practice, no choosing. ✕ takes you home', startSub: 'Straight into the practice',
       setVoice: 'Voice', voiceCuesLbl: 'Voice prompts', on: 'On', off: 'Off',
       voiceSpeed: 'Voice pace', speedSlow: 'Slower', speedNormal: 'Normal',
       setVolume: 'Background volume', volHint: 'For noise, rain and other background sounds',
@@ -197,7 +199,9 @@
       anchorPh: 'For example: “This will pass. I can do this”', anchorNote: 'Saved only on this phone',
       anchorSave: 'Save', anchorClear: 'Remove', anchorSaved: 'Saved. I will remind you when it gets hard',
       back: 'Back',
-      sleepTitle: 'Help me sleep', sleepSub: 'Countdown and switching off thoughts',
+      sleepTitle: 'Help me sleep', sleepSub: 'Countdown, images or distant radio',
+      calmEyebrow: 'Hard right now', tileNear: 'Be near', tileKid: 'For a child', anchorAdd: 'My anchor — add your phrase',
+      greetMorning: 'Good morning', greetDay: 'Good afternoon', greetEvening: 'Good evening', greetNight: 'Quiet night',
       fbSound: 'Sound + Vibration', fbVibro: 'Vibration only', fbVisual: 'Visual only',
       feedbackLabel: 'Feedback mode', langLabel: 'Language', sleepModeLabel: 'Sleep mode',
       exit: 'Back to home screen', skip: 'Skip',
@@ -239,7 +243,7 @@
       thoughtNote: 'Nothing is saved', thoughtDone: 'Released. You can breathe out',
       stepNext: 'Another step', stepNote: 'Only if you feel like it',
       st1: 'Breath', st2: 'Body', st3: 'Ground', stagesLabel: 'Practice steps',
-      voiceToggle: 'Voice cues',
+      voiceToggle: 'Sound',
       vInhale: 'Breathe in', vTopup: 'A little more', vExhale: 'Breathe out',
       noteA1: 'What you are feeling right now is a normal reaction of the body. Let’s breathe together',
       noteA2: 'Good. Now let’s release the tension from your body',
@@ -253,7 +257,7 @@
       appName: 'Якорь',
       intro: 'Работает полностью без интернета. Помогает быстро сбросить напряжение после тревоги или уснуть',
       start: 'Начать',
-      calmTitle: 'Сбросить напряжение', calmSub: 'После тревоги, взрывов или паники • 4 минуты',
+      calmTitle: 'Сбросить напряжение', calmSub: 'После тревоги, взрывов или паники •\u00A04\u00A0минуты',
       near: 'Побыть рядом', nearText: 'Я рядом. Ничего не нужно делать',
       settings: 'Настройки', setLang: 'Язык', setTheme: 'Тема', themeNight: 'Ночь', themeDusk: 'Сумерки', themeDawn: 'Рассвет', setIcon: 'Иконка приложения',
       iconDefault: 'Обычная', iconBright: 'Заметная', iconCalm: 'Спокойная',
@@ -265,7 +269,7 @@
       updPlay: 'Google Play', updAppStore: 'App Store',
       setText: 'Размер текста', textLargeLbl: 'Крупный текст', cuesHint: 'Голос ведёт упражнение', grpLook: 'Внешний вид', grpVoice: 'Голос и звук', grpPractice: 'Упражнения', grpAbout: 'О приложении', introT1: 'Работает без интернета', introP1: 'Даже в укрытии или без связи. Помогает снять напряжение после тревоги и уснуть', introT2: 'Голос ведёт тебя', introP2: 'Ничего не нужно читать. Если рядом люди — хватит вибрации или тихого света на экране', introT3: 'Всё остаётся здесь', introP3: 'Без регистрации и рекламы. Твои записи видишь только ты — они не покидают телефон', introNext: 'Дальше', introSkip: 'Пропустить', introBad: 'Мне сейчас плохо — сразу к упражнению', introStep: 'Шаг {n} из 3', icVoice: 'Голос', icVibro: 'Вибрация', icScreen: 'Только экран', textNormal: 'Обычный', textLarge: 'Крупный',
       setStart: 'Что открывать при запуске', startHome: 'Главную',
-      startHint: 'Сразу попадёшь в упражнение, без выбора. На главную — крестиком',
+      startHint: 'Сразу попадёшь в упражнение, без выбора. На главную — крестиком', startSub: 'Сразу в упражнение, без выбора',
       setVoice: 'Голос', voiceCuesLbl: 'Голосовые подсказки', on: 'Вкл.', off: 'Выкл.',
       voiceSpeed: 'Темп голоса', speedSlow: 'Медленнее', speedNormal: 'Обычно',
       setVolume: 'Громкость фона', volHint: 'Для шума, дождя и других фоновых звуков',
@@ -296,7 +300,9 @@
       anchorPh: 'Например: «Это пройдёт. Я справлюсь»', anchorNote: 'Хранится только на этом телефоне',
       anchorSave: 'Сохранить', anchorClear: 'Убрать', anchorSaved: 'Сохранено. Я напомню, когда будет трудно',
       back: 'Назад',
-      sleepTitle: 'Помочь уснуть', sleepSub: 'Обратный отсчет и отключение мыслей',
+      sleepTitle: 'Помочь уснуть', sleepSub: 'Отсчёт, образы или радио издалека',
+      calmEyebrow: 'Сейчас тяжело', tileNear: 'Рядом', tileKid: 'Ребёнку', anchorAdd: 'Моя опора — добавь свою фразу',
+      greetMorning: 'Доброе утро', greetDay: 'Добрый день', greetEvening: 'Добрый вечер', greetNight: 'Тихой ночи',
       fbSound: 'Звук + Вибро', fbVibro: 'Только Вибро', fbVisual: 'Только визуал',
       feedbackLabel: 'Режим отклика', langLabel: 'Язык', sleepModeLabel: 'Режим засыпания',
       exit: 'Выйти на главный экран', skip: 'Пропустить',
@@ -337,7 +343,7 @@
       thoughtNote: 'Ничего не сохраняется', thoughtDone: 'Отпущено. Можно выдохнуть',
       stepNext: 'Другой шаг', stepNote: 'Только если хочется',
       st1: 'Дыхание', st2: 'Тело', st3: 'Опора', stagesLabel: 'Этапы практики',
-      voiceToggle: 'Голосовые команды',
+      voiceToggle: 'Звук',
       vInhale: 'Вдох', vTopup: 'Ещё немного', vExhale: 'Выдох',
       noteA1: 'То, что ты сейчас чувствуешь, — нормальная реакция тела. Подышим вместе',
       noteA2: 'Хорошо. Теперь отпустим напряжение из тела',
@@ -370,6 +376,7 @@
     document.querySelectorAll('#set-lang button').forEach((b) => {
       b.setAttribute('aria-checked', String(b.dataset.value === settings.lang));
     });
+    if (typeof paintFolds === 'function') paintFolds();
     updateVoiceHint();
   }
   /* Детокс: значок «приклеєний» до останнього слова назви — переноситься
@@ -1279,10 +1286,12 @@
     if (!voiceOn() || !Clips.has(path)) return minMs;
     try { return Math.max(minMs, (await Clips._load(path)).duration * 1000 + 400); } catch (e) { return minMs; }
   }
+  /* Динамік у шапці вправи — той самий режим, що й кнопка на головній:
+     увімкнений = «Звук + Вібро», вимкнений = «Лише вібро» */
   function paintVoiceButton() {
     const btn = $('a-voice');
-    btn.hidden = !soundOn(); // без звуку голос не має сенсу
-    btn.setAttribute('aria-pressed', String(settings.voiceCues));
+    btn.hidden = false;
+    btn.setAttribute('aria-pressed', String(soundOn()));
   }
 
   /* fromLaunch: відкрито одразу при запуску. Браузер не дає звучати й
@@ -1852,6 +1861,16 @@
     if (sleepVoice()) say(key, String(text), pace.rate, pace.vol * SPEECH_BASE_VOLUME * (VOICE_BOOST[settings.bg] || 1));
   }
 
+  /* Фаза місяця p: 0 — молодий (темний), 0,5 — половина, 1 — повний.
+     Освітлена частина справа: півколо + межа світла-тіні (еліпс). */
+  let moonTimer = 0;
+  function paintMoon(p) {
+    const r = 10, rx = (r * Math.abs(1 - 2 * p)).toFixed(2);
+    const d = p <= 0.001 ? '' : p >= 0.999
+      ? `M0 ${-r}A${r} ${r} 0 1 1 0 ${r}A${r} ${r} 0 1 1 0 ${-r}Z`
+      : `M0 ${-r}A${r} ${r} 0 0 1 0 ${r}A${rx} ${r} 0 0 ${p < 0.5 ? 0 : 1} 0 ${-r}Z`;
+    $('sleep-time').lastElementChild.setAttribute('d', d);
+  }
   function startSleep() {
     const t = newToken();
     stopVoice(); // зразок мови радіо, якщо ще звучить
@@ -1865,15 +1884,15 @@
     radioArt.toggleAttribute('hidden', !(settings.sleepMode === 'radio' && radioLang()));
     enterFullscreen();
     sleepText.textContent = '';
-    // Смужка часу заповнюється рівно за обрану тривалість (8/15/25 хв)
-    const timeBar = $('sleep-time');
-    const fill = timeBar.firstElementChild;
-    timeBar.classList.remove('fade');
-    fill.style.transition = 'none';
-    fill.style.transform = 'scaleX(0)';
-    void fill.offsetWidth; // застосувати нуль перед стартом переходу
-    fill.style.transition = `transform ${sleepMs()}ms linear`;
-    fill.style.transform = 'scaleX(1)';
+    // Місяць росте рівно за обрану тривалість (8/15/25 хв): повний — кінець
+    $('sleep-time').classList.remove('fade');
+    const moonStart = Date.now(), moonMs = sleepMs();
+    paintMoon(0);
+    clearInterval(moonTimer);
+    moonTimer = setInterval(() => {
+      if (t.cancelled || currentScreen !== 's-b2') { clearInterval(moonTimer); return; }
+      paintMoon(Math.min(1, (Date.now() - moonStart) / moonMs));
+    }, 2000);
     Wake.on();
     if (settings.bg !== 'off') Sound.startNoise(6, NOISE_LEVEL[settings.bg], settings.bg);
     ({ count: runCountdown, words: runWords, radio: runRadio }[settings.sleepMode] || runCountdown)(t);
@@ -2060,6 +2079,7 @@
   async function endSleep(t) {
     sleepText.classList.add('fade');
     $('sleep-radio').classList.add('fade');
+    clearInterval(moonTimer); paintMoon(1); // повний місяць — читання завершене
     $('sleep-time').classList.add('fade');
     stopVoice();
     Sound.stopNoise(10);
@@ -2994,10 +3014,12 @@
     if (leaving) { clearTimeout(leaveTimer); leaving.classList.remove('leaving'); leaving.inert = false; leaving = null; }
     const prev = Array.from(screens).find((el) => !el.hidden && el.id !== id);
     currentScreen = id;
-    if (id === 's-home') { // «Моя опора» — одразу на головній, якщо фраза є
-      const strip = $('home-anchor');
-      strip.hidden = !getAnchor();
-      $('home-anchor-text').textContent = quoteAnchor();
+    if (id === 's-home') { // «Моя опора» — одразу на головній: фраза або запрошення її додати
+      const has = !!getAnchor();
+      $('home-anchor').classList.toggle('is-empty', !has);
+      $('home-anchor-text').textContent = has ? quoteAnchor() : tr('anchorAdd');
+      const h = new Date().getHours();
+      $('home-greet').textContent = tr(h >= 5 && h < 12 ? 'greetMorning' : h >= 12 && h < 18 ? 'greetDay' : h >= 18 && h < 23 ? 'greetEvening' : 'greetNight');
     }
     screens.forEach((el) => { el.hidden = el.id !== id; });
     document.body.dataset.screen = id;
@@ -3137,7 +3159,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 50;
+  const APP_VERSION = 51;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
@@ -3165,6 +3187,18 @@
     ? WEB_URL // TODO: посилання на App Store після публікації
     : `https://play.google.com/store/apps/details?id=${APP_ID}`;
 
+  /* Рядки-«розгортайки»: праворуч поточне значення ›, дотик відкриває
+     варіанти під рядком; після вибору рядок згортається */
+  function setFold(fold, open) {
+    fold.querySelector('.set-value').setAttribute('aria-expanded', String(open));
+    fold.querySelectorAll('[role="radiogroup"], .set-fold__more').forEach((el) => { el.hidden = !open; });
+  }
+  function paintFolds() {
+    document.querySelectorAll('.set-fold').forEach((f) => {
+      const on = f.querySelector('[role="radiogroup"] [aria-checked="true"]');
+      f.querySelector('.set-value > span').textContent = on ? on.textContent.trim() : '';
+    });
+  }
   function openSettings() {
     $('set-version').textContent = `${tr('version')} ${APP_VERSION}`;
     const A = plugin('App');
@@ -3176,8 +3210,9 @@
       updStatus('');
     }
     $('reset-confirm').hidden = true; $('reset-ask').hidden = false;
-    // голосові підказки можна вимкнути й кнопкою у вправі — показуємо актуальне
     $('set-cues').setAttribute('aria-checked', String(settings.voiceCues));
+    document.querySelectorAll('.set-fold').forEach((f) => setFold(f, false));
+    paintFolds();
     $('s-settings').querySelector('.settings').scrollTop = 0;
     showScreen('s-settings');
   }
@@ -3289,6 +3324,15 @@
       settings.icon = v; Store.set('icon', v); applyIcon(v);
     });
     // Розмір тексту
+    document.querySelectorAll('.set-fold').forEach((f) => {
+      const btn = f.querySelector('.set-value');
+      btn.addEventListener('click', () => setFold(f, btn.getAttribute('aria-expanded') !== 'true'));
+      // вибір зроблено — показуємо нове значення й згортаємо (після обробника радіогрупи)
+      f.querySelector('[role="radiogroup"]').addEventListener('click', (e) => {
+        if (!e.target.closest('button[role="radio"]')) return;
+        setTimeout(() => { paintFolds(); if (f.id !== 'icon-block') setFold(f, false); }, 0);
+      });
+    });
     bindSwitch($('set-text'), settings.textSize === 'large', (on) => {
       const v = on ? 'large' : 'normal';
       settings.textSize = v; Store.set('textSize', v);
@@ -3427,10 +3471,14 @@
     // Навігація по етапах: натискання на сегмент прогресу відкриває цей етап
     progressA.forEach((b, i) => b.addEventListener('click', () => startStageA(i)));
     $('a-voice').addEventListener('click', () => {
-      settings.voiceCues = !settings.voiceCues;
-      Store.set('voiceCues', settings.voiceCues ? '1' : '0');
-      if (!settings.voiceCues) stopVoice();
+      const v = soundOn() ? 'vibro' : 'sound';
+      settings.feedback = v; Store.set('feedback', v);
+      // увімкнули звук — повертаємо й голос, інакше динамік «увімкнений», а тиша
+      if (v === 'sound' && !settings.voiceCues) { settings.voiceCues = true; Store.set('voiceCues', '1'); }
+      if (v !== 'sound') stopVoice();
+      paintFeedback();
       paintVoiceButton();
+      updateVoiceHint();
     });
     $('s-flow-a').addEventListener('click', (e) => {
       if (noteSkip && !e.target.closest('button')) noteSkip();
@@ -3468,7 +3516,6 @@
     });
 
     // «Моя опора»
-    $('btn-anchor').addEventListener('click', () => openAnchor(goHome));
     $('home-anchor').addEventListener('click', () => openAnchor(goHome));
     $('anchor-exit').addEventListener('click', closeAnchor);
     $('anchor-save').addEventListener('click', () => {

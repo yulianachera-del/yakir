@@ -280,14 +280,19 @@ html[data-theme="dawn"] { --fog-a: .2; --fog-b: .17; }
 .stack { display: flex; flex-direction: column; gap: 14px; }
 
 /* ===== Главный экран: две карточки по 42% высоты ===== */
+/* Головна за макетом: привітання й шестерня вгорі → дві великі картки
+   (текст притиснуто донизу, ілюстрація вгорі) → «Моя опора» → три плитки →
+   режим відгуку внизу */
 #s-home {
-  display: grid; grid-template-rows: 42fr 42fr auto auto;
+  display: grid; gap: 12px;
+  grid-template-rows: auto minmax(150px, 7fr) minmax(120px, 5fr) auto auto auto;
 }
-.home-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: stretch; }
+.home-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 4px; }
+.home-greet { margin: 0; min-width: 0; font-size: calc(15px * var(--fs)); font-weight: 600; color: var(--muted); }
 .gear-btn {
-  align-self: stretch; min-width: var(--tap); padding: 0 12px;
+  flex: none; width: 44px; height: 44px; padding: 0;
   display: grid; place-items: center;
-  border-radius: 18px; background: var(--surface); border: 1px solid var(--line); color: var(--muted);
+  border-radius: 50%; background: var(--surface); border: 1px solid var(--line); color: var(--muted);
 }
 .gear-btn:active { filter: brightness(1.3); }
 
@@ -362,6 +367,32 @@ html[data-theme="dawn"] { --fog-a: .2; --fog-b: .17; }
 .set-sub { font-size: calc(13px * var(--fs)); color: var(--muted); }
 .set-group .set-link { min-height: 56px; padding: 0; border-radius: 0; background: none; border-left: 0; border-right: 0; border-bottom: 0; }
 .set-group .btn--line { flex: 0 1 auto; }
+/* Рядок зі значенням і стрілкою; варіанти розгортаються під ним */
+.set-value {
+  flex: none; display: flex; align-items: center; gap: 6px; min-height: 44px; max-width: 55%;
+  padding: 0 0 0 12px; background: none; border: 0; color: var(--muted);
+  font: inherit; font-size: calc(15px * var(--fs)); font-weight: 600; text-align: right;
+}
+.set-value svg, .set-group .set-link svg { flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s ease; }
+.set-value[aria-expanded="true"] svg { transform: rotate(90deg); }
+.set-fold { gap: 10px; }
+.set-group .set-card > .set-fold { padding-block: 6px; }
+.set-fold > .set-row { min-height: 44px; }
+.set-fold > [hidden] { display: none; }
+.set-fold:has(> [role="radiogroup"]:not([hidden])) { padding-bottom: 14px; }
+/* Теми — плитки з кружечком, як у макеті */
+.set-group .theme-pick { gap: 8px; }
+.set-group .theme-pick button { min-height: 72px; border-radius: 16px; font-weight: 700; }
+.set-group .theme-pick button[aria-checked="true"] { box-shadow: inset 0 0 0 2px var(--sage); }
+.set-group .theme-dot { width: 22px; height: 22px; }
+/* Сегменти в налаштуваннях: темна підкладка, обраний — залитий, без рамки */
+.set-group .segmented--line { padding: 4px; gap: 4px; border: 0; border-radius: 14px; background: var(--bg); }
+.set-group .segmented--line button { min-height: 44px; border-radius: 11px; font-size: calc(15px * var(--fs)); font-weight: 600; }
+.set-group .segmented--line button[aria-checked="true"] { box-shadow: none; background: rgba(var(--sage-rgb), .28); color: var(--text); font-weight: 700; }
+#set-sleep button[aria-checked="true"] { background: rgba(var(--amber-rgb), .26); }
+.set-group #update-check { min-height: 40px; padding: 0 14px; border-radius: 20px; background: transparent; color: var(--sage); font-size: calc(14px * var(--fs)); font-weight: 700; }
+.set-group .set-link { color: var(--text); font-size: calc(16px * var(--fs)); font-weight: 600; }
+.set-group .set-link svg { color: var(--muted); }
 /* Перемикач */
 .switch {
   flex: none; width: 52px; height: 32px; padding: 3px; border-radius: 16px; border: 0;
@@ -379,7 +410,7 @@ html[data-theme="dawn"] { --fog-a: .2; --fog-b: .17; }
 :root[data-theme="dawn"] .set-danger__btn { color: #9A3F33; border-color: rgba(154, 63, 51, .4); }
 #update-status[hidden], #update-apply[hidden], .reset-confirm[hidden] { display: none; }
 #reset-ask[hidden] { display: none; }
-#reset-ask, #btn-share { text-align: left; }
+#btn-share { text-align: left; }
 .privacy-text {
   align-self: center; margin-top: 8px; padding: 14px 20px; min-height: var(--tap);
   color: var(--muted); font-size: calc(16px * var(--fs)); text-decoration: none;
@@ -428,7 +459,32 @@ html[data-theme="dawn"] { --fog-a: .2; --fog-b: .17; }
   right: -6%; top: -14%; width: 52%; aspect-ratio: 1; border-radius: 50%;
   background: radial-gradient(circle, rgba(var(--amber-rgb), .22) 0%, rgba(var(--amber-rgb), .06) 45%, transparent 70%);
 }
-.card--calm .card__ico, .card--sleep .card__ico { width: 52px; height: 52px; }
+/* Картки головної: текст унизу, ілюстрація-SVG угорі */
+#s-home .card { justify-content: flex-end; gap: 6px; padding: 22px 24px; }
+#s-home .card::before { content: none; }
+#s-home .card .card__title { padding-right: 0; }
+.card__waves { position: absolute; z-index: -1; left: -20px; top: 0; width: calc(100% + 40px); height: max(36px, min(62%, calc(100% - 128px))); fill: none; stroke: rgb(var(--sage-rgb)); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.card__moon { position: absolute; z-index: -1; right: 12px; top: 6px; aspect-ratio: 1; width: auto; height: max(44px, min(120px, calc(100% - 100px))); }
+.card__moon .moon-glow { fill: rgba(var(--amber-rgb), .12); }
+.card__moon .moon { fill: var(--title-c); opacity: .85; }
+.card__eyebrow { font-size: calc(13px * var(--fs)); font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--sage); }
+#s-home .card__title { font-size: calc(clamp(26px, 8vw, 34px) * var(--fs)); font-weight: 800; line-height: 1.1; }
+#s-home .card--sleep .card__title { font-size: calc(clamp(24px, 7.2vw, 30px) * var(--fs)); }
+#s-home .card__sub { font-size: calc(15px * var(--fs)); line-height: 1.4; font-weight: 600; text-wrap: balance; }
+/* Три плитки в ряд з іконкою зверху */
+#s-home .home-row { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-flow: row; gap: 10px; }
+#s-home .home-row > .pill-btn { min-height: 88px; gap: 8px; border-radius: 20px; font-size: calc(14px * var(--fs)); padding: 6px 4px; text-align: center; }
+#s-home .home-row > .pill-btn .ico { width: 24px; height: 24px; }
+#s-home .home-row > .pill-btn:nth-child(2) .ico { color: var(--amber); }
+#s-home .home-row > .pill-btn:nth-child(3) .ico { color: #F29C82; }
+:root[data-theme="dawn"] #s-home .home-row > .pill-btn:nth-child(3) .ico { color: #C0634A; }
+#s-home .mode-btn { min-height: 52px; border-radius: 26px; color: var(--soft); font-weight: 700; font-size: calc(15px * var(--fs)); }
+.home-anchor.is-empty { color: var(--muted); }
+@media (max-height: 640px) {
+  #s-home { gap: 8px; grid-template-rows: auto minmax(120px, 7fr) minmax(100px, 5fr) auto auto auto; }
+  #s-home .home-row > .pill-btn { min-height: 68px; }
+  .card__eyebrow { display: none; }
+}
 /* «Моя опора» на головній — тихий рядок із фразою */
 .home-anchor {
   flex: none; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 10px 16px;
@@ -722,6 +778,15 @@ html[data-theme="dawn"] .near-sound[data-on="1"] { color: #8E6440; border-color:
 .tiles [data-act="thought"]::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 80'%3E%3Crect x='24' y='54' width='84' height='5' rx='2.5' fill='%23E6E1D8' opacity='.7'/%3E%3Crect x='42' y='38' width='60' height='5' rx='2.5' fill='%23E6E1D8' opacity='.35'/%3E%3Crect x='62' y='22' width='34' height='5' rx='2.5' fill='%23E6E1D8' opacity='.12'/%3E%3C/svg%3E"); background-size: contain; }
 .tiles [data-act="step"]::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239CC0A9' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M12 20v-7'/%3E%3Cpath d='M12 13c0-3.5-2.5-5.5-6-5.5 0 3.5 2.5 5.5 6 5.5z'/%3E%3Cpath d='M12 11c0-3.5 2.5-6 6-6 0 3.5-2.5 6-6 6z'/%3E%3C/svg%3E"); background-size: auto 70%; }
 .tiles .tile-head .ico { display: none; } /* іконку замінило прев'ю */
+/* Прев'ю — під текстом і займає лише те місце, що лишилось: текст завжди
+   влазить, а якщо плитка низька, картинка просто зменшується або зникає */
+.tiles button { overflow: hidden; gap: 6px; padding: 14px 14px 12px; }
+.tiles button::before {
+  order: 2; flex: 1 1 0; height: auto; min-height: 0; max-height: 84px;
+  margin: 4px -4px 0; background-size: contain;
+}
+.tiles [data-act="bubbles"]::before, .tiles [data-act="garden"]::before { background-size: auto; }
+.tiles .tile-head, .tiles .tabs__sub { flex: none; }
 @media (max-height: 600px) { .tiles button::before { display: none; } .tiles .tile-head .ico { display: inline-block; } }
 :root[data-theme="dawn"] .tiles button::before { background-color: rgba(54, 49, 43, .82); }
 
@@ -944,24 +1009,6 @@ html[data-theme="dawn"] { --canvas-bg: #EEE5D8; }
   text-align: left;
   font-size: calc(18px * var(--fs));
 }
-.switch {
-  flex: none;
-  position: relative;
-  width: 62px; height: 36px;
-  margin-right: 8px;
-  border-radius: 18px;
-  background: var(--line);
-  transition: background .25s ease;
-}
-.switch::after {
-  content: "";
-  position: absolute; top: 4px; left: 4px;
-  width: 28px; height: 28px; border-radius: 50%;
-  background: var(--muted);
-  transition: transform .25s ease, background .25s ease;
-}
-[aria-checked="true"] > .switch { background: rgba(var(--amber-rgb),.45); }
-[aria-checked="true"] > .switch::after { transform: translateX(26px); background: var(--amber); }
 .hint { margin: 4px 6px 0; font-size: calc(15px * var(--fs)); color: var(--muted); text-align: center; }
 .hint[hidden] { display: none; }
 /* «Радіо здалеку»: кнопка мови прямо в рядку, праворуч */
@@ -1014,14 +1061,15 @@ html[data-theme="dawn"] { --canvas-bg: #EEE5D8; }
 @media (prefers-reduced-motion: reduce) { .sr-glow, .sr-needle { animation: none; } }
 .sleep-text.is-word { font-size: calc(clamp(34px, 11vw, 64px) * var(--fs)); }
 .sleep-text.fade { opacity: 0; }
-/* Час, що минув: тонка тьмяна смужка внизу, без цифр — видно, лише якщо шукати */
+/* Час, що минув: маленький тьмяний місяць унизу росте від молодого до
+   повного, без цифр — видно, лише якщо шукати */
 .sleep-time {
-  position: absolute; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom));
-  width: min(38vw, 160px); height: 2px; margin-left: calc(min(38vw, 160px) / -2);
-  border-radius: 1px; background: #121110; overflow: hidden; pointer-events: none;
+  position: absolute; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom));
+  width: 30px; height: 30px; margin-left: -15px; pointer-events: none;
   transition: opacity 8s ease;
 }
-.sleep-time i { display: block; width: 100%; height: 100%; background: #2E2A26; transform-origin: left center; transform: scaleX(0); }
+.sleep-time__disk { fill: #0F0E0D; stroke: #1A1816; stroke-width: .6; }
+.sleep-time__lit { fill: #3A342D; }
 .sleep-time.fade { opacity: 0; }
 
 /* Круговой прогресс отмены при удержании 2 секунды */
