@@ -50,6 +50,10 @@
       <span class="card__title" data-i18n="sleepTitle">Допомогти заснути</span>
       <span class="card__sub" data-i18n="sleepSub">Зворотний відлік і вимкнення думок</span>
     </button>
+    <button class="home-anchor" id="home-anchor" type="button" hidden>
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M12 7v13.5M8.5 10.5h7"/><path d="M4.5 13.5a7.5 7 0 0 0 15 0"/></svg>
+      <span id="home-anchor-text"></span>
+    </button>
     <div class="home-bar">
       <div class="home-row">
         <button class="pill-btn" id="btn-detox" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5.5-13.5 14-14 0 8.5-5.5 14-14 14z"/><path d="M5 19l7.5-7.5"/></svg><span data-i18n="detox">Детокс</span></button>
@@ -208,41 +212,100 @@
   </section>
 
   <!-- Режим для дитини: дихання як гра, з підказкою для дорослого -->
-  <section class="screen screen--flow" id="s-kid" hidden>
+  <!-- Сцена — сутінкове небо (кулька) або тепла кімната (свічка), незалежно від теми -->
+  <section class="screen screen--flow kid-screen" id="s-kid" hidden>
+    <svg class="kid-sky" viewBox="0 0 390 844" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <g class="kid-stars" fill="#F6E7C8">
+        <circle cx="48" cy="120" r="1.6"/><circle cx="318" cy="96" r="1.2"/><circle cx="352" cy="210" r="1.8"/>
+        <circle cx="86" cy="250" r="1.1"/><circle cx="210" cy="140" r="1"/><circle cx="150" cy="70" r="1.3"/>
+      </g>
+      <circle cx="320" cy="168" r="22" fill="#F4E3C3" opacity=".12"/>
+      <circle cx="320" cy="168" r="12" fill="#F4E3C3" opacity=".55"/>
+      <path d="M0 690C80 640 150 650 210 676S330 660 390 640V844H0Z" fill="#2E2A3E"/>
+      <path d="M0 740C90 700 170 716 240 736S350 730 390 716V844H0Z" fill="#25223A"/>
+    </svg>
     <header class="flow-head">
       <h1 class="flow-title" data-i18n="kid">Для дитини</h1>
       <button class="close" id="kid-exit" type="button" data-i18n-aria="exit">✕</button>
     </header>
     <div class="stage kid-stage" id="kid-stage">
-      <svg class="kid-art" id="kid-balloon" viewBox="0 0 200 260" aria-hidden="true">
+      <div class="kid-art-wrap">
+      <div class="kid-ring" aria-hidden="true"></div>
+      <svg class="kid-art" id="kid-balloon" viewBox="0 0 220 340" aria-hidden="true">
+        <defs>
+          <radialGradient id="kbFill" cx="38%" cy="32%" r="75%">
+            <stop offset="0" style="stop-color: var(--kid-c1, #FFD2BC)"/>
+            <stop offset=".45" style="stop-color: var(--kid-c2, #F29C82)"/>
+            <stop offset="1" style="stop-color: var(--kid-c3, #B9585A)"/>
+          </radialGradient>
+          <radialGradient id="kbShine"><stop offset="0" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+        </defs>
         <g class="kb-fly">
-          <path d="M100 184q-10 20 0 38t0 34" stroke="#8B9099" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M110 214C96 240 124 262 108 290 96 312 116 326 110 340" stroke="#CFC6DA" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
           <g class="kb-scale">
-            <ellipse cx="100" cy="100" rx="62" ry="74" fill="var(--kid-color, #C88A55)"/>
-            <path d="M92 172l8 13 8-13z" fill="var(--kid-color, #C88A55)"/>
-            <path d="M74 66q10-20 30-22" stroke="#E2E4E9" stroke-width="5" fill="none" stroke-linecap="round" opacity=".35"/>
+            <path d="M110 18C160 18 192 58 192 106 192 160 150 202 110 210 70 202 28 160 28 106 28 58 60 18 110 18Z" fill="url(#kbFill)"/>
+            <path d="M101 208L110 222 119 208Z" style="fill: var(--kid-c3, #B9585A)"/>
+            <ellipse cx="78" cy="62" rx="22" ry="30" fill="url(#kbShine)" transform="rotate(-24 78 62)" opacity=".75"/>
+            <g class="kb-face kb-face--calm">
+              <circle cx="90" cy="112" r="5" fill="#4A2530"/><circle cx="130" cy="112" r="5" fill="#4A2530"/>
+              <circle cx="88" cy="110" r="1.6" fill="#fff"/><circle cx="128" cy="110" r="1.6" fill="#fff"/>
+              <path d="M100 128q10 8 20 0" stroke="#4A2530" stroke-width="3" fill="none" stroke-linecap="round"/>
+            </g>
+            <g class="kb-face kb-face--happy">
+              <path d="M84 112q6-8 12 0M124 112q6-8 12 0" stroke="#4A2530" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path d="M96 126q14 16 28 0" stroke="#4A2530" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+            </g>
+            <ellipse cx="78" cy="128" rx="9" ry="5" fill="#FF8C8C" opacity=".35"/>
+            <ellipse cx="142" cy="128" rx="9" ry="5" fill="#FF8C8C" opacity=".35"/>
           </g>
         </g>
       </svg>
-      <svg class="kid-art" id="kid-candle" viewBox="0 0 200 260" aria-hidden="true" hidden>
+      <svg class="kid-art" id="kid-candle" viewBox="0 0 220 300" aria-hidden="true" hidden>
+        <defs>
+          <radialGradient id="kcFlame" cx="50%" cy="72%" r="60%">
+            <stop offset="0" stop-color="#FFF6D8"/><stop offset=".34" stop-color="#FFD27A"/>
+            <stop offset=".66" stop-color="#FF9A3C"/><stop offset="1" stop-color="#FF6E28" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="kcGlow"><stop offset="0" stop-color="#FFBA6E" stop-opacity=".38"/><stop offset="1" stop-color="#FFA05A" stop-opacity="0"/></radialGradient>
+          <linearGradient id="kcWax" x1="0" x2="1"><stop offset="0" stop-color="#D8C3A2"/><stop offset=".45" stop-color="#FBF2E3"/><stop offset=".8" stop-color="#E2CFB0"/><stop offset="1" stop-color="#BFA784"/></linearGradient>
+          <radialGradient id="kcPetal" cx="40%" cy="35%"><stop offset="0" stop-color="#FFE0C8"/><stop offset="1" stop-color="#F2A07E"/></radialGradient>
+        </defs>
         <g class="kc-candle">
-          <ellipse class="kc-glow" cx="100" cy="92" rx="50" ry="56" fill="#C88A55" opacity=".14"/>
-          <path class="kc-flame" d="M100 50q24 32 0 62q-24-30 0-62z" fill="#E0A45F"/>
-          <path d="M100 114v14" stroke="#3A2C22" stroke-width="3" stroke-linecap="round"/>
-          <rect x="78" y="126" width="44" height="104" rx="8" fill="#D9C7A8"/>
-          <rect x="62" y="228" width="76" height="12" rx="6" fill="#8B9099"/>
+          <circle class="kc-glow" cx="132" cy="96" r="96" fill="url(#kcGlow)"/>
+          <g class="kc-flame">
+            <path d="M132 44C150 72 156 92 146 112 140 124 124 124 118 112 108 92 114 72 132 44Z" fill="url(#kcFlame)"/>
+            <path d="M132 82C139 94 140 104 136 112 134 116 130 116 128 112 124 104 125 94 132 82Z" fill="#FFFDF2"/>
+            <ellipse cx="132" cy="118" rx="6" ry="4" fill="#6E96FF" opacity=".5"/>
+          </g>
+          <path d="M132 118v14" stroke="#2B1E17" stroke-width="3" stroke-linecap="round"/>
+          <rect x="102" y="130" width="60" height="130" rx="10" fill="url(#kcWax)"/>
+          <ellipse cx="132" cy="131" rx="30" ry="6" fill="#FFF3DC"/>
+          <path d="M116 134v22q0 5 4 5t4-5v-22z" fill="#F7EAD4"/>
+          <ellipse cx="132" cy="262" rx="52" ry="9" fill="#5A4838"/>
         </g>
         <g class="kc-flower">
-          <path d="M36 240v-34" stroke="#6B8E78" stroke-width="3" stroke-linecap="round"/>
-          <g fill="#C88A55"><circle cx="36" cy="190" r="8"/><circle cx="26" cy="198" r="8"/><circle cx="46" cy="198" r="8"/><circle cx="30" cy="209" r="8"/><circle cx="42" cy="209" r="8"/></g>
-          <circle cx="36" cy="200" r="6" fill="#D9C7A8"/>
+          <path d="M42 270c0-30 2-52 0-72" stroke="#7FA88C" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+          <path d="M42 240c-14-2-22-10-24-20 12 0 20 6 24 20z" fill="#7FA88C"/>
+          <g fill="url(#kcPetal)">
+            <ellipse cx="42" cy="180" rx="9" ry="13"/><ellipse cx="42" cy="180" rx="9" ry="13" transform="rotate(72 42 194)"/>
+            <ellipse cx="42" cy="180" rx="9" ry="13" transform="rotate(144 42 194)"/><ellipse cx="42" cy="180" rx="9" ry="13" transform="rotate(216 42 194)"/>
+            <ellipse cx="42" cy="180" rx="9" ry="13" transform="rotate(288 42 194)"/>
+          </g>
+          <circle cx="42" cy="194" r="7" fill="#FFD27A"/>
         </g>
       </svg>
+      </div>
       <p class="instruction" id="kid-text" aria-live="polite"></p>
-      <div class="muted" id="kid-count"></div>
+      <div class="kid-dots" id="kid-count" role="img"></div>
     </div>
-    <p class="muted soft-hint kid-tip" data-i18n="kidTip">Дорослому: дихайте разом із дитиною, повільно й уголос. Не виправляйте — хваліть за кожен видих</p>
-    <button class="pill-btn" id="kid-game" type="button"></button>
+    <details class="kid-tip">
+      <summary data-i18n="kidTipBtn">Порада дорослому</summary>
+      <p data-i18n="kidTip">Дорослому: дихайте разом із дитиною, повільно й уголос. Не виправляйте — хваліть за кожен видих</p>
+    </details>
+    <div class="kid-games" id="kid-games" role="radiogroup" data-i18n-aria="kid">
+      <button type="button" role="radio" data-value="balloon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="9" rx="5.5" ry="6.5"/><path d="M11 15.4l1 1.3 1-1.3M12 16.7c-1 1.6 1 2.6 0 4.3"/></svg><span data-i18n="kBalloon">Кулька</span></button>
+      <button type="button" role="radio" data-value="candle"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c2.5 3 2.5 5.5 0 7.5C9.5 8.5 9.5 6 12 3z"/><rect x="9" y="12" width="6" height="9" rx="1.5"/></svg><span data-i18n="kCandle">Свічка</span></button>
+    </div>
   </section>
 
   <!-- Детокс: спокійні заняття без цілей і оцінок (для затяжного стресу) -->
@@ -477,6 +540,8 @@
       <rect x="182" y="164" width="22" height="7" rx="3" fill="#1A140F"/>
     </svg>
     <div class="sleep-text" id="sleep-text"></div>
+    <!-- Ледь помітна смужка: скільки часу минуло, без цифр -->
+    <div class="sleep-time" id="sleep-time" aria-hidden="true"><i></i></div>
     <svg class="hold-ring" id="hold-ring" viewBox="0 0 100 100" aria-hidden="true">
       <circle cx="50" cy="50" r="44"></circle>
     </svg>

@@ -81,7 +81,7 @@
       resetWarn: 'Це видалить «Мою опору» і всі налаштування на цьому телефоні. Повернути їх не вийде',
       resetYes: 'Так, скинути', cancel: 'Скасувати',
       tapToStart: 'Торкнись екрана, щоб почати',
-      privacy: 'Приватність', kid: 'Для дитини', kBalloon: 'Гра: кулька', kCandle: 'Гра: свічка',
+      privacy: 'Приватність', kid: 'Для дитини', kBalloon: 'Кулька', kCandle: 'Свічка', kidTipBtn: 'Порада дорослому', kidStep: 'Крок {n} з {total}',
       kidTip: 'Дорослому: дихайте разом із дитиною, повільно й уголос. Не виправляйте — хваліть за кожен видих',
       kInB: 'Вдихни носиком — набери повітря', kOutB: 'А тепер дуй у кульку!', kDoneB: 'Вийшло! Кулька полетіла',
       kInC: 'Понюхай квіточку', kOutC: 'Тихенько подуй на свічку', kDoneC: 'Чудово! Вогник тобі помахав',
@@ -127,12 +127,12 @@
       hintNoVoice: 'Голосу для цієї мови на пристрої не знайдено — буде лише текст',
       detox: 'Детокс', detoxBack: 'Назад до Детоксу',
       detoxLead: 'Тут немає завдань і оцінок. Обери те, що зараз ближче',
-      dDraw: 'Малювання світлом', dDrawSub: 'Води пальцем — лінії світяться й тануть',
-      dGarden: 'Звуковий сад', dGardenSub: 'Торкайся екрана — кожен дотик звучить м’яко',
-      dBubbles: 'Бульбашки', dBubblesSub: 'Повільні бульбашки під дощ або хвилі',
+      dDraw: 'Малювання світлом', dDrawSub: 'Лінії світяться й тануть',
+      dGarden: 'Звуковий сад', dGardenSub: 'Кожен дотик звучить м’яко',
+      dBubbles: 'Бульбашки', dBubblesSub: 'Бульбашки, краплі на склі, хвилі',
       scRain: 'Дощ', scGlass: 'Краплі на склі', scWaves: 'Хвилі',
       dSmile: 'Про те, про се', dSmileSub: 'Знайоме ні про що', smileNext: 'Ще одну',
-      dThought: 'Відпустити думку', dThoughtSub: 'Напиши те, що крутиться в голові, і дивись, як воно зникає',
+      dThought: 'Відпустити думку', dThoughtSub: 'Напиши — і дивись, як воно тане',
       dStep: 'Маленький крок', dStepSub: 'Одна крихітна дія для себе',
       kaleido: 'Калейдоскоп',
       gardenHint: 'Торкайся будь-де', gardenMuted: 'Звук вимкнено в режимі відгуку — лишилися кола',
@@ -179,7 +179,7 @@
       resetWarn: 'This deletes “My anchor” and all settings on this phone. It can’t be undone',
       resetYes: 'Yes, reset', cancel: 'Cancel',
       tapToStart: 'Tap the screen to begin',
-      privacy: 'Privacy', kid: 'For a child', kBalloon: 'Game: balloon', kCandle: 'Game: candle',
+      privacy: 'Privacy', kid: 'For a child', kBalloon: 'Balloon', kCandle: 'Candle', kidTipBtn: 'Tip for the adult', kidStep: 'Step {n} of {total}',
       kidTip: 'For the adult: breathe together with the child, slowly and out loud. Don’t correct — praise every breath out',
       kInB: 'Breathe in through your nose — fill up with air', kOutB: 'Now blow into the balloon!', kDoneB: 'You did it! The balloon flew away',
       kInC: 'Smell the flower', kOutC: 'Gently blow on the candle', kDoneC: 'Lovely! The flame waved at you',
@@ -278,7 +278,7 @@
       resetWarn: 'Это удалит «Мою опору» и все настройки на этом телефоне. Вернуть их не получится',
       resetYes: 'Да, сбросить', cancel: 'Отмена',
       tapToStart: 'Коснись экрана, чтобы начать',
-      privacy: 'Конфиденциальность', kid: 'Для ребёнка', kBalloon: 'Игра: шарик', kCandle: 'Игра: свеча',
+      privacy: 'Конфиденциальность', kid: 'Для ребёнка', kBalloon: 'Шарик', kCandle: 'Свеча', kidTipBtn: 'Совет взрослому', kidStep: 'Шаг {n} из {total}',
       kidTip: 'Взрослому: дышите вместе с ребёнком, медленно и вслух. Не поправляйте — хвалите за каждый выдох',
       kInB: 'Вдохни носиком — набери воздух', kOutB: 'А теперь дуй в шарик!', kDoneB: 'Получилось! Шарик улетел',
       kInC: 'Понюхай цветочек', kOutC: 'Тихонько подуй на свечу', kDoneC: 'Чудесно! Огонёк тебе помахал',
@@ -1679,8 +1679,23 @@
      Вдих 3 с, видих 4 с (дітям довший ритм важкий). Після п'яти видихів —
      маленьке свято, і гра починається знову. Дорослий поруч дихає разом. */
   const KID_IN = 3000, KID_OUT = 4000, KID_BREATHS = 5;
-  const KID_COLORS = ['#C88A55', '#6B8E78', '#B8674A', '#A9835F'];
+  // Кольори кульки: світло / основний / тінь — м'які, без кислотних
+  const KID_COLORS = [['#FFD2BC', '#F29C82', '#B9585A'], ['#D9F0E2', '#8CC4A4', '#4E8468'],
+    ['#E6DDFF', '#AFA0E6', '#6E5BAE'], ['#FFE8B8', '#F2C46E', '#B9853A']];
   const kid = { game: Store.get('kidGame', 'balloon') === 'candle' ? 'candle' : 'balloon', color: 0 };
+
+  /* Кроки — крапки замість «1 / 5»: дитині не треба вміти рахувати */
+  function kidDots(n) {
+    const el = $('kid-count');
+    el.innerHTML = '';
+    if (!n) { el.removeAttribute('aria-label'); return; }
+    for (let i = 1; i <= KID_BREATHS; i++) {
+      const s = document.createElement('i');
+      if (i < n) s.className = 'done'; else if (i === n) s.className = 'now';
+      el.appendChild(s);
+    }
+    el.setAttribute('aria-label', tr('kidStep').replace('{n}', n).replace('{total}', KID_BREATHS));
+  }
 
   function startKid() {
     const t = newToken();
@@ -1690,13 +1705,14 @@
     // у SVG немає властивості .hidden — перемикаємо сам атрибут
     $('kid-balloon').toggleAttribute('hidden', !balloon);
     $('kid-candle').toggleAttribute('hidden', balloon);
-    $('kid-game').textContent = tr(balloon ? 'kBalloon' : 'kCandle');
+    $('s-kid').classList.toggle('kid-screen--candle', !balloon);
+    $('kid-games').querySelectorAll('button').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.value === kid.game)));
     showScreen('s-kid');
     Wake.on();
     runKid(t);
   }
   async function runKid(t) {
-    const stage = $('kid-stage'), text = $('kid-text'), count = $('kid-count');
+    const stage = $('kid-stage'), text = $('kid-text');
     const balloon = kid.game === 'balloon';
     const keys = balloon ? ['kInB', 'kOutB', 'kDoneB'] : ['kInC', 'kOutC', 'kDoneC'];
     const setBalloon = (scale, ms) => {
@@ -1705,10 +1721,13 @@
     };
     for (;;) {
       stage.classList.remove('fly', 'blow', 'sniff');
-      stage.style.setProperty('--kid-color', KID_COLORS[kid.color++ % KID_COLORS.length]);
+      const [c1, c2, c3] = KID_COLORS[kid.color++ % KID_COLORS.length];
+      stage.style.setProperty('--kid-c1', c1);
+      stage.style.setProperty('--kid-c2', c2);
+      stage.style.setProperty('--kid-c3', c3);
       setBalloon(0.35, 0);
       for (let n = 1; n <= KID_BREATHS; n++) {
-        count.textContent = `${n} / ${KID_BREATHS}`;
+        kidDots(n);
         text.textContent = tr(keys[0]);
         stage.classList.remove('blow');
         stage.classList.add('sniff');
@@ -1725,7 +1744,7 @@
         await wait(await cueWait(keys[1], tr(keys[1]), KID_OUT), t);
       }
       stage.classList.remove('blow');
-      count.textContent = '';
+      kidDots(KID_BREATHS + 1); // усі крапки зафарбовані
       text.textContent = tr(keys[2]);
       if (balloon) stage.classList.add('fly');
       Haptic.play(30);
@@ -1846,6 +1865,15 @@
     radioArt.toggleAttribute('hidden', !(settings.sleepMode === 'radio' && radioLang()));
     enterFullscreen();
     sleepText.textContent = '';
+    // Смужка часу заповнюється рівно за обрану тривалість (8/15/25 хв)
+    const timeBar = $('sleep-time');
+    const fill = timeBar.firstElementChild;
+    timeBar.classList.remove('fade');
+    fill.style.transition = 'none';
+    fill.style.transform = 'scaleX(0)';
+    void fill.offsetWidth; // застосувати нуль перед стартом переходу
+    fill.style.transition = `transform ${sleepMs()}ms linear`;
+    fill.style.transform = 'scaleX(1)';
     Wake.on();
     if (settings.bg !== 'off') Sound.startNoise(6, NOISE_LEVEL[settings.bg], settings.bg);
     ({ count: runCountdown, words: runWords, radio: runRadio }[settings.sleepMode] || runCountdown)(t);
@@ -2032,6 +2060,7 @@
   async function endSleep(t) {
     sleepText.classList.add('fade');
     $('sleep-radio').classList.add('fade');
+    $('sleep-time').classList.add('fade');
     stopVoice();
     Sound.stopNoise(10);
     await wait(10500, t);
@@ -2245,16 +2274,161 @@
   const SCENE_MS = 50000, SCENE_FADE = 2500;
   const scene = { i: 0, prev: -1, since: 0, rain: [], glass: [] };
 
-  function newGlassDrop(h, anywhere) {
-    return { x: Math.random(), y: anywhere ? Math.random() * h : -10, y0: 0, r: 2 + Math.random() * 3,
-      grow: 0.15 + Math.random() * 0.4, limit: 7 + Math.random() * 4, vy: 0 };
+  /* ---- Краплі на склі ----
+     Скло перед нічним вікном: за ним розмиті вогні (боке), на склі — дрібний
+     туман і краплі-лінзи (темніший верх, світлий низ, відблиск, тінь).
+     Краплі поволі набрякають; важка крапля скочується до самого низу,
+     лишаючи мокрий слід, і зливається з кожною краплею на шляху в одну
+     більшу (площі складаються). Дотик до краплі — вона теж починає стікати. */
+  const GLASS_N = 36;
+  const glass = { bg: null, key: '', drops: [], trails: [] };
+  const GLASS_TINTS = { dark: ['255,190,120', '255,214,160', '160,200,230', '255,160,110', '150,210,190'],
+    light: ['255,200,140', '170,195,215', '255,225,185'] };
+
+  function newGlassDrop(w, h, anywhere) {
+    const tints = GLASS_TINTS[isLight() ? 'light' : 'dark'];
+    return { x: 6 + Math.random() * (w - 12), y: Math.random() * h * (anywhere ? 0.92 : 0.55),
+      r: 1.4 + Math.random() * (anywhere ? 5 : 2.5), grow: 0.05 + Math.random() * 0.22, limit: 6.5 + Math.random() * 4,
+      moving: false, vy: 0, ph: Math.random() * 6, trail: [], dead: false,
+      tint: tints[Math.floor(Math.random() * tints.length)] };
   }
+  /* Фон скла малюється один раз (і при зміні розміру чи теми) в окреме полотно */
+  function glassBackdrop(w, h) {
+    const light = isLight(), key = `${w}x${h}:${light}`;
+    if (glass.key === key) return glass.bg;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(w * dpr)); c.height = Math.max(1, Math.round(h * dpr));
+    const g = c.getContext('2d');
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const sky = g.createLinearGradient(0, 0, 0, h);
+    if (light) { sky.addColorStop(0, '#C5CDD3'); sky.addColorStop(1, '#D6CCBF'); }
+    else { sky.addColorStop(0, '#0E1726'); sky.addColorStop(0.5, '#142033'); sky.addColorStop(1, '#1B1E26'); }
+    g.fillStyle = sky;
+    g.fillRect(0, 0, w, h);
+    const tints = GLASS_TINTS[light ? 'light' : 'dark'];
+    for (let i = 0; i < 14; i++) { // вогні за склом, розмиті
+      const x = Math.random() * w, y = Math.random() * h, r = 30 + Math.random() * 80;
+      const a = (light ? 0.22 : 0.32) + Math.random() * 0.18, col = tints[i % tints.length];
+      const rg = g.createRadialGradient(x, y, 0, x, y, r);
+      rg.addColorStop(0, `rgba(${col},${a})`);
+      rg.addColorStop(0.6, `rgba(${col},${a * 0.45})`);
+      rg.addColorStop(1, `rgba(${col},0)`);
+      g.fillStyle = rg;
+      g.fillRect(x - r, y - r, 2 * r, 2 * r);
+    }
+    g.fillStyle = light ? 'rgba(255,255,255,.14)' : 'rgba(200,215,235,.05)'; // запітніле скло
+    g.fillRect(0, 0, w, h);
+    const mist = Math.round((w * h) / 2400);
+    for (let i = 0; i < mist; i++) { // дрібні краплинки туману
+      const x = Math.random() * w, y = Math.random() * h, r = 0.6 + Math.random() * 1.4;
+      g.beginPath(); g.arc(x, y + 0.7, r, 0, Math.PI * 2); g.fillStyle = 'rgba(0,0,0,.22)'; g.fill();
+      g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fillStyle = light ? 'rgba(255,255,255,.5)' : 'rgba(225,235,248,.26)'; g.fill();
+    }
+    glass.bg = c; glass.key = key;
+    return c;
+  }
+  function glassSlide(d) { if (!d.moving) { d.moving = true; d.vy = 8; d.trail = [{ x: d.x, y: d.y }]; } }
+  function glassStep(dt, w, h) {
+    const D = glass.drops;
+    for (const d of D) {
+      if (!d.moving) {
+        d.r += d.grow * dt;
+        if (d.r > d.limit) glassSlide(d);
+        continue;
+      }
+      // більша крапля важча — котиться швидше; легке «петляння» по склу
+      d.vy = Math.min(30 + d.r * 10, d.vy + (14 + d.r * 4) * dt);
+      d.y += d.vy * dt;
+      d.x += Math.sin(d.y / 26 + d.ph) * 6 * dt;
+      const last = d.trail[d.trail.length - 1];
+      if (Math.hypot(d.x - last.x, d.y - last.y) > 4) d.trail.push({ x: d.x, y: d.y });
+    }
+    // крапля, що котиться, вбирає всі краплі, яких торкнулася
+    for (const a of D) {
+      if (!a.moving || a.dead) continue;
+      for (const b of D) {
+        if (b === a || b.dead) continue;
+        if (Math.hypot(a.x - b.x, a.y - b.y) > (a.r + b.r) * 0.9) continue;
+        const ma = a.r * a.r, mb = b.r * b.r;
+        a.x = (a.x * ma + b.x * mb) / (ma + mb);
+        a.r = Math.sqrt(ma + mb);
+        a.vy = Math.max(a.vy, b.vy) * 0.8; // мить затримки на злитті
+        b.dead = true;
+        if (b.trail.length > 1) glass.trails.push({ pts: b.trail, w: Math.max(1.4, b.r * 0.55), age: 0 });
+      }
+    }
+    for (let i = 0; i < D.length; i++) {
+      const d = D[i];
+      if (d.dead || d.y - d.r * 2 > h) {
+        if (!d.dead && d.trail.length > 1) glass.trails.push({ pts: d.trail, w: Math.max(1.4, d.r * 0.55), age: 0 });
+        D[i] = newGlassDrop(w, h, false);
+      }
+    }
+    for (const t of glass.trails) t.age += dt;
+    while (glass.trails.length && glass.trails[0].age > 9) glass.trails.shift();
+  }
+  function drawGlassTrail(ctx, pts, width, fade, light) {
+    if (pts.length < 2) return;
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for (const p of pts) ctx.lineTo(p.x, p.y);
+    ctx.lineWidth = width;
+    ctx.strokeStyle = light ? `rgba(255,255,255,${0.3 * fade})` : `rgba(205,220,238,${0.1 * fade})`;
+    ctx.stroke();
+    ctx.lineWidth = Math.max(0.6, width * 0.25);
+    ctx.strokeStyle = `rgba(0,0,0,${(light ? 0.08 : 0.18) * fade})`;
+    ctx.stroke();
+  }
+  function drawGlassDrop(ctx, d, light) {
+    const rx = d.r, ry = d.r * (d.moving ? Math.min(1.35, 1.05 + d.vy / 300) : 1.06), x = d.x, y = d.y;
+    ctx.beginPath(); // тінь на склі
+    ctx.ellipse(x + rx * 0.1, y + ry * 0.3, rx, ry, 0, 0, Math.PI * 2);
+    ctx.fillStyle = light ? 'rgba(40,45,55,.16)' : 'rgba(0,0,0,.36)';
+    ctx.fill();
+    const g = ctx.createRadialGradient(x, y + ry * 0.45, ry * 0.1, x, y, ry * 1.05); // лінза: світлий низ
+    g.addColorStop(0, `rgba(${d.tint},${light ? 0.55 : 0.62})`);
+    g.addColorStop(0.55, `rgba(${d.tint},0.12)`);
+    g.addColorStop(1, light ? 'rgba(70,80,92,.32)' : 'rgba(5,8,14,.62)');
+    ctx.beginPath();
+    ctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
+    ctx.fillStyle = g;
+    ctx.fill();
+    ctx.beginPath(); // світла кромка знизу
+    ctx.ellipse(x, y, rx * 0.84, ry * 0.84, 0, Math.PI * 0.18, Math.PI * 0.82);
+    ctx.lineWidth = Math.max(0.7, rx * 0.15);
+    ctx.strokeStyle = 'rgba(240,245,255,.35)';
+    ctx.stroke();
+    ctx.beginPath(); // відблиск
+    ctx.ellipse(x - rx * 0.3, y - ry * 0.38, Math.max(0.7, rx * 0.22), Math.max(0.5, rx * 0.14), -0.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,.85)';
+    ctx.fill();
+  }
+  function glassTap(p) {
+    let best = null, bestD = 28;
+    for (const d of glass.drops) {
+      const dist = Math.hypot(p.x - d.x, p.y - d.y) - d.r;
+      if (dist < bestD) { best = d; bestD = dist; }
+    }
+    if (!best) return false;
+    if (best.r < 4) best.r = 4 + Math.random() * 2; // дрібна крапля сама не скотиться
+    glassSlide(best);
+    Haptic.play(12);
+    return true;
+  }
+  const glassWeight = (now) => {
+    const k = Math.min(1, (now - scene.since) / SCENE_FADE);
+    return (SCENES[scene.i] === 'glass' ? (scene.prev >= 0 ? k : 1) : 0)
+      + (scene.prev >= 0 && SCENES[scene.prev] === 'glass' && k < 1 ? 1 - k : 0);
+  };
   function initScenes() {
     const { h } = bubbles.view;
     scene.rain = Array.from({ length: 70 }, () => ({
       x: Math.random() * 1.15, y: Math.random() * h, len: 14 + Math.random() * 16, v: 260 + Math.random() * 160,
     }));
-    scene.glass = Array.from({ length: 30 }, () => newGlassDrop(h, true));
+    const { w } = bubbles.view;
+    glass.drops = Array.from({ length: GLASS_N }, () => newGlassDrop(w, h, true));
+    glass.trails = [];
     scene.prev = -1;
     setScene(0, performance.now());
   }
@@ -2284,29 +2458,12 @@
       }
       ctx.stroke();
     } else if (name === 'glass') {
-      scene.glass.forEach((d, i) => {
-        if (d.vy === 0) {
-          d.r += d.grow * dt;
-          if (d.r > d.limit) { d.vy = 26; d.y0 = d.y; } // крапля набрякла — починає стікати
-        } else {
-          d.vy = Math.min(110, d.vy + 40 * dt);
-          d.y += d.vy * dt;
-          ctx.beginPath();
-          ctx.moveTo(d.x * w, d.y0);
-          ctx.lineTo(d.x * w, d.y);
-          ctx.lineWidth = d.r * 0.7;
-          ctx.strokeStyle = ink.trail;
-          ctx.stroke();
-          if (d.y > h + 12) { scene.glass[i] = newGlassDrop(h, true); return; }
-        }
-        ctx.beginPath();
-        ctx.arc(d.x * w, d.y, d.r, 0, Math.PI * 2);
-        ctx.fillStyle = ink.drop;
-        ctx.fill();
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = ink.rim;
-        ctx.stroke();
-      });
+      const light = isLight();
+      glassStep(dt, w, h);
+      ctx.drawImage(glassBackdrop(w, h), 0, 0, w, h);
+      for (const t of glass.trails) drawGlassTrail(ctx, t.pts, t.w, 1 - t.age / 9, light);
+      for (const d of glass.drops) if (d.moving) drawGlassTrail(ctx, d.trail, Math.max(1.4, d.r * 0.55), 1, light);
+      for (const d of glass.drops) drawGlassDrop(ctx, d, light);
     } else {
       for (let l = 0; l < 4; l++) {
         const base = h * (0.6 + l * 0.095) + Math.sin(now / 4800 + l * 1.3) * 9;
@@ -2345,6 +2502,10 @@
     const k = Math.min(1, (now - scene.since) / SCENE_FADE);
     if (scene.prev >= 0 && k < 1) drawScene(SCENES[scene.prev], 1 - k, dt, now);
     drawScene(SCENES[scene.i], scene.prev >= 0 ? k : 1, dt, now);
+    // на склі бульбашок немає: вони тануть, поки видно краплі
+    const bubbleAlpha = 1 - glassWeight(now);
+    ctx.save();
+    ctx.globalAlpha = bubbleAlpha;
     bubbles.items.forEach((b, i) => {
       b.y -= b.vy * dt;
       b.ph += dt * 0.8;
@@ -2364,6 +2525,7 @@
       ctx.strokeStyle = isLight() ? `hsla(${b.hue}, 40%, 96%, 0.8)` : `hsla(${b.hue}, 50%, 78%, 0.45)`;
       ctx.stroke();
     });
+    ctx.restore();
     while (bubbles.pops.length && now - bubbles.pops[0].t > POP_LIFE) bubbles.pops.shift();
     for (const p of bubbles.pops) {
       const k = (now - p.t) / POP_LIFE;
@@ -2377,6 +2539,7 @@
   }
   function bubbleTap(e) {
     const p = pointIn($('bubbles-canvas'), e);
+    if (glassWeight(performance.now()) > 0.5) { glassTap(p); return; }
     for (let i = bubbles.items.length - 1; i >= 0; i--) {
       const b = bubbles.items[i], x = bubbleX(b);
       if (Math.hypot(p.x - x, p.y - b.y) > b.r + 10) continue;
@@ -2831,6 +2994,11 @@
     if (leaving) { clearTimeout(leaveTimer); leaving.classList.remove('leaving'); leaving.inert = false; leaving = null; }
     const prev = Array.from(screens).find((el) => !el.hidden && el.id !== id);
     currentScreen = id;
+    if (id === 's-home') { // «Моя опора» — одразу на головній, якщо фраза є
+      const strip = $('home-anchor');
+      strip.hidden = !getAnchor();
+      $('home-anchor-text').textContent = quoteAnchor();
+    }
     screens.forEach((el) => { el.hidden = el.id !== id; });
     document.body.dataset.screen = id;
     if (prev) {
@@ -2969,7 +3137,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 48;
+  const APP_VERSION = 49;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
@@ -3267,14 +3435,17 @@
     // Режим для дитини
     $('btn-kid').addEventListener('click', () => { Sound.unlock(); startKid(); });
     $('kid-exit').addEventListener('click', goHome);
-    $('kid-game').addEventListener('click', () => {
-      kid.game = kid.game === 'balloon' ? 'candle' : 'balloon';
+    $('kid-games').addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if (!b || b.dataset.value === kid.game) return;
+      kid.game = b.dataset.value;
       Store.set('kidGame', kid.game);
       startKid();
     });
 
     // «Моя опора»
     $('btn-anchor').addEventListener('click', () => openAnchor(goHome));
+    $('home-anchor').addEventListener('click', () => openAnchor(goHome));
     $('anchor-exit').addEventListener('click', closeAnchor);
     $('anchor-save').addEventListener('click', () => {
       const value = $('anchor-input').value.trim();
