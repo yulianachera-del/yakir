@@ -1,7 +1,7 @@
 /* Service Worker: при установке кладёт все файлы приложения в кэш,
    дальше отвечает из кэша (cache-first) — приложение работает без сети.
    При обновлении файлов увеличьте номер версии в CACHE. */
-const CACHE = 'anchor-v53'; // разом із APP_VERSION в app.js
+const CACHE = 'anchor-v72'; // разом із APP_VERSION в app.js
 const ASSETS = [
   './',
   './index.html',
@@ -38,7 +38,11 @@ async function cacheVoiceClips(cache) {
     const res = await fetch(fresh('./audio/index.json'));
     const { files = [] } = await res.clone().json();
     await cache.put('./audio/index.json', res);
-    await Promise.all(files.map((f) => cache.add(fresh('./audio/' + f)).catch(() => {})));
+    // Записи «Радіо» іспанською, італійською й румунською — ~42 МБ: на сайті їх
+    // не тягнемо при кожному оновленні, вони кешуються, коли вперше прозвучать.
+    // (У застосунку з Google Play усі файли й так лежать усередині.)
+    const now = files.filter((f) => !/^radio-(es|it|ro)\//.test(f));
+    await Promise.all(now.map((f) => cache.add(fresh('./audio/' + f)).catch(() => {})));
   } catch (e) { /* голосових файлів немає */ }
 }
 

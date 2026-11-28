@@ -288,7 +288,12 @@ html[data-theme="dawn"] { --fog-a: .2; --fog-b: .17; }
   grid-template-rows: auto minmax(150px, 7fr) minmax(120px, 5fr) auto auto auto;
 }
 .home-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 4px; }
-.home-greet { margin: 0; min-width: 0; font-size: calc(15px * var(--fs)); font-weight: 600; color: var(--muted); }
+.home-greet {
+  margin: 0; min-width: 0; display: flex; align-items: center; gap: 10px;
+  font-size: calc(22px * var(--fs)); font-weight: 700; line-height: 1.2; color: var(--soft);
+}
+.greet-ico { flex: none; width: calc(30px * var(--fs)); height: calc(30px * var(--fs)); }
+.home-greet:not(.is-night) .greet-ico--moon, .home-greet.is-night .greet-ico--sun { display: none; }
 .gear-btn {
   flex: none; width: 44px; height: 44px; padding: 0;
   display: grid; place-items: center;
@@ -323,7 +328,8 @@ html[data-theme="dawn"] { --fog-a: .2; --fog-b: .17; }
 .set-label { flex: 0 1 auto; min-width: 0; padding-left: 4px; font-size: calc(15px * var(--fs)); color: var(--text); line-height: 1.25; }
 .segmented--line { flex: 1 1 150px; margin-left: auto; background: var(--bg); padding: 3px; gap: 3px; border-radius: 16px; }
 .segmented--line:has(> :nth-child(3)) { flex-basis: 200px; }
-#set-lang { flex-basis: 220px; }
+/* у розгорнутому рядку (колонка) flex-basis став би висотою — лише за вмістом */
+.set-fold > .segmented--line, #set-lang { flex: none; margin-left: 0; }
 .set-card > .segmented--line { flex: none; margin-left: 0; }
 .segmented--line button { padding: 4px 3px; font-size: calc(14px * var(--fs)); line-height: 1.15; border-radius: 13px; }
 .set-card > .set-label { flex: none; padding-top: 2px; }
@@ -358,7 +364,9 @@ html[data-theme="dawn"] { --fog-a: .2; --fog-b: .17; }
 .set-group .set-card > * { padding-block: 12px; }
 .set-group .set-card > * + * { border-top: 1px solid var(--line); }
 .set-group .set-card > [hidden] { display: none; }
-.set-group .set-card > [hidden]:first-child + * { border-top: 0; }
+/* без лінії над першим видимим рядком, скільки б прихованих не стояло перед ним */
+.set-group .set-card > [hidden]:first-child + *,
+.set-group .set-card > [hidden]:first-child + [hidden] + * { border-top: 0; }
 .set-group .set-card > #update-status, .set-group .set-card > #update-apply { border-top: 0; padding-top: 0; }
 .set-group .set-label { padding-left: 0; font-size: calc(16px * var(--fs)); font-weight: 600; }
 .set-group .set-hint { margin: 0; }
@@ -394,6 +402,12 @@ html[data-theme="dawn"] { --fog-a: .2; --fog-b: .17; }
 .set-group #update-check { min-height: 40px; padding: 0 14px; border-radius: 20px; background: transparent; color: var(--sage); font-size: calc(14px * var(--fs)); font-weight: 700; }
 .set-group .set-link { color: var(--text); font-size: calc(16px * var(--fs)); font-weight: 600; }
 .set-group .set-link svg { color: var(--muted); }
+.set-donate[hidden] { display: none; }
+.set-donate__title { display: inline-flex; align-items: center; gap: 8px; }
+.set-group .set-donate__title .ico { width: 18px; height: 18px; color: var(--amber); }
+.set-group .set-donate { min-height: 64px; padding-block: 8px; }
+.set-group .set-donate .set-donate__title, .set-group .set-donate .set-donate__title span { font-size: calc(16px * var(--fs)); color: var(--text); }
+.set-group .set-donate .set-sub { font-size: calc(13px * var(--fs)); color: var(--muted); font-weight: 600; }
 /* Перемикач */
 .switch {
   flex: none; width: 52px; height: 32px; padding: 3px; border-radius: 16px; border: 0;
@@ -494,7 +508,19 @@ html[data-theme="dawn"] { --fog-a: .2; --fog-b: .17; }
 }
 .home-anchor[hidden] { display: none; }
 .home-anchor .ico { flex: none; width: 20px; height: 20px; color: var(--amber); }
-.home-anchor span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Довга фраза переноситься (не більше трьох рядків) і не розпирає екран.
+   Переносом із дефісом діляться лише слова від 9 літер; коротші — цілими. */
+.home-anchor { min-width: 0; max-width: 100%; }
+.home-anchor span, .anchor-line, .near-anchor {
+  min-width: 0; overflow-wrap: break-word; hyphens: auto; -webkit-hyphens: auto;
+  hyphenate-limit-chars: 9 4 4; -webkit-hyphenate-limit-before: 4; -webkit-hyphenate-limit-after: 4;
+}
+.home-anchor span {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3;
+  overflow: hidden; line-height: 1.3;
+}
+.anchor-count { margin: -4px 0 0; text-align: right; color: var(--muted); font-size: calc(13px * var(--fs)); }
+.anchor-count.is-full { color: var(--amber); }
 .card__title { font-size: calc(clamp(28px, 8.5vw, 38px) * var(--fs)); font-weight: 650; line-height: 1.12; letter-spacing: -0.01em; }
 /* Градієнтний текст лише у великих заголовках: дрібний текст лишається
    суцільним, щоб читався легко */
@@ -678,26 +704,32 @@ html[data-theme="dawn"] .near-sound[data-on="1"] { color: #8E6440; border-color:
 .blow .kc-air path:nth-child(2) { animation-delay: .5s; }
 .blow .kc-air path:nth-child(3) { animation-delay: 1.1s; }
 @keyframes kc-air { 0% { transform: translateX(-20px); opacity: 0; } 30% { opacity: .8; } 100% { transform: translateX(40px); opacity: 0; } }
-/* квітка: на вдиху виходить уперед, пелюстки трохи розкриваються, угору
-   тягнуться завитки аромату; на видиху тихо відходить на задній план */
+/* квітка: на вдиху виходить уперед і повільно розпускається — бічні
+   пелюстки відхиляються, видно серединку; на видиху знову стуляється
+   й тихо відходить на задній план */
 .kc-flower, .kc-candle { transition: transform 1.6s cubic-bezier(.3, .8, .3, 1), opacity 1.2s ease; }
 .kc-flower { transform-origin: 42px 306px; }
 .kc-candle { transform-origin: 150px 290px; }
 .kf-bloom { transform-origin: 42px 214px; transition: transform 1.6s ease; }
-.kf-scent path { stroke-dasharray: 60; stroke-dashoffset: 60; opacity: 0; }
+/* пелюстки відхиляються від основи, а не обертаються навколо неї: точка
+   повороту — трохи вище основи, рух повільний і м'який, як у справжньої квітки */
+.kf-petal, .kf-heart { transition: transform 3s cubic-bezier(.4, .1, .3, 1), opacity 2.4s ease; }
+.kf-petal--l { transform-origin: 38px 208px; }
+.kf-petal--r { transform-origin: 46px 208px; }
+.kf-petal--c, .kf-heart { transform-origin: 42px 214px; }
+.kf-heart { opacity: 0; transform: scale(.85, .7); }
 .sniff .kc-flower { transform: translate(56px, -10px) scale(1.45); }
-.sniff .kf-bloom { transform: scale(1.08, 1.04); animation: kf-sway 3s ease-in-out infinite; }
-.sniff .kf-scent path { animation: kf-scent 2.6s ease-out infinite; }
-.sniff .kf-scent path:nth-child(2) { animation-delay: .7s; }
-.sniff .kf-scent path:nth-child(3) { animation-delay: 1.4s; }
-@keyframes kf-sway { 0%, 100% { rotate: -3deg; } 50% { rotate: 3deg; } }
-@keyframes kf-scent { 0% { stroke-dashoffset: 60; opacity: 0; transform: translateY(8px); } 40% { opacity: .7; } 100% { stroke-dashoffset: 0; opacity: 0; transform: translateY(-14px); } }
+.sniff .kf-bloom { animation: kf-sway 3.4s ease-in-out infinite; }
+.sniff .kf-petal--l { transform: rotate(-11deg) scale(1.02, 1); }
+.sniff .kf-petal--r { transform: rotate(11deg) scale(1.02, 1); }
+.sniff .kf-petal--c { transform: scale(.98, .96); }
+.sniff .kf-heart { opacity: .85; transform: scale(.95, .85); }
+@keyframes kf-sway { 0%, 100% { rotate: -2deg; } 50% { rotate: 2deg; } }
 .sniff .kc-candle { transform: scale(.82); opacity: .35; }
 .blow .kc-flower { transform: scale(.72); opacity: .35; }
 .blow .kc-candle { transform: scale(1.06); }
 @media (prefers-reduced-motion: reduce) {
-  .kc-flame, .blow .kc-flame, .cwave .kc-flame, .sniff .kf-bloom, .sniff .kf-scent path, .blow .kc-air path { animation: none; }
-  .sniff .kf-scent path { opacity: .5; stroke-dashoffset: 0; }
+  .kc-flame, .blow .kc-flame, .cwave .kc-flame, .sniff .kf-bloom, .blow .kc-air path { animation: none; }
   .blow .kc-flame { transform: rotate(14deg) skewX(-9deg); }
 }
 /* Кулька: на вдиху нетерпляче погойдується, на видиху росте */
@@ -809,15 +841,30 @@ html[data-theme="dawn"] .near-sound[data-on="1"] { color: #8E6440; border-color:
 .tiles .tile-head .ico { display: none; } /* іконку замінило прев'ю */
 /* Прев'ю — під текстом і займає лише те місце, що лишилось: текст завжди
    влазить, а якщо плитка низька, картинка просто зменшується або зникає */
-.tiles button { overflow: hidden; gap: 6px; padding: 14px 14px 12px; }
+/* Прев'ю — фоном на всю плитку, під назвою й описом. Краї розчиняються
+   (маска), а вгорі картинка ледь видна, щоб текст лишався чітким. */
+.tiles button { position: relative; isolation: isolate; overflow: hidden; gap: 6px; padding: 14px 14px 12px; }
 .tiles button::before {
-  order: 2; flex: 1 1 0; height: auto; min-height: 0; max-height: 84px;
-  margin: 4px -4px 0; background-size: contain;
+  position: absolute; inset: 0; z-index: -1; margin: 0; height: auto; max-height: none;
+  border-radius: 0; background-color: transparent; background-position: center 72%; background-size: 92% auto;
+  opacity: .8;
+  -webkit-mask-image: radial-gradient(ellipse 70% 62% at 50% 68%, #000 35%, transparent 100%);
+          mask-image: radial-gradient(ellipse 70% 62% at 50% 68%, #000 35%, transparent 100%);
 }
-.tiles [data-act="bubbles"]::before, .tiles [data-act="garden"]::before { background-size: auto; }
-.tiles .tile-head, .tiles .tabs__sub { flex: none; }
-@media (max-height: 600px) { .tiles button::before { display: none; } .tiles .tile-head .ico { display: inline-block; } }
-:root[data-theme="dawn"] .tiles button::before { background-color: rgba(54, 49, 43, .82); }
+.tiles [data-act="bubbles"]::before { background-color: #0E1726; background-size: 100% 100%; opacity: .9; }
+/* кружечки — нижче й на різній висоті */
+.tiles [data-act="garden"]::before {
+  background-size: auto;
+  background-image: radial-gradient(circle at 34% 64%, transparent 0 13px, rgba(156,192,169,.7) 14px 15.5px, transparent 17px 22px, rgba(156,192,169,.3) 23px 24px, transparent 25px), radial-gradient(circle at 70% 80%, transparent 0 8px, rgba(230,200,166,.7) 9px 10.5px, transparent 12px 16px, rgba(230,200,166,.3) 17px 18px, transparent 19px);
+}
+.tiles [data-act="thought"]::before { background-position: center 88%; }
+.tiles [data-act="smile"]::before { background-position: center 80%; }
+/* росток — менший, прозоріший і в нижньому куті, щоб не заступав опис */
+.tiles [data-act="step"]::before { background-size: auto 40%; background-position: 88% 92%; opacity: .4; }
+.tiles .tile-head, .tiles .tabs__sub { flex: none; position: relative; text-shadow: 0 1px 8px rgba(0, 0, 0, .55); }
+@media (max-height: 600px) { .tiles button::before { opacity: .45; } }
+:root[data-theme="dawn"] .tiles button::before { opacity: .55; }
+:root[data-theme="dawn"] .tiles .tile-head, :root[data-theme="dawn"] .tiles .tabs__sub { text-shadow: 0 1px 8px rgba(255, 250, 240, .8); }
 
 /* Картки «Маленького кроку» та «Смішинок»: усе по центру */
 #step-note:empty { display: none; }
@@ -836,6 +883,9 @@ html[data-theme="dawn"] .near-sound[data-on="1"] { color: #8E6440; border-color:
 .d-pane[hidden] { display: none; }
 .d-pane--pad { align-items: stretch; padding: 4px 6px 8px; }
 .d-pane--pad > .soft-hint { align-self: center; }
+/* «Моя опора»: коли відкрита клавіатура й місця менше, вміст не
+   виштовхується вгору під заголовок, а прокручується */
+#s-anchor .d-pane { justify-content: flex-start; overflow-y: auto; padding-top: 12px; }
 .d-pane canvas {
   position: absolute; inset: 0; width: 100%; height: 100%;
   border-radius: var(--radius);
@@ -1079,15 +1129,85 @@ html[data-theme="dawn"] { --canvas-bg: #EEE5D8; }
 
 /* Старий радіоприймач для «Радіо здалеку»: низька яскравість, шкала
    ледь жевріє, стрілка дуже повільно дрейфує по станціях */
-.sleep-radio { width: min(66vw, 300px); height: auto; opacity: .8; transition: opacity 10s ease; pointer-events: none; }
+/* Приймач зі скляною шкалою міст. Спокійно — ледь жевріє; поки шкалу
+   крутять, світиться яскравіше, за кілька секунд знову тьмяніє.
+   --sig (0…1) — сила сигналу: біля станції шкала тепліша. */
+.sleep-radio { width: min(88vw, 342px); opacity: .62; transition: opacity 1.6s ease; --sig: 1; }
+.sleep-radio.is-awake { opacity: 1; transition-duration: .3s; }
 .sleep-radio[hidden] { display: none; }
-.sleep-radio.fade { opacity: 0; }
+.sleep-radio.fade { opacity: 0; transition: opacity 10s ease; pointer-events: none; }
 .sleep-radio + .sleep-text:empty { display: none; }
-.sr-glow { animation: sr-glow 9s ease-in-out infinite alternate; }
-@keyframes sr-glow { from { opacity: .45; } to { opacity: .9; } }
-.sr-needle { animation: sr-needle 70s ease-in-out infinite alternate; }
-@keyframes sr-needle { from { transform: translateX(0); } to { transform: translateX(42px); } }
-@media (prefers-reduced-motion: reduce) { .sr-glow, .sr-needle { animation: none; } }
+.sr-body {
+  position: relative; padding: 20px 20px 22px; border-radius: 36px;
+  background: #14100C; border: 2px solid #2A2017;
+}
+.sr-body::before { /* антена */
+  content: ""; position: absolute; right: 54px; top: -40px; width: 3px; height: 52px;
+  border-radius: 2px; background: #2B2118; transform: rotate(42deg); transform-origin: 50% 100%;
+}
+.sr-dial {
+  position: relative; height: 140px; border-radius: 14px; overflow: hidden;
+  background: #241910; box-shadow: inset 0 0 30px rgba(0,0,0,.6);
+  touch-action: none; cursor: ew-resize; outline: none;
+}
+.sr-dial::before { /* тепле світло шкали */
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 90% at 50% 60%, #6A4524, #3A2716 70%);
+  opacity: calc(.3 + var(--sig) * .45); transition: opacity .25s;
+}
+.sleep-radio:not(.is-awake) .sr-dial::before { opacity: calc(.18 + var(--sig) * .3); transition-duration: 1.6s; }
+.sr-dial:focus-visible { box-shadow: inset 0 0 30px rgba(0,0,0,.6), 0 0 0 2px #5A3E24; }
+.sr-city {
+  position: absolute; left: var(--x); top: var(--y); transform: translateX(-50%);
+  font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: 19px;
+  white-space: nowrap; color: rgba(130,88,52,.8); transition: color .3s;
+  pointer-events: none;
+}
+.sr-city::after { /* позначка станції на шкалі */
+  content: ""; position: absolute; left: 50%; top: calc(92px - var(--y)); width: 1.5px; height: 14px;
+  background: rgba(140,95,55,.8);
+}
+.sr-city[hidden] { display: none; }
+.sr-city.is-on { color: #E6AE74; }
+.sr-ticks {
+  position: absolute; left: 6%; right: 6%; top: 98px; height: 8px; pointer-events: none;
+  background: repeating-linear-gradient(90deg, rgba(110,75,42,.7) 0 1px, transparent 1px 7px);
+}
+.sr-nums {
+  position: absolute; left: 6%; right: 6%; top: 114px; display: flex; justify-content: space-between;
+  font-size: 10px; letter-spacing: .08em; color: rgba(130,90,55,.85); pointer-events: none;
+}
+.sr-nums b { font-weight: 400; }
+.sr-needle {
+  position: absolute; top: 8px; bottom: 8px; left: 62%; width: 2.5px; margin-left: -1px;
+  background: #C98A4E; box-shadow: 0 0 10px rgba(230,150,80,.55); pointer-events: none;
+}
+.sr-low { display: flex; align-items: center; gap: 24px; margin-top: 18px; }
+.sr-grille {
+  flex: 1 1 auto; height: 88px; box-sizing: border-box; padding: 14px; border-radius: 14px;
+  background: #100C09; border: 1.5px solid #221A13;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.sr-grille i { height: 2px; background: #221A12; }
+.sr-bars { display: flex; align-items: flex-end; gap: 5px; height: 40px; }
+.sr-bars i { width: 7px; border-radius: 2px; background: #241A12; transition: background .2s; }
+.sr-bars i:nth-child(1) { height: 10px; } .sr-bars i:nth-child(2) { height: 17px; }
+.sr-bars i:nth-child(3) { height: 24px; } .sr-bars i:nth-child(4) { height: 31px; }
+.sr-bars i:nth-child(5) { height: 38px; }
+.sr-bars i.on { background: #9A6A3E; }
+.sr-knob {
+  position: relative; flex: none; width: 48px; height: 48px; border-radius: 50%;
+  background: #1A140F; border: 2px solid #2C2219; box-sizing: border-box;
+}
+.sr-knob i {
+  position: absolute; left: 50%; top: 50%; width: 3px; height: 18px; margin-left: -1.5px;
+  border-radius: 2px; background: #4A3826; transform-origin: 50% 0;
+}
+.sr-station {
+  margin: 34px 0 0; min-height: 1.4em; text-align: center; font-size: 15px; letter-spacing: .06em;
+  color: #6E543C; transition: opacity .4s;
+}
+.sleep-radio:not(.is-awake) .sr-station { opacity: .55; transition-duration: 1.6s; }
 .sleep-text.is-word { font-size: calc(clamp(34px, 11vw, 64px) * var(--fs)); }
 .sleep-text.fade { opacity: 0; }
 /* Час, що минув: маленький тьмяний місяць унизу росте від молодого до

@@ -44,7 +44,7 @@
           <svg class="intro-anchor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M12 7v13.5M8.5 10.5h7"/><path d="M4.5 13.5a7.5 7 0 0 0 15 0"/></svg>
         </div>
         <h1 class="intro-title" data-i18n="introT1">Працює без інтернету</h1>
-        <p class="intro-text" data-i18n="introP1">Навіть в укритті чи без зв’язку. Допомагає скинути напругу після тривоги й заснути</p>
+        <p class="intro-text" data-i18n="introP1">Навіть в укритті чи без зв’язку. Допомагає скинути напругу після тривоги або заснути</p>
       </div>
       <div class="intro-step" data-step="2" hidden>
         <div class="intro-modes">
@@ -66,15 +66,33 @@
     <div class="intro-foot">
       <div class="intro-dots" id="intro-dots" role="img"><i></i><i></i><i></i></div>
       <button class="btn btn--primary" id="intro-next" type="button" data-i18n="introNext">Далі</button>
-      <button class="btn btn--primary" id="btn-intro" type="button" data-i18n="start" hidden>Почати</button>
-      <button class="btn btn--ghost intro-bad" id="intro-bad" type="button" data-i18n="introBad" hidden>Мені зараз погано — одразу до вправи</button>
-    </div>
+      <button class="btn btn--primary" id="btn-intro" type="button" data-i18n="start" hidden>Почати</button>    </div>
   </section>
 
   <!-- Екран 1: головний -->
   <section class="screen" id="s-home" hidden>
     <div class="home-head">
-      <p class="home-greet" id="home-greet"></p>
+      <p class="home-greet">
+        <!-- усміхнене сонечко вдень, усміхнений місяць увечері й уночі -->
+        <svg class="greet-ico greet-ico--sun" viewBox="0 0 32 32" aria-hidden="true">
+          <g stroke="#F2C46D" stroke-width="2" stroke-linecap="round" opacity=".75">
+            <path d="M16 2.5v3M16 26.5v3M2.5 16h3M26.5 16h3M6.5 6.5l2.1 2.1M23.4 23.4l2.1 2.1M6.5 25.5l2.1-2.1M23.4 8.6l2.1-2.1"/>
+          </g>
+          <circle cx="16" cy="16" r="8.2" fill="#F5C66E"/>
+          <g fill="none" stroke="#8A5A22" stroke-width="1.5" stroke-linecap="round">
+            <path d="M12.4 15.2q1.2-1.2 2.4 0M17.2 15.2q1.2-1.2 2.4 0M13.2 18.4q2.8 2.4 5.6 0"/>
+          </g>
+          <circle cx="11.9" cy="18.2" r="1.2" fill="#F29C82" opacity=".7"/><circle cx="20.1" cy="18.2" r="1.2" fill="#F29C82" opacity=".7"/>
+        </svg>
+        <svg class="greet-ico greet-ico--moon" viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M20.5 4.5A12 12 0 1 0 27.5 21 10 10 0 0 1 20.5 4.5Z" fill="#F2D9A6"/>
+          <g fill="none" stroke="#7A5C35" stroke-width="1.5" stroke-linecap="round">
+            <path d="M10.6 16.4q1.2 1.1 2.4 0M15.6 18.2q1.2 1.1 2.4 0M12 21.4q2.6 2 5.4-.4"/>
+          </g>
+          <circle cx="27" cy="9" r="1.1" fill="#F2D9A6" opacity=".7"/><circle cx="24" cy="4" r=".8" fill="#F2D9A6" opacity=".5"/>
+        </svg>
+        <span id="home-greet"></span>
+      </p>
       <button class="gear-btn" id="btn-settings" type="button" data-i18n-aria="settings">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="3"/>
@@ -89,7 +107,7 @@
         <path d="M0 116 C 50 96 90 136 140 116 S 230 96 280 116 S 360 136 410 116" opacity=".18"/>
       </svg>
       <span class="card__title" data-i18n="calmTitle">Скинути напругу</span>
-      <span class="card__sub" data-i18n="calmSub">Після тривоги чи паніки • 4 хвилини</span>
+      <span class="card__sub" data-i18n="calmSub">Подихай і відчуй опору • 4 хвилини</span>
     </button>
     <button class="card card--sleep" id="btn-sleep" type="button">
       <svg class="card__moon" viewBox="0 0 120 120" aria-hidden="true">
@@ -166,7 +184,7 @@
 
       <!-- Голос і звук -->
       <section class="set-group">
-        <h2 class="set-group__title" data-i18n="grpVoice">Голос і звук</h2>
+        <h2 class="set-group__title" data-i18n="grpVoice">Звук</h2>
         <div class="set-card">
           <!-- Перша версія — без голосових підказок; рядок повернемо разом із ними -->
           <div class="set-row" id="cues-row" hidden>
@@ -176,7 +194,9 @@
             </span>
             <button class="switch" id="set-cues" type="button" role="switch" aria-checked="true" aria-labelledby="lbl-cues"><i></i></button>
           </div>
-          <div class="set-block">
+          <!-- Темп діяв лише на синтезатор мовлення, а голос у сні тепер записаний;
+               рядок повернемо разом із голосовими підказками -->
+          <div class="set-block" id="speed-row" hidden>
             <span class="set-label" data-i18n="voiceSpeed">Темп голосу</span>
             <div class="segmented segmented--line" id="set-speed" role="radiogroup" data-i18n-aria="voiceSpeed">
               <button type="button" role="radio" data-value="slow" data-i18n="speedSlow">Повільніше</button>
@@ -235,6 +255,13 @@
           <p class="muted set-hint" id="update-status" aria-live="polite" hidden></p>
           <button class="btn btn--primary" id="update-apply" type="button" data-i18n="updApply" hidden>Оновити зараз</button>
           <button class="row set-link" id="btn-share" type="button"><span data-i18n="share">Поділитися застосунком</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+          <a class="row set-link set-donate" id="donate-link" href="#" target="_blank" rel="noopener" hidden>
+            <span class="set-row__text">
+              <span class="set-donate__title"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.1c0 5.1-7 9.4-7 9.4z"/></svg><span data-i18n="donate">Підтримати проєкт</span></span>
+              <span class="set-sub" data-i18n="donateSub">Добровільно. Якір завжди безкоштовний</span>
+            </span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
           <a class="row set-link" id="privacy-link" href="./privacy.html"><span data-i18n="privacy">Приватність</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
         </div>
       </section>
@@ -268,7 +295,9 @@
     </header>
     <div class="d-pane d-pane--pad">
       <p class="muted soft-hint" data-i18n="anchorLead">Напиши фразу для себе або ім’я близької людини. Я покажу це у важку хвилину</p>
-      <textarea id="anchor-input" rows="3" maxlength="140" data-i18n-ph="anchorPh" placeholder="Наприклад: «Це мине. Я впораюся»"></textarea>
+      <!-- 80 знаків — щоб фраза вміщалася на головній у три рядки -->
+      <textarea id="anchor-input" rows="3" maxlength="80" data-i18n-ph="anchorPh" placeholder="Наприклад: «Це мине. Я впораюся»"></textarea>
+      <p class="anchor-count" id="anchor-count" aria-live="polite">0 / 80</p>
       <p class="muted soft-hint" data-i18n="anchorNote">Зберігається лише на цьому телефоні</p>
       <button class="btn btn--primary" id="anchor-save" type="button" data-i18n="anchorSave">Зберегти</button>
       <button class="btn btn--ghost" id="anchor-clear" type="button" data-i18n="anchorClear">Прибрати</button>
@@ -368,18 +397,18 @@
           </g>
         </g>
         <g class="kc-flower">
-          <g class="kf-scent" fill="none" stroke="#FFE7D6" stroke-width="2" stroke-linecap="round">
-            <path d="M42 150c-6-8 6-14 0-22s6-14 0-22"/>
-            <path d="M28 158c-5-7 5-12 0-19s5-12 0-19"/>
-            <path d="M56 158c-5-7 5-12 0-19s5-12 0-19"/>
-          </g>
           <path d="M42 214C46 246 36 272 42 306" stroke="#6F9A7C" stroke-width="3.6" fill="none" stroke-linecap="round"/>
           <path d="M41 262C22 254 12 236 14 222 30 230 38 244 41 262Z" fill="url(#kfLeaf)"/>
           <path d="M43 284C60 276 70 260 68 246 53 254 45 268 43 284Z" fill="url(#kfLeaf)"/>
           <g class="kf-bloom">
-            <path d="M42 218C22 216 16 190 26 168 34 178 39 190 42 202Z" fill="url(#kfPetalA)"/>
-            <path d="M42 218C62 216 68 190 58 168 50 178 45 190 42 202Z" fill="url(#kfPetalA)"/>
-            <path d="M42 220C28 218 26 192 42 166 58 192 56 218 42 220Z" fill="url(#kfPetalB)"/>
+            <!-- серединка: видно, коли квітка розкривається -->
+            <g class="kf-heart" fill="#FFD27A">
+              <path d="M42 206V161M37 204l-6-38M47 204l6-38" stroke="#F5C25E" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="42" cy="158.5" r="3.2"/><circle cx="30.6" cy="164" r="2.7"/><circle cx="53.4" cy="164" r="2.7"/>
+            </g>
+            <path class="kf-petal kf-petal--l" d="M42 218C22 216 16 190 26 168 34 178 39 190 42 202Z" fill="url(#kfPetalA)"/>
+            <path class="kf-petal kf-petal--r" d="M42 218C62 216 68 190 58 168 50 178 45 190 42 202Z" fill="url(#kfPetalA)"/>
+            <path class="kf-petal kf-petal--c" d="M42 220C28 218 26 192 42 166 58 192 56 218 42 220Z" fill="url(#kfPetalB)"/>
             <path d="M38 180c2 8 3 18 4 28" stroke="#fff" stroke-opacity=".45" stroke-width="2" fill="none" stroke-linecap="round"/>
           </g>
         </g>
@@ -607,29 +636,27 @@
 
   <!-- Б2: активний режим сну (OLED black) -->
   <section class="screen screen--black" id="s-b2" hidden>
-    <!-- «Радіо здалеку»: старий приймач, ледь освітлений теплою шкалою -->
-    <svg class="sleep-radio" id="sleep-radio" viewBox="0 0 240 176" aria-hidden="true" hidden>
-      <path d="M168 36 L204 6" stroke="#2B2118" stroke-width="2.5" stroke-linecap="round"/>
-      <circle cx="205" cy="5" r="3" fill="#2B2118"/>
-      <rect x="10" y="36" width="220" height="130" rx="24" fill="#14100C" stroke="#2A2017" stroke-width="2"/>
-      <rect x="18" y="44" width="204" height="114" rx="18" fill="none" stroke="#1D1712" stroke-width="1.5"/>
-      <rect x="30" y="58" width="92" height="88" rx="14" fill="#100C09" stroke="#221A13" stroke-width="1.5"/>
-      <g stroke="#221A12" stroke-width="2.2" stroke-linecap="round">
-        <path d="M42 70h68M42 80h68M42 90h68M42 100h68M42 110h68M42 120h68M42 130h68"/>
-      </g>
-      <rect class="sr-glow" x="134" y="58" width="80" height="38" rx="8" fill="#3A2716"/>
-      <g stroke="#5A3E24" stroke-width="1.2" stroke-linecap="round" opacity=".7">
-        <path d="M142 66v6M150 66v4M158 66v6M166 66v4M174 66v6M182 66v4M190 66v6M198 66v4M206 66v6"/>
-      </g>
-      <path d="M142 84h64" stroke="#4A331E" stroke-width="1" opacity=".6"/>
-      <path class="sr-needle" d="M156 62v30" stroke="#8A5A33" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="154" cy="124" r="14" fill="#1A140F" stroke="#2C2219" stroke-width="2"/>
-      <path d="M154 124l-6-8" stroke="#3A2C20" stroke-width="2.4" stroke-linecap="round"/>
-      <circle cx="196" cy="124" r="14" fill="#1A140F" stroke="#2C2219" stroke-width="2"/>
-      <path d="M196 124l7-7" stroke="#3A2C20" stroke-width="2.4" stroke-linecap="round"/>
-      <rect x="36" y="164" width="22" height="7" rx="3" fill="#1A140F"/>
-      <rect x="182" y="164" width="22" height="7" rx="3" fill="#1A140F"/>
-    </svg>
+    <!-- «Радіо здалеку»: старий приймач зі скляною шкалою міст. Шкалу можна
+         тягнути — як ручку налаштування: між станціями шипить ефір -->
+    <div class="sleep-radio" id="sleep-radio" hidden>
+      <div class="sr-body">
+        <div class="sr-dial" id="sr-dial" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" data-i18n-aria="radioTune">
+          <span class="sr-city" data-key="es" style="--x:16%;--y:20px">Madrid</span>
+          <span class="sr-city" data-key="it" style="--x:39%;--y:48px">Roma</span>
+          <span class="sr-city" data-key="pt" style="--x:62%;--y:20px">Lisboa</span>
+          <span class="sr-city" data-key="ro" style="--x:84%;--y:48px">Bucureşti</span>
+          <i class="sr-ticks" aria-hidden="true"></i>
+          <span class="sr-nums" aria-hidden="true"><b>88</b><b>92</b><b>96</b><b>100</b><b>104</b><b>108</b></span>
+          <i class="sr-needle" id="sr-needle" aria-hidden="true"></i>
+        </div>
+        <div class="sr-low" aria-hidden="true">
+          <span class="sr-grille"><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="sr-bars" id="sr-bars"><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="sr-knob"><i id="sr-knob"></i></span>
+        </div>
+      </div>
+      <p class="sr-station" id="sr-station" aria-live="polite"></p>
+    </div>
     <div class="sleep-text" id="sleep-text"></div>
     <!-- Ледь помітний місяць росте від молодого до повного: повний — читання завершене -->
     <svg class="sleep-time" id="sleep-time" viewBox="-12 -12 24 24" aria-hidden="true">

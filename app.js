@@ -31,7 +31,9 @@
     sleepMin: Store.get('sleepMin', '8'),      // 8 | 15 | 25 — тривалість сну
     textSize: Store.get('textSize', 'normal'), // normal | large
     start: Store.get('start', 'home'),         // home | calm | near — що відкривати при запуску
-    voiceSpeed: Store.get('voiceSpeed', 'normal'), // normal | slow
+    // normal | slow. Поки рядок «Темп голосу» прихований (#speed-row) — завжди
+    // звичайний; з поверненням рядка: Store.get('voiceSpeed', 'normal')
+    voiceSpeed: 'normal',
     volume: Store.get('volume', 'mid'),          // low | mid | high — одна гучність для всіх фонових звуків
     theme: Store.get('theme', 'night'),          // night | dusk | dawn — вигляд застосунку
   };
@@ -56,7 +58,7 @@
       appName: 'Якір',
       intro: 'Працює повністю без інтернету. Допомагає швидко скинути напругу після тривоги або заснути',
       start: 'Почати',
-      calmTitle: 'Скинути напругу', calmSub: 'Після тривоги чи паніки •\u00A04\u00A0хвилини',
+      calmTitle: 'Скинути напругу', calmSub: 'Подихай і відчуй опору •\u00A04\u00A0хвилини',
       near: 'Побути поруч', nearText: 'Я поруч. Нічого не треба робити',
       settings: 'Налаштування', setLang: 'Мова', setTheme: 'Тема', themeNight: 'Ніч', themeDusk: 'Сутінки', themeDawn: 'Світанок', setIcon: 'Іконка застосунку',
       iconDefault: 'Звичайна', iconBright: 'Помітна', iconCalm: 'Спокійна',
@@ -66,7 +68,7 @@
       updOffline: 'Немає з’єднання з інтернетом. Спробуй пізніше — застосунок працює й так',
       updNoSupport: 'Оновлення приходять самі, коли телефон в інтернеті',
       updPlay: 'Google Play', updAppStore: 'App Store',
-      setText: 'Розмір тексту', textLargeLbl: 'Великий текст', cuesHint: 'Голос веде вправу', grpLook: 'Вигляд', grpVoice: 'Голос і звук', grpPractice: 'Вправи', grpAbout: 'Про застосунок', introT1: 'Працює без інтернету', introP1: 'Навіть в укритті чи без зв’язку. Допомагає скинути напругу після тривоги й заснути', introT2: 'Звук веде тебе', introP2: 'Не треба нічого читати: вдих і видих можна почути й відчути. Коли поруч люди — вистачить вібрації або тихого світла на екрані', introT3: 'Усе лишається тут', introP3: 'Без реєстрації й реклами. Твої записи бачиш лише ти — вони не виходять за межі телефона', introNext: 'Далі', introSkip: 'Пропустити', introBad: 'Мені зараз погано — одразу до вправи', introStep: 'Крок {n} з 3', icVoice: 'Звук', icVibro: 'Вібрація', icScreen: 'Лише екран', textNormal: 'Звичайний', textLarge: 'Великий',
+      setText: 'Розмір тексту', textLargeLbl: 'Великий текст', cuesHint: 'Голос веде вправу', grpLook: 'Вигляд', grpVoice: 'Звук', grpPractice: 'Вправи', grpAbout: 'Про застосунок', introT1: 'Працює без інтернету', introP1: 'Навіть в укритті чи без зв’язку. Допомагає скинути напругу після тривоги або заснути', introT2: 'Звук веде тебе', introP2: 'Не треба нічого читати: вдих і видих можна почути й відчути. Коли поруч люди — вистачить вібрації або тихого світла на екрані', introT3: 'Усе лишається тут', introP3: 'Без реєстрації й реклами. Твої записи бачиш лише ти — вони не виходять за межі телефона', introNext: 'Далі', introSkip: 'Пропустити', introBad: 'Мені зараз погано — одразу до вправи', introStep: 'Крок {n} з 3', icVoice: 'Звук', icVibro: 'Вібрація', icScreen: 'Лише екран', textNormal: 'Звичайний', textLarge: 'Великий',
       setStart: 'Що відкривати при запуску', startHome: 'Головну',
       startHint: 'Одразу потрапиш у вправу, без вибору. На головну — хрестиком', startSub: 'Одразу у вправу, без вибору',
       setVoice: 'Голос', voiceCuesLbl: 'Голосові підказки', on: 'Увімк.', off: 'Вимк.',
@@ -75,6 +77,7 @@
       volLow: 'Тихіше', volMid: 'Звичайно', volHigh: 'Гучніше',
       setSleep: 'Тривалість сну', min8: '8 хв', min15: '15 хв', min25: '25 хв',
       sleepDurHint: 'Для відліку й для слів. Потім звук і текст тихо згасають',
+      donate: 'Підтримати проєкт', donateSub: 'Добровільно. Якір завжди безкоштовний',
       share: 'Поділитися застосунком', shareText: 'Якір — офлайн-самодопомога завжди з тобою: скинути напругу або заснути. Безкоштовно, без реклами.',
       shareCopied: 'Посилання скопійовано',
       resetAll: 'Скинути всі налаштування і мої дані',
@@ -96,8 +99,8 @@
       sugSleepy: 'Тоді допоможу заснути', goDetox: 'У Детокс',
       anchorTitle: 'Моя опора', anchorOpen: 'Моя опора — фраза для важкої хвилини',
       anchorLead: 'Напиши фразу для себе або ім’я близької людини. Я покажу це у важку хвилину',
-      anchorPh: 'Наприклад: «Це мине. Я впораюся»', anchorNote: 'Зберігається лише на цьому телефоні',
-      anchorSave: 'Зберегти', anchorClear: 'Прибрати', anchorSaved: 'Збережено. Я нагадаю, коли буде важко',
+      anchorPh: 'Наприклад: «Це мине. Я впораюся»', anchorExample: 'Це мине. Я впораюся', anchorNote: 'Зберігається лише на цьому телефоні',
+      anchorSave: 'Зберегти', anchorClear: 'Прибрати', anchorSaved: 'Збережено. Хай ця фраза гріє тебе',
       back: 'Назад',
       sleepTitle: 'Допомогти заснути', sleepSub: 'Відлік, образи або радіо здалеку',
       calmEyebrow: 'Зараз важко', tileNear: 'Поруч', tileKid: 'Дитині', anchorAdd: 'Моя опора — додай свою фразу',
@@ -121,6 +124,8 @@
       wordsTitle: 'Образи (Перемішування)', wordsSub: 'Випадкові спокійні слова, {m} хвилин',
       radioTitle: 'Радіо здалеку', radioSub: 'Тихий голос читає незнайомою мовою — як прогноз погоди вночі',
       radioLangLbl: 'Мова радіо',
+      radioTune: 'Шкала налаштування: потягни, щоб знайти іншу станцію',
+      radioGap: 'ніде|між світами|десь між містами|між хвилями|нічний ефір|в морі',
       radioNoVoice: 'Для радіо потрібен голос іспанської, італійської, португальської або румунської мови. Додай його в налаштуваннях телефона: Синтезатор мовлення Google → Встановити голосові дані',
       bgSound: 'Фоновий звук', bgOff: 'Без', bgBrown: 'Шум', bgRain: 'Дощ',
       noteTap: 'Торкнись екрана, щоб почати одразу', voiceLang: 'Мова озвучення',
@@ -131,7 +136,7 @@
       detoxLead: 'Тут немає завдань і оцінок. Обери те, що зараз ближче',
       dDraw: 'Малювання світлом', dDrawSub: 'Лінії світяться й тануть',
       dGarden: 'Звуковий сад', dGardenSub: 'Кожен дотик звучить м’яко',
-      dBubbles: 'Тиха вода', dBubblesSub: 'Дощ із бульбашками, краплі на склі, хвилі', wavesHint: 'Торкнися води або веди по ній пальцем',
+      dBubbles: 'Тиха вода', dBubblesSub: 'Дощ із бульбашками, краплі на склі, хвилі', wavesHint: 'Торкнися води — піде легка брижа.\nМісяць і зорі можна пересувати',
       scRain: 'Дощ', scGlass: 'Краплі на склі', scWaves: 'Хвилі',
       dSmile: 'Про те, про се', dSmileSub: 'Знайоме ні про що', smileNext: 'Ще одну',
       dThought: 'Відпустити думку', dThoughtSub: 'Напиши — і дивись, як воно тане',
@@ -156,7 +161,7 @@
       appName: 'Anchor',
       intro: 'Works fully offline. Helps you quickly release tension after an alert, or fall asleep',
       start: 'Start',
-      calmTitle: 'Release tension', calmSub: 'After anxiety or panic •\u00A04\u00A0minutes',
+      calmTitle: 'Release tension', calmSub: 'Breathe and feel steady again •\u00A04\u00A0minutes',
       near: 'Stay with me', nearText: 'I’m here. You don’t have to do anything',
       settings: 'Settings', setLang: 'Language', setTheme: 'Theme', themeNight: 'Night', themeDusk: 'Dusk', themeDawn: 'Dawn', setIcon: 'App icon',
       iconDefault: 'Standard', iconBright: 'Bright', iconCalm: 'Calm',
@@ -166,7 +171,7 @@
       updOffline: 'No internet connection. Try later — the app works anyway',
       updNoSupport: 'Updates arrive on their own when the phone is online',
       updPlay: 'Google Play', updAppStore: 'App Store',
-      setText: 'Text size', textLargeLbl: 'Large text', cuesHint: 'A voice guides the practice', grpLook: 'Appearance', grpVoice: 'Voice & sound', grpPractice: 'Practices', grpAbout: 'About', introT1: 'Works offline', introP1: 'Even in a shelter or with no signal. Helps you release tension after an alert and fall asleep', introT2: 'Sound guides you', introP2: 'No need to read anything: you hear and feel each breath. With people around, vibration or a soft light on the screen is enough', introT3: 'Everything stays here', introP3: 'No sign-up, no ads. Only you can see what you write — it never leaves your phone', introNext: 'Next', introSkip: 'Skip', introBad: 'I feel bad right now — go to the exercise', introStep: 'Step {n} of 3', icVoice: 'Sound', icVibro: 'Vibration', icScreen: 'Screen only', textNormal: 'Normal', textLarge: 'Large',
+      setText: 'Text size', textLargeLbl: 'Large text', cuesHint: 'A voice guides the practice', grpLook: 'Appearance', grpVoice: 'Sound', grpPractice: 'Practices', grpAbout: 'About', introT1: 'Works offline', introP1: 'Even in a shelter or with no signal. Helps you release tension after an alert or fall asleep', introT2: 'Sound guides you', introP2: 'No need to read anything: you hear and feel each breath. With people around, vibration or a soft light on the screen is enough', introT3: 'Everything stays here', introP3: 'No sign-up, no ads. Only you can see what you write — it never leaves your phone', introNext: 'Next', introSkip: 'Skip', introBad: 'I feel bad right now — go to the exercise', introStep: 'Step {n} of 3', icVoice: 'Sound', icVibro: 'Vibration', icScreen: 'Screen only', textNormal: 'Normal', textLarge: 'Large',
       setStart: 'Open on launch', startHome: 'Home',
       startHint: 'Go straight into the practice, no choosing. ✕ takes you home', startSub: 'Straight into the practice',
       setVoice: 'Voice', voiceCuesLbl: 'Voice prompts', on: 'On', off: 'Off',
@@ -175,6 +180,7 @@
       volLow: 'Quieter', volMid: 'Normal', volHigh: 'Louder',
       setSleep: 'Sleep length', min8: '8 min', min15: '15 min', min25: '25 min',
       sleepDurHint: 'For counting and for words. Then sound and text fade quietly',
+      donate: 'Support the project', donateSub: 'Optional. Anchor is always free',
       share: 'Share the app', shareText: 'Anchor — offline self-help that is always with you: release tension or fall asleep. Free, no ads.',
       shareCopied: 'Link copied',
       resetAll: 'Reset all settings and my data',
@@ -196,8 +202,8 @@
       sugSleepy: 'Then let me help you fall asleep', goDetox: 'Go to Detox',
       anchorTitle: 'My anchor', anchorOpen: 'My anchor — words for a hard moment',
       anchorLead: 'Write a phrase for yourself, or the name of someone close. I will show it to you in a hard moment',
-      anchorPh: 'For example: “This will pass. I can do this”', anchorNote: 'Saved only on this phone',
-      anchorSave: 'Save', anchorClear: 'Remove', anchorSaved: 'Saved. I will remind you when it gets hard',
+      anchorPh: 'For example: “This will pass. I can do this”', anchorExample: 'This will pass. I can do this', anchorNote: 'Saved only on this phone',
+      anchorSave: 'Save', anchorClear: 'Remove', anchorSaved: 'Saved. Let these words keep you warm',
       back: 'Back',
       sleepTitle: 'Help me sleep', sleepSub: 'Countdown, images or distant radio',
       calmEyebrow: 'Hard right now', tileNear: 'Be near', tileKid: 'For a child', anchorAdd: 'My anchor — add your phrase',
@@ -222,6 +228,8 @@
       wordsTitle: 'Images (Shuffle)', wordsSub: 'Random calm words, {m} minutes',
       radioTitle: 'Distant radio', radioSub: 'A quiet voice reads in an unfamiliar language — like a night weather forecast',
       radioLangLbl: 'Radio language',
+      radioTune: 'Tuning dial: drag to find another station',
+      radioGap: 'nowhere|between worlds|somewhere between cities|between the waves|night air|at sea',
       radioNoVoice: 'The radio needs a Spanish, Italian, Portuguese or Romanian voice. Add one in your phone settings: Speech Recognition & Synthesis by Google → Install voice data',
       bgSound: 'Background sound', bgOff: 'None', bgBrown: 'Noise', bgRain: 'Rain',
       noteTap: 'Tap the screen to start right away', voiceLang: 'Voice language',
@@ -232,7 +240,7 @@
       detoxLead: 'No tasks, no scores. Pick whatever feels closest right now',
       dDraw: 'Light drawing', dDrawSub: 'Move your finger — lines glow and melt away',
       dGarden: 'Sound garden', dGardenSub: 'Touch the screen — every touch sounds soft',
-      dBubbles: 'Quiet water', dBubblesSub: 'Rain with bubbles, drops on glass, waves', wavesHint: 'Touch the water or run a finger across it',
+      dBubbles: 'Quiet water', dBubblesSub: 'Rain with bubbles, drops on glass, waves', wavesHint: 'Touch the water for a gentle ripple.\nYou can move the moon and the stars',
       scRain: 'Rain', scGlass: 'Drops on glass', scWaves: 'Waves',
       dSmile: 'This and that', dSmileSub: 'Familiar things about nothing much', smileNext: 'One more',
       dThought: 'Let a thought go', dThoughtSub: 'Write what keeps circling in your head and watch it fade',
@@ -257,7 +265,7 @@
       appName: 'Якорь',
       intro: 'Работает полностью без интернета. Помогает быстро сбросить напряжение после тревоги или уснуть',
       start: 'Начать',
-      calmTitle: 'Сбросить напряжение', calmSub: 'После тревоги или паники •\u00A04\u00A0минуты',
+      calmTitle: 'Сбросить напряжение', calmSub: 'Подыши и почувствуй опору •\u00A04\u00A0минуты',
       near: 'Побыть рядом', nearText: 'Я рядом. Ничего не нужно делать',
       settings: 'Настройки', setLang: 'Язык', setTheme: 'Тема', themeNight: 'Ночь', themeDusk: 'Сумерки', themeDawn: 'Рассвет', setIcon: 'Иконка приложения',
       iconDefault: 'Обычная', iconBright: 'Заметная', iconCalm: 'Спокойная',
@@ -267,7 +275,7 @@
       updOffline: 'Нет подключения к интернету. Попробуй позже — приложение работает и так',
       updNoSupport: 'Обновления приходят сами, когда телефон в интернете',
       updPlay: 'Google Play', updAppStore: 'App Store',
-      setText: 'Размер текста', textLargeLbl: 'Крупный текст', cuesHint: 'Голос ведёт упражнение', grpLook: 'Внешний вид', grpVoice: 'Голос и звук', grpPractice: 'Упражнения', grpAbout: 'О приложении', introT1: 'Работает без интернета', introP1: 'Даже в укрытии или без связи. Помогает снять напряжение после тревоги и уснуть', introT2: 'Звук ведёт тебя', introP2: 'Ничего не нужно читать: вдох и выдох можно услышать и почувствовать. Если рядом люди — хватит вибрации или тихого света на экране', introT3: 'Всё остаётся здесь', introP3: 'Без регистрации и рекламы. Твои записи видишь только ты — они не покидают телефон', introNext: 'Дальше', introSkip: 'Пропустить', introBad: 'Мне сейчас плохо — сразу к упражнению', introStep: 'Шаг {n} из 3', icVoice: 'Звук', icVibro: 'Вибрация', icScreen: 'Только экран', textNormal: 'Обычный', textLarge: 'Крупный',
+      setText: 'Размер текста', textLargeLbl: 'Крупный текст', cuesHint: 'Голос ведёт упражнение', grpLook: 'Внешний вид', grpVoice: 'Звук', grpPractice: 'Упражнения', grpAbout: 'О приложении', introT1: 'Работает без интернета', introP1: 'Даже в укрытии или без связи. Помогает снять напряжение после тревоги или уснуть', introT2: 'Звук ведёт тебя', introP2: 'Ничего не нужно читать: вдох и выдох можно услышать и почувствовать. Если рядом люди — хватит вибрации или тихого света на экране', introT3: 'Всё остаётся здесь', introP3: 'Без регистрации и рекламы. Твои записи видишь только ты — они не покидают телефон', introNext: 'Дальше', introSkip: 'Пропустить', introBad: 'Мне сейчас плохо — сразу к упражнению', introStep: 'Шаг {n} из 3', icVoice: 'Звук', icVibro: 'Вибрация', icScreen: 'Только экран', textNormal: 'Обычный', textLarge: 'Крупный',
       setStart: 'Что открывать при запуске', startHome: 'Главную',
       startHint: 'Сразу попадёшь в упражнение, без выбора. На главную — крестиком', startSub: 'Сразу в упражнение, без выбора',
       setVoice: 'Голос', voiceCuesLbl: 'Голосовые подсказки', on: 'Вкл.', off: 'Выкл.',
@@ -276,6 +284,7 @@
       volLow: 'Тише', volMid: 'Обычно', volHigh: 'Громче',
       setSleep: 'Длительность сна', min8: '8 мин', min15: '15 мин', min25: '25 мин',
       sleepDurHint: 'Для отсчёта и для слов. Потом звук и текст тихо гаснут',
+      donate: 'Поддержать проект', donateSub: 'Добровольно. Якорь всегда бесплатный',
       share: 'Поделиться приложением', shareText: 'Якорь — офлайн-самопомощь всегда с тобой: снять напряжение или заснуть. Бесплатно, без рекламы.',
       shareCopied: 'Ссылка скопирована',
       resetAll: 'Сбросить все настройки и мои данные',
@@ -297,8 +306,8 @@
       sugSleepy: 'Тогда помогу уснуть', goDetox: 'В Детокс',
       anchorTitle: 'Моя опора', anchorOpen: 'Моя опора — фраза для трудной минуты',
       anchorLead: 'Напиши фразу для себя или имя близкого человека. Я покажу это в трудную минуту',
-      anchorPh: 'Например: «Это пройдёт. Я справлюсь»', anchorNote: 'Хранится только на этом телефоне',
-      anchorSave: 'Сохранить', anchorClear: 'Убрать', anchorSaved: 'Сохранено. Я напомню, когда будет трудно',
+      anchorPh: 'Например: «Это пройдёт. Я справлюсь»', anchorExample: 'Это пройдёт. Я справлюсь', anchorNote: 'Хранится только на этом телефоне',
+      anchorSave: 'Сохранить', anchorClear: 'Убрать', anchorSaved: 'Сохранено. Пусть эта фраза греет тебя',
       back: 'Назад',
       sleepTitle: 'Помочь уснуть', sleepSub: 'Отсчёт, образы или радио издалека',
       calmEyebrow: 'Сейчас тяжело', tileNear: 'Рядом', tileKid: 'Ребёнку', anchorAdd: 'Моя опора — добавь свою фразу',
@@ -322,6 +331,8 @@
       wordsTitle: 'Образы (Перемешивание)', wordsSub: 'Случайные спокойные слова, {m} минут',
       radioTitle: 'Радио издалека', radioSub: 'Тихий голос читает на незнакомом языке — как прогноз погоды ночью',
       radioLangLbl: 'Язык радио',
+      radioTune: 'Шкала настройки: потяни, чтобы найти другую станцию',
+      radioGap: 'нигде|между мирами|где-то между городами|между волнами|ночной эфир|в море',
       radioNoVoice: 'Для радио нужен голос испанского, итальянского, португальского или румынского языка. Добавь его в настройках телефона: Синтезатор речи Google → Установить голосовые данные',
       bgSound: 'Фоновый звук', bgOff: 'Без', bgBrown: 'Шум', bgRain: 'Дождь',
       noteTap: 'Коснись экрана, чтобы начать сразу', voiceLang: 'Язык озвучки',
@@ -332,7 +343,7 @@
       detoxLead: 'Здесь нет заданий и оценок. Выбери то, что сейчас ближе',
       dDraw: 'Рисование светом', dDrawSub: 'Води пальцем — линии светятся и тают',
       dGarden: 'Звуковой сад', dGardenSub: 'Касайся экрана — каждое касание звучит мягко',
-      dBubbles: 'Тихая вода', dBubblesSub: 'Дождь с пузырями, капли на стекле, волны', wavesHint: 'Коснись воды или проведи по ней пальцем',
+      dBubbles: 'Тихая вода', dBubblesSub: 'Дождь с пузырями, капли на стекле, волны', wavesHint: 'Коснись воды — пойдёт лёгкая рябь.\nЛуну и звёзды можно передвигать',
       scRain: 'Дождь', scGlass: 'Капли на стекле', scWaves: 'Волны',
       dSmile: 'Про то, про сё', dSmileSub: 'Ни о чём и обо всём', smileNext: 'Ещё одну',
       dThought: 'Отпустить мысль', dThoughtSub: 'Напиши то, что крутится в голове, и смотри, как оно исчезает',
@@ -478,6 +489,19 @@
       }
       return this.buses[name];
     },
+    /* Шина записаного голосу: не залежить від «Гучності фону» і звучить
+       удвічі гучніше (+6 дБ) — щоб слова й числа було чути крізь шум і дощ.
+       Іде через той самий обмежувач, тож не хрипить. */
+    _voice() {
+      if (!this._voiceBus) {
+        this._out('fx'); // створює обмежувач
+        const g = this.ctx.createGain();
+        g.gain.value = 2;
+        g.connect(this._limiter);
+        this._voiceBus = g;
+      }
+      return this._voiceBus;
+    },
     setVolume(level) {
       Object.values(this.buses).forEach((g) => g.gain.setTargetAtTime(VOL_GAIN[level] || 1, this.ctx.currentTime, 0.15));
     },
@@ -538,6 +562,24 @@
         pg.gain.value = part;
         osc.connect(pg).connect(g);
         osc.start(t0); osc.stop(t0 + 2.9);
+        this._track(osc, g);
+      });
+    },
+
+    /* Дзвіночок вправи «Тіло»: чиста основна нота й тихі «металеві»
+       обертони (2.76 і 5.4), що згасають швидше за неї. */
+    softBell(freq, level = 0.09, decay = 4) {
+      if (!this.ready) return;
+      const c = this.ctx, t0 = c.currentTime;
+      [[1, 1], [2.76, 0.18], [5.4, 0.05]].forEach(([m, a]) => {
+        const osc = c.createOscillator(), g = c.createGain(), end = t0 + decay / Math.sqrt(m);
+        osc.type = 'sine';
+        osc.frequency.value = freq * m;
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(level * a, t0 + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.0001, end);
+        osc.connect(g).connect(this._out('fx'));
+        osc.start(t0); osc.stop(end + 0.05);
         this._track(osc, g);
       });
     },
@@ -708,15 +750,140 @@
       this._track(s, g);
     },
 
-    /* Звуки дихання замість голосових підказок: повітря через фільтр.
-       Вдих — шелест наростає й світлішає; видих — довгий, м'який, униз. */
-    breathIn(sec, level = 1) {
+    /* Тибетська чаша: м'який удар і тон, що стихає, але звучить до кінця
+       фази. Обертони неґармонічні (як у справжньої чаші), кожен — пара ледь
+       розстроєних тонів, звідси повільне «вау-вау» биття. */
+    bowl(freq, sec, level = 1) {
       if (!this.ready) return;
-      this._whoosh(0, 420, 1500, 0.9, 0.06 * level, sec * 0.85, Math.max(0.25, sec * 0.15));
+      const c = this.ctx, t0 = c.currentTime, end = t0 + sec;
+      const L = 0.075 * level;
+      // [множник, сила, частка, що лишається звучати, швидкість биття, Гц]
+      [[1, 1, 0.5, 0.9], [2.83, 0.32, 0.28, 1.7], [5.4, 0.1, 0.12, 2.6], [8.9, 0.035, 0.05, 3.4]].forEach(([m, a, keep, beat]) => {
+        const g = c.createGain(), peak = L * a;
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.linearRampToValueAtTime(peak, t0 + 0.025 + 0.02 * m / 9);
+        // спершу помітно стихає, далі тримається й повільно тане до кінця фази
+        g.gain.setTargetAtTime(peak * keep, t0 + 0.05, 0.35 + 0.5 / m);
+        g.gain.setTargetAtTime(peak * keep * 0.6, t0 + 1.2, Math.max(0.6, sec * 0.5));
+        g.gain.setTargetAtTime(0.0001, end - 0.05, 0.22);
+        g.connect(this._out('fx'));
+        [-beat / 2, beat / 2].forEach((det) => {
+          const o = c.createOscillator();
+          o.type = 'sine';
+          o.frequency.value = freq * m + det;
+          o.connect(g);
+          o.start(t0); o.stop(end + 1.2);
+          this._track(o, g);
+        });
+      });
+    },
+    /* Дзвіночки для дитини: світлий тон, що тягнеться всю фазу, і поверх —
+       тихі дзинь-дзинь: на вдиху вгору, на видиху вниз. */
+    chimes(up, sec, level = 1) {
+      if (!this.ready) return;
+      const c = this.ctx, t0 = c.currentTime, end = t0 + sec;
+      const base = up ? 523.25 : 392;
+      [[1, 1, 0.45], [2, 0.22, 0.2], [3.01, 0.07, 0.08]].forEach(([m, a, keep]) => {
+        const g = c.createGain(), peak = 0.05 * level * a;
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.linearRampToValueAtTime(peak, t0 + 0.02);
+        g.gain.setTargetAtTime(peak * keep, t0 + 0.04, 0.5);
+        g.gain.setTargetAtTime(0.0001, end - 0.05, 0.2);
+        g.connect(this._out('fx'));
+        [-0.7, 0.7].forEach((det) => {
+          const o = c.createOscillator();
+          o.type = 'sine'; o.frequency.value = base * m + det;
+          o.connect(g); o.start(t0); o.stop(end + 1);
+          this._track(o, g);
+        });
+      });
+      // пентатоніка C-D-E-G-A: що б не збіглося, звучить лагідно
+      const notes = [1046.5, 1174.7, 1318.5, 1568, 1760];
+      const seq = up ? notes : notes.slice().reverse();
+      const n = Math.max(3, Math.min(5, Math.round(sec / 0.8)));
+      for (let i = 0; i < n; i++) {
+        const at = t0 + 0.25 + (i * (sec - 0.6)) / n, f = seq[i % seq.length];
+        [[1, 1], [2.76, 0.12]].forEach(([m, a]) => {
+          const o = c.createOscillator(), g = c.createGain(), stop = at + 1.4 / m;
+          o.type = 'sine'; o.frequency.value = f * m;
+          g.gain.setValueAtTime(0.0001, at);
+          g.gain.exponentialRampToValueAtTime(0.022 * level * a, at + 0.008);
+          g.gain.exponentialRampToValueAtTime(0.0001, stop);
+          o.connect(g).connect(this._out('fx'));
+          o.start(at); o.stop(stop + 0.05);
+          this._track(o, g);
+        });
+      }
+    },
+    /* М'яке відлуння для дзвоників дихання. Не ConvolverNode: згортка з
+       довгим хвостом на телефонах перевантажувала аудіопотік (тріск і паузи).
+       Тут дві короткі лінії затримки зі зворотним зв'язком — майже нічого не
+       коштують, а простір чути. Створюються один раз і живуть далі. */
+    _echoIn() {
+      if (!this._echo) {
+        const c = this.ctx, inp = c.createGain(), wet = c.createGain();
+        wet.gain.value = 0.3;
+        wet.connect(this._out('fx'));
+        [[0.137, 0.42], [0.229, 0.34]].forEach(([time, fbk]) => {
+          const d = c.createDelay(1), lp = c.createBiquadFilter(), fb = c.createGain();
+          d.delayTime.value = time;
+          lp.type = 'lowpass'; lp.frequency.value = 2400;
+          fb.gain.value = fbk;
+          inp.connect(d); d.connect(lp); lp.connect(fb); fb.connect(d); lp.connect(wet);
+        });
+        this._echo = inp;
+      }
+      return this._echo;
+    },
+    /* «Дзвоники-хмаринка»: три м'які дзвоники акордом (легкий удар і тон,
+       що тягнеться до кінця фази). На вдиху акорд світлий, на «ще трошки» —
+       трохи вищий, на видиху — тепліший і нижчий. Обрано за пробою (листопад 2026). */
+    cloud(up, sec, top = false, level = 1) {
+      if (!this.ready) return;
+      const c = this.ctx, t0 = c.currentTime;
+      const chord = top ? [440, 587.3, 880] : up ? [523.3, 659.3, 784] : [440, 523.3, 659.3];
+      // один спільний вихід на всю фазу: сухий звук + відлуння
+      const dst = c.createGain();
+      dst.connect(this._out('fx')); dst.connect(this._echoIn());
+      chord.forEach((f, i) => {
+        const t = t0 + i * 0.12, end = t0 + sec;
+        // удар дзвоника: чиста нота з легкими обертонами
+        [[1, 1], [2, 0.22], [3, 0.07]].forEach(([m, a]) => {
+          const o = c.createOscillator(), g = c.createGain(), e = t + 3 / Math.sqrt(m);
+          o.type = 'sine'; o.frequency.value = f * m;
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(0.022 * level * a, t + 0.006);
+          g.gain.exponentialRampToValueAtTime(0.0001, e);
+          o.connect(g).connect(dst);
+          o.start(t); o.stop(e + 0.05);
+          this._track(o, g);
+        });
+        // тягучий тон: ледь розстроєна пара — повільне мерехтіння
+        const g = c.createGain();
+        g.connect(dst);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(0.016 * level, t + 0.6);
+        g.gain.setTargetAtTime(0.016 * level * 0.75, t + 0.6, 0.6);
+        g.gain.setTargetAtTime(0.0001, end - 0.05, 0.25);
+        [-0.175, 0.175].forEach((d) => {
+          const o = c.createOscillator();
+          o.type = 'sine'; o.frequency.value = f + d;
+          o.connect(g); o.start(t); o.stop(end + 0.9); // хвіст згасає за ~0,8 с
+          this._track(o, g);
+        });
+      });
+    },
+    /* Звуки дихання замість голосових підказок: «Дзвоники-хмаринка».
+       Повертає true: тон-провідник тоді не потрібен. */
+    breathIn(sec, level = 1) {
+      if (!this.ready) return false;
+      this.cloud(true, sec, level < 1); // «ще трошки» (level < 1) — вищий акорд
+      return true;
     },
     breathOut(sec, level = 1) {
-      if (!this.ready) return;
-      this._whoosh(0, 1250, 280, 0.7, 0.07 * level, Math.min(0.5, sec * 0.12), sec * 0.88);
+      if (!this.ready) return false;
+      this.cloud(false, sec);
+      return true;
     },
     /* М'яке постукування (подушечкою пальця): низький глухий тон і ледь
        чутний шурхіт. side: -1 ліворуч, 1 праворуч, 0 по центру */
@@ -751,6 +918,26 @@
       s.connect(f).connect(ng).connect(out);
       s.start(t0, Math.random() * 2, 0.08);
       this._track(s, ng);
+    },
+
+    /* Тихий «хлюп» від дотику до води: коротка булька (синус, що швидко
+       падає вниз) і ледь чутний мокрий шелест. Висота щоразу трохи інша. */
+    plop(level = 1) {
+      if (!this.ready) return;
+      const c = this.ctx, t0 = c.currentTime, f = 300 + Math.random() * 160;
+      const osc = c.createOscillator(), g = c.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(f, t0);
+      osc.frequency.exponentialRampToValueAtTime(f * 0.45, t0 + 0.14);
+      g.gain.setValueAtTime(0.0001, t0);
+      // утричі гучніше за першу версію: шум хвиль низький, а хлюп — у середині
+      // діапазону, тож його чути крізь хвилі, не перекрикуючи їх
+      g.gain.exponentialRampToValueAtTime(0.16 * level, t0 + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.2);
+      osc.connect(g).connect(this._out('fx'));
+      osc.start(t0); osc.stop(t0 + 0.22);
+      this._track(osc, g);
+      this._whoosh(0.01, 1600, 550, 2.2, 0.06 * level, 0.02, 0.24);
     },
 
     /* Хвилі: м'який сплеск-шелест води, сила 0..1 */
@@ -1043,7 +1230,9 @@
     preload(path) {
       if (this.has(path) && !this.buffers.has(path)) this._load(path).catch(() => {});
     },
-    async play(path, volume, onFail) {
+    /* opts.bus — інший вихід (шкала «Радіо» глушить голос між станціями);
+       opts.mid — почати з випадкового місця, ніби передача вже йшла */
+    async play(path, volume, onFail, opts = {}) {
       // Якщо попередній кліп от-от закінчиться (≤ 0,7 с), новий стане в чергу
       // одразу за ним, а не обірве останнє слово.
       const prev = this.current, c0 = Sound.ctx;
@@ -1059,11 +1248,13 @@
         if (gen !== this.gen) { fin(); return; }
         const c = Sound.ctx, src = c.createBufferSource(), g = c.createGain();
         src.buffer = buffer;
-        g.gain.value = volume;
-        src.connect(g).connect(c.destination);
+        src.connect(g).connect(opts.bus || Sound._voice());
         const at = Math.max(c.currentTime, tail ? tail.end : 0);
-        src.start(at);
-        this.current = { src, g, end: at + buffer.duration };
+        const off = opts.mid ? buffer.duration * (0.15 + Math.random() * 0.55) : 0;
+        if (off) { g.gain.setValueAtTime(0.0001, at); g.gain.linearRampToValueAtTime(volume, at + 0.08); }
+        else g.gain.value = volume;
+        src.start(at, off);
+        this.current = { src, g, end: at + buffer.duration - off };
         src.onended = () => { if (this.current && this.current.src === src) this.current = null; fin(); };
       } catch (e) {
         fin();
@@ -1307,11 +1498,14 @@
 
   /* Єдина точка для будь-якої фрази: записаний файл, якщо він є, інакше
      синтезатор. Повертає false, якщо сказати нічим (тоді — вібро/візуал). */
+  /* Російські записи (інший голос) приблизно на 1,7 дБ тихіші за англійські
+     й українські — вирівнюємо, щоб голос не губився під шумом */
+  const CLIP_LANG_GAIN = { ru: 1.2 };
   function say(key, text, rate, volume, onFail) {
     const path = `${settings.lang}/${key}.mp3`;
     if (Clips.has(path)) {
       Speech.stop();
-      Clips.play(path, volume, onFail);
+      Clips.play(path, volume * (CLIP_LANG_GAIN[settings.lang] || 1), onFail);
       return true;
     }
     // записаний голос можна підсилити понад 1, синтезатор — ні
@@ -1409,9 +1603,10 @@
     const dots = $('bf').children, text = $('bf-text');
     const clear = () => { dots[0].classList.remove('on'); dots[1].classList.remove('on'); };
     text.textContent = tr('bfText');
-    // час прочитати (дослухати) й покласти руки
-    // без голосу інструкцію треба прочитати — даємо на це більше часу
-    await wait(await cueWait('bfText', tr('bfText'), voiceOn() ? 5500 : 6500), t);
+    // з голосом — чекаємо, поки дослухають інструкцію; без голосу вправа
+    // починається одразу: метелик блимає, а текст можна читати по ходу
+    if (voiceOn()) await wait(await cueWait('bfText', tr('bfText'), 5500), t);
+    else await wait(600, t);
     for (let set = 0; set < BUTTERFLY_SETS; set++) {
       text.textContent = tr('bfText');
       for (let i = 0; i < BUTTERFLY_TAPS; i++) {
@@ -1473,12 +1668,14 @@
         Haptic.play(phase.vib);
         // з голосом тон стає тихішим тлом, без голосу — основним орієнтиром
         if (soundOn()) {
-          Sound.glide(phase.tone[0], phase.tone[1], phase.ms / 1000, voiceOn() ? 0.035 : 0.045);
-          // замість слів «вдих / ще трошки / видих» — звук самого дихання
+          // замість слів «вдих / ще трошки / видих» — звук самого дихання;
+          // тон-провідник лишається, лише коли живого запису немає
+          let live = false;
           if (!voiceOn()) {
-            if (phase.text === 'exhale') Sound.breathOut(phase.ms / 1000);
-            else Sound.breathIn(phase.ms / 1000, phase.text === 'topup' ? 0.7 : 1);
+            live = phase.text === 'exhale' ? Sound.breathOut(phase.ms / 1000)
+              : Sound.breathIn(phase.ms / 1000, phase.text === 'topup' ? 0.7 : 1);
           }
+          if (!live) Sound.glide(phase.tone[0], phase.tone[1], phase.ms / 1000, voiceOn() ? 0.035 : 0.045);
         }
         cue(phase.text, tr(phase.voice));
         await wait(phase.ms, t);
@@ -1505,8 +1702,7 @@
       cue(tense, tr(tense));
       Haptic.play(40); // один м'який поштовх на початку напруження
       if (soundOn()) {
-        Sound.glide(130, 175, 5, 0.05);
-        if (!voiceOn()) Sound.breathIn(1.6); // вдих перед напруженням
+        Sound.softBell(659.25, 0.09, 3.5); // вищий дзвіночок: напружити
       }
       for (let s = 5; s >= 1; s--) { timer.textContent = s; await wait(1000, t); }
 
@@ -1515,8 +1711,7 @@
       cue(release, tr(release));
       Haptic.play([25, 140, 25]);
       if (soundOn()) {
-        Sound.glide(175, 98, 1.6, 0.06);
-        if (!voiceOn()) Sound.breathOut(4); // довгий видих — відпустити
+        Sound.softBell(440, 0.09, 4.5); // нижчий дзвіночок: відпустити
       }
       for (let s = 15; s >= 1; s--) { timer.textContent = s; await wait(1000, t); }
     }
@@ -1634,14 +1829,23 @@
   /* ---- «Моя опора» ----
      Одна фраза для себе або ім'я близької людини. Живе лише в localStorage
      цього телефона; показується на фіналі практики й у «Побути поруч». */
-  const getAnchor = () => Store.get('anchorText', '').trim();
+  // Новому користувачу — фраза-приклад (її можна змінити чи прибрати);
+  // збережений порожній рядок означає «прибрано», і приклад більше не з'являється
+  const getAnchor = () => { const v = Store.get('anchorText', null); return (v === null ? tr('anchorExample') : v).trim(); };
   const quoteAnchor = () => { const a = getAnchor(); return a ? `«${a}»` : ''; };
   let anchorReturn = null;
   function openAnchor(returnTo) {
     anchorReturn = returnTo;
     $('anchor-input').value = getAnchor();
     $('anchor-clear').hidden = !getAnchor();
+    paintAnchorCount();
     showScreen('s-anchor');
+  }
+  // лічильник знаків: фраза має вміститися на головній у три рядки
+  function paintAnchorCount() {
+    const el = $('anchor-input'), max = el.maxLength, n = el.value.length;
+    $('anchor-count').textContent = `${n} / ${max}`;
+    $('anchor-count').classList.toggle('is-full', n >= max);
   }
   function closeAnchor() {
     $('anchor-input').blur();
@@ -1822,8 +2026,8 @@
         stage.classList.add('sniff');
         Haptic.play(35); // лише на зміну дії: «вдих»
         if (soundOn()) {
-          Sound.glide(196, 262, KID_IN / 1000, voiceOn() ? 0.035 : 0.05);
-          if (!voiceOn()) Sound.breathIn(KID_IN / 1000);
+          if (voiceOn()) Sound.glide(196, 262, KID_IN / 1000, 0.035);
+          else Sound.chimes(true, KID_IN / 1000); // дзвіночки вгору
         }
         await wait(await cueWait(keys[0], tr(keys[0]), KID_IN), t);
 
@@ -1834,8 +2038,8 @@
         setBalloon(0.35 + (0.65 * n) / KID_BREATHS, KID_OUT); // кулька росте з кожним видихом
         Haptic.play([25, 140, 25]); // «видих»
         if (soundOn()) {
-          Sound.glide(262, 165, KID_OUT / 1000, voiceOn() ? 0.035 : 0.05);
-          if (!voiceOn()) Sound.breathOut(KID_OUT / 1000);
+          if (voiceOn()) Sound.glide(262, 165, KID_OUT / 1000, 0.035);
+          else Sound.chimes(false, KID_OUT / 1000); // дзвіночки вниз
         }
         await wait(await cueWait(keys[1], tr(keys[1]), KID_OUT), t);
       }
@@ -1865,7 +2069,7 @@
       'лимон', 'песок', 'ёлка', 'скрипка', 'кот', 'гриб', 'радуга', 'мячик', 'подсолнух', 'хлеб',
       'арбуз', 'панда', 'полотенце', 'свёкла', 'капуста', 'дельфин', 'жираф', 'кенгуру', 'пингвин', 'ласточка',
       'воробей', 'одуванчик', 'тюльпан', 'ландыш', 'сирень', 'каштан', 'клён', 'дуб', 'рябина', 'ежевика',
-      'клубника', 'малина', 'персик', 'абрикос', 'виноград', 'апельсин', 'банан', 'сыр', 'блин', 'каша',
+      'клубника', 'малина', 'персик', 'абрикос', 'виноград', 'апельсин', 'банан', 'сыр', 'фиалка', 'каша',
       'какао', 'пирожное', 'конфета', 'свитер', 'тапочки', 'пижама', 'расчёска', 'кролик', 'белка', 'лисичка',
       'утка', 'аист', 'светлячок', 'божья коровка', 'муравей', 'бегемот', 'слон', 'зебра', 'воздушный змей', 'остров',
       'волна', 'звезда', 'луна', 'снеговик', 'санки', 'коньки', 'гитара', 'пианино', 'дудочка', 'акварель'],
@@ -1905,7 +2109,8 @@
   /* Гучність шуму на початку (далі стишується разом із голосом). Динаміки
      телефона майже не відтворюють найнижчі частоти, тому шум зроблено
      гучнішим і трохи світлішим (див. startNoise). */
-  const NOISE_LEVEL = { brown: 0.8, rain: 0.42 };
+  // (−3 дБ від попередніх 0.8 / 0.42: голос у сні мав бути чутним і на «Гучніше»)
+  const NOISE_LEVEL = { brown: 0.56, rain: 0.3 };
   /* Дощ шелестить у тих самих частотах, що й мова, і маскує слова сильніше
      за рівний шум — тому під дощ голос трохи гучніший. */
   const VOICE_BOOST = { off: 1, brown: 1, rain: 1.3 };
@@ -1914,18 +2119,22 @@
   /* ---- Прогрессивное замедление: обратный отсчёт ----
      Чем ближе к нулю, тем длиннее пауза, медленнее и тише голос —
      счёт «растворяется» вместе с вниманием.
-     Пауза рахується від КІНЦЯ числа: 1 с тиші на початку (base) плюс
-     надбавка extra, яку runCountdown розтягує, щоб відлік зайняв 8/15/25 хв.
-       100–80: 1 с, скорость 0.95, громкость 100%
-        79–50: надбавка плавно растёт 0 → 1.5 с (×k), 0.85, 80%
-        49–20: +3.5 с (×k), 0.75, 60%
-        19–0 : +6 с (×k), 0.70, 40% */
-  function countPace(n) {
-    if (n >= 80) return { base: 1000, extra: 0, rate: 0.95, vol: 1.0 };
-    if (n >= 50) return { base: 1000, extra: ((79 - n) / 29) * 1500, rate: 0.85, vol: 0.8 };
-    if (n >= 20) return { base: 1000, extra: 3500, rate: 0.75, vol: 0.6 };
-    return { base: 1000, extra: 6000, rate: 0.70, vol: 0.4 };
+     Пауза рахується від КІНЦЯ числа: 1 с тиші (base) плюс надбавка extra.
+     Від 100 до 11 надбавка росте лише трохи: 0 → A; на останніх десяти
+     пауза помітно довша: 2A → 6A. A підбирає runCountdown під тривалість,
+     але не більше COUNT_A_MAX — тож A ≤ 2,5 с, остання пауза ≤ 15 с.
+     Гучність і темп тихішають і сповільнюються разом із паузою. */
+  const COUNT_A_MAX = 2500;
+  function countPace(n, A) {
+    if (n > 10) {
+      const k = (100 - n) / 89; // 0 на 100 → 1 на 11
+      return { base: 1000, extra: A * k, rate: 0.95 - k * 0.15, vol: 1 - k * 0.4 };
+    }
+    const k = (10 - n) / 10;   // 0 на 10 → 1 на 0
+    return { base: 1000, extra: A * (2 + 4 * k), rate: 0.75 - k * 0.05, vol: 0.55 - k * 0.15 };
   }
+  // сума надбавок за весь відлік у одиницях A: ≈45 до 11 і 44 на останніх десяти
+  const COUNT_A_UNITS = (() => { let s = 0; for (let n = 100; n >= 0; n--) s += countPace(n, 1).extra; return s; })();
   const COUNT_SPEECH_MS = 1500; // приблизна тривалість одного числа вголос
 
   /* ---- Прогрессивное замедление: образы ----
@@ -1967,7 +2176,7 @@
     setTimeout(() => sleepText.classList.add('warm'), 400); // поступово — в бурштин
     // «Радіо» — ледь освітлений приймач; системний рядок ховаємо в будь-якому режимі
     const radioArt = $('sleep-radio');
-    radioArt.classList.remove('fade');
+    radioArt.classList.remove('fade', 'is-awake');
     // у SVG властивості .hidden немає — лише атрибут
     radioArt.toggleAttribute('hidden', !(settings.sleepMode === 'radio' && radioLang()));
     enterFullscreen();
@@ -1986,18 +2195,19 @@
     ({ count: runCountdown, words: runWords, radio: runRadio }[settings.sleepMode] || runCountdown)(t);
   }
 
-  /* Тривалість із Налаштувань: розтягується лише надбавка до паузи (перші
-     числа завжди йдуть з 1 с тиші), щоб весь відлік тривав 8, 15 або 25 хв. */
+  /* Тривалість із Налаштувань: під неї підбирається надбавка до паузи. Якщо
+     відлік із найдовшими дозволеними паузами закінчиться раніше (15 і 25 хв),
+     далі до кінця таймера звучить лише тихий фон. */
   const sleepMs = () => Number(settings.sleepMin) * 60 * 1000;
   async function runCountdown(t) {
-    let fixed = 0, extra = 0;
-    for (let n = 100; n >= 0; n--) { const p = countPace(n); fixed += p.base + COUNT_SPEECH_MS; extra += p.extra; }
-    const stretch = Math.max(0.3, (sleepMs() - fixed) / extra);
+    const started = performance.now();
+    const fixed = 101 * (1000 + COUNT_SPEECH_MS);
+    const A = Math.max(300, Math.min(COUNT_A_MAX, (sleepMs() - fixed) / COUNT_A_UNITS));
     // Записаний відлік (audio/<мова>/n-100…n-1): числа без файлу (0) не
     // озвучуються синтезатором, щоб наприкінці не з'явився чужий голос.
     const recorded = Clips.has(`${settings.lang}/n-1.mp3`);
     for (let n = 100; n >= 0; n--) {
-      const pace = countPace(n);
+      const pace = countPace(n, A);
       const key = 'n-' + n;
       const clip = sleepVoice() && Clips.has(`${settings.lang}/${key}.mp3`);
       if (recorded && !Clips.has(`${settings.lang}/${key}.mp3`)) {
@@ -2011,7 +2221,15 @@
       if (clip) await Promise.race([Clips.finished, wait(5000, t)]);
       else await wait(COUNT_SPEECH_MS, t);
       if (t.cancelled) return;
-      await wait(pace.base + pace.extra * stretch, t);
+      await wait(pace.base + pace.extra, t);
+    }
+    // відлік скінчився раніше за таймер: число гасне, фон тихо грає до кінця
+    const left = sleepMs() - (performance.now() - started);
+    if (left > 3000) {
+      sleepText.classList.add('fade');
+      if (settings.bg !== 'off') Sound.setNoiseLevel(NOISE_LEVEL[settings.bg] * 0.35, 8);
+      await wait(left, t);
+      if (t.cancelled) return;
     }
     endSleep(t);
   }
@@ -2119,10 +2337,25 @@
     ],
   };
   const RADIO_LANGS = [['es', 'es-ES', 'Español'], ['it', 'it-IT', 'Italiano'], ['pt', 'pt-PT', 'Português'], ['ro', 'ro-RO', 'Română']];
-  /* Мови «Радіо», для яких у телефоні є голос: [{key, tag, name}] */
+  /* Записана передача (audio/radio-<мова>/r-01…): звучить замість синтезатора.
+     Число — скільки шматків; перший — вступ «Boa noite…». */
+  /* Пункти передачі: скільки шматків у кожному, по порядку номерів файлів.
+     pt: ваш запис — пункти 1, 2 і 10 (межі знайдені розпізнаванням мови) +
+     пункт 5 голосом Livia; es/it/ro — озвучені
+     пункти (es 1,2,3,5,8,10; it 1,2,4,5,7,9,10; ro 1–10). Перший пункт кожної
+     мови починається з вітання. Пункт звучить від початку до кінця, лише
+     потім випадково обирається наступний — голос міняється тільки між пунктами. */
+  const RADIO_SECTIONS = { pt: [5, 6, 5, 5], es: [5, 6, 5, 5, 5, 5], it: [5, 5, 6, 6, 5, 5, 4], ro: [5, 5, 6, 5, 5, 4, 4, 5, 5, 4] };
+  const RADIO_REC = Object.fromEntries(Object.entries(RADIO_SECTIONS).map(([k, s]) => [k, s.reduce((a, b) => a + b, 0)]));
+  /* Номер першого шматка кожного пункту: [1, 6, 12, …] */
+  const radioStarts = (key) => { let n = 1; return RADIO_SECTIONS[key].map((c) => { const s = n; n += c; return s; }); };
+  const radioClip = (key, i) => `radio-${key}/r-${String(i).padStart(2, '0')}.mp3`;
+  const radioRec = (key) => !!RADIO_REC[key] && Clips.available.has(radioClip(key, 1));
+  /* Мови «Радіо», для яких є запис або голос у телефоні: [{key, tag, name}] */
   function radioLangs() {
     const out = [];
     for (const [key, tag, name] of RADIO_LANGS) {
+      if (radioRec(key)) { out.push({ key, name, tag, rec: true }); continue; }
       const found = Speech.hasLang(key);
       // перевага — «рідному» варіанту мови (es-ES), інакше той, що є (es-US)
       if (found) out.push({ key, name, tag: found.toLowerCase() === tag.toLowerCase() ? tag : (Speech.hasLang(tag.toLowerCase()) || found) });
@@ -2134,30 +2367,288 @@
     const list = radioLangs();
     return list.find((l) => l.key === settings.radioLang) || list[0] || null;
   }
+  /* ---- Шкала налаштування «Радіо» ----
+     Кожна мова — «станція» на своєму місці шкали (місто). Тягнеш шкалу —
+     стрілка їде, між станціями шипить ефір, біля станції голос
+     пробивається з перебоями. Відпустив — стрілка сама м'яко доходить до
+     найближчої станції (щоб не заснути під шипіння). Станцію спіймано —
+     легенька вібрація. Обрана станція = мова радіо в налаштуваннях. */
+  const Tuner = {
+    SLOT: { es: 16, it: 39, pt: 62, ro: 84 },
+    on: false, pos: 62, key: null, sig: 1, list: [], mid: false, buzzed: null,
+    drag: null, anim: 0, idleTimer: 0, gapI: Math.floor(Math.random() * 5), inGap: false,
+    switched: Promise.resolve(), _fire: () => {},
+    _signal() { this._fire(); this.switched = new Promise((r) => { this._fire = r; }); },
+    start() {
+      this.list = radioLangs();
+      const cur = radioLang();
+      this.on = true; this.key = cur ? cur.key : null; this.buzzed = this.key;
+      this.pos = cur ? this.SLOT[cur.key] : 50; this.sig = 1; this.mid = false;
+      this._signal();
+      document.querySelectorAll('#sr-dial .sr-city').forEach((el) => {
+        el.hidden = !this.list.some((l) => l.key === el.dataset.key);
+      });
+      this._audio();
+      this._paint();
+      this.wake(4000);
+    },
+    stop(fade = 0.6) {
+      this.on = false; this.drag = null;
+      clearTimeout(this.anim); clearTimeout(this.idleTimer);
+      const a = this.au; this.au = null;
+      if (a) {
+        const now = Sound.ctx.currentTime;
+        a.stat.gain.setTargetAtTime(0.0001, now, fade / 4);
+        a.whis.gain.setTargetAtTime(0.0001, now, fade / 4);
+        a.crk.gain.setTargetAtTime(0.0001, now, fade / 4);
+        setTimeout(() => { try { a.src.stop(); a.csrc.stop(); a.osc.stop(); a.osc2.stop(); a.bus.disconnect(); a.stat.disconnect(); a.crk.disconnect(); a.whis.disconnect(); } catch (e) { /* noop */ } }, fade * 1000 + 300);
+      }
+    },
+    current() { return this.on && this.key && this.sig > 0.45 ? this.list.find((l) => l.key === this.key) || null : null; },
+    /* Звук ефіру: шипіння з тріском і тихий «свист» біля станції */
+    _audio() {
+      if (!Sound.ready) return;
+      const c = Sound.ctx, out = Sound._voice();
+      const sr = c.sampleRate;
+      if (!this._staticBuf) {
+        // шипіння ефіру з повільним «диханням»
+        const n = sr * 3, b = c.createBuffer(1, n, sr), d = b.getChannelData(0);
+        for (let i = 0; i < n; i++) {
+          const wob = 0.65 + 0.35 * Math.sin((i / sr) * Math.PI * 2 * 2.7);
+          d[i] = (Math.random() * 2 - 1) * 0.45 * wob;
+        }
+        this._staticBuf = b;
+        // потріскування: поодинокі клацання і короткі гроноподібні серії
+        const m = sr * 4, cb = c.createBuffer(1, m, sr), q = cb.getChannelData(0);
+        let crack = 0, burst = 0;
+        for (let i = 0; i < m; i++) {
+          if (burst > 0) burst--;
+          if (Math.random() < 0.00005) burst = Math.floor(sr * (0.04 + Math.random() * 0.12));
+          if (Math.random() < (burst > 0 ? 0.004 : 0.00025)) crack = (Math.random() < 0.5 ? -1 : 1) * (0.5 + Math.random() * 0.5);
+          crack *= 0.94;
+          q[i] = crack * (0.6 + Math.random() * 0.4);
+        }
+        this._crackBuf = cb;
+      }
+      const bus = c.createGain(); bus.gain.value = 1; bus.connect(out);
+      const src = c.createBufferSource(); src.buffer = this._staticBuf; src.loop = true;
+      const hp = c.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 350;
+      const bp = c.createBiquadFilter(); bp.type = 'lowpass'; bp.frequency.value = 3200; bp.Q.value = 0.4;
+      const stat = c.createGain(); stat.gain.value = 0.0001;
+      src.connect(hp).connect(bp).connect(stat).connect(out);
+      const csrc = c.createBufferSource(); csrc.buffer = this._crackBuf; csrc.loop = true;
+      const cbp = c.createBiquadFilter(); cbp.type = 'bandpass'; cbp.frequency.value = 1800; cbp.Q.value = 0.5;
+      const crk = c.createGain(); crk.gain.value = 0.0001;
+      csrc.connect(cbp).connect(crk).connect(out);
+      // «уууУУУууу» налаштування: два ледь розстроєні тони, висота залежить
+      // від того, наскільки далеко станція, і плаває, поки крутять шкалу
+      // низько й глухо, як гудіння за стіною: на ніч нічого пронизливого
+      const osc = c.createOscillator(); osc.type = 'sine'; osc.frequency.value = 110;
+      // другий тон — трикутний: його м'які обертони роблять гудіння чутним
+      // і в маленькому динаміку телефона, а фільтр зрізає все дзвінке
+      const osc2 = c.createOscillator(); osc2.type = 'triangle'; osc2.frequency.value = 111;
+      const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 420; lp.Q.value = 0.5;
+      const whis = c.createGain(); whis.gain.value = 0.0001;
+      const g2 = c.createGain(); g2.gain.value = 0.5;
+      osc.connect(lp); osc2.connect(g2).connect(lp); lp.connect(whis).connect(out);
+      src.start(); csrc.start(); osc.start(); osc2.start();
+      this.au = { bus, src, csrc, stat, crk, osc, osc2, whis, move: 0, lastPos: this.pos };
+    },
+    nearest() {
+      let best = null, d = 1e9;
+      for (const l of this.list) { const dd = Math.abs(this.SLOT[l.key] - this.pos); if (dd < d) { d = dd; best = l; } }
+      return { best, d };
+    },
+    /* Нове положення стрілки → сила сигналу, звук, перемикання станції */
+    _update() {
+      const { best, d } = this.nearest();
+      this.sig = best ? Math.max(0, 1 - d / 7) : 0;
+      const s = this.sig, a = this.au;
+      if (a) {
+        const now = Sound.ctx.currentTime;
+        // перебої: поки хвиля не налаштована, голос то пропадає, то повертається
+        const drop = s < 0.97 && Math.random() < (1 - s) * 0.55;
+        a.bus.gain.setTargetAtTime(drop ? s * 0.12 : s * s, now, 0.02);
+        a.stat.gain.setTargetAtTime(0.0001 + 0.055 * Math.pow(1 - s, 1.2) * (drop ? 1.5 : 1), now, 0.03);
+        // тріск — найбільше, поки хвиля «ловиться» і губиться
+        a.crk.gain.setTargetAtTime(s > 0.97 ? 0.0001 : 0.16 * (0.45 + 0.55 * Math.sin(Math.PI * Math.min(1, s * 1.1))), now, 0.04);
+        // тон звучить, поки шкала рухається, і стихає, коли вона стоїть
+        const mv = Math.min(1, Math.abs(this.pos - a.lastPos) * 1.5);
+        a.lastPos = this.pos;
+        a.move = Math.max(mv, a.move * 0.9);
+        const tone = s > 0.95 ? 0 : (0.35 + 0.65 * a.move) * (0.4 + 0.6 * Math.sin(Math.PI * Math.min(1, 0.15 + s)));
+        a.whis.gain.setTargetAtTime(0.0001 + 0.035 * tone, now, 0.15);
+        // ~90…220 Гц: ближче до станції — нижче; плавно, без різких стрибків
+        const f = 95 + Math.min(d, 12) * 10 + Math.sin(this.pos * 0.9) * 12;
+        a.osc.frequency.setTargetAtTime(f, now, 0.15);
+        a.osc2.frequency.setTargetAtTime(f * 1.008 + 0.8, now, 0.18);
+      }
+      if (best && s > 0.5 && best.key !== this.key) {
+        this.key = best.key; this.mid = true;
+        settings.radioLang = best.key; Store.set('radioLang', best.key);
+        stopVoice(); this._signal();
+        paintRadioLangs();
+      } else if (s < 0.2 && this.key) {
+        this.key = null; stopVoice(); this._signal();
+      }
+      if (best && s > 0.85 && this.buzzed !== best.key) { this.buzzed = best.key; Haptic.play(14); }
+      if (s < 0.3) this.buzzed = null;
+      this._paint();
+    },
+    _paint() {
+      const root = $('sleep-radio');
+      root.style.setProperty('--sig', this.sig.toFixed(2));
+      $('sr-needle').style.left = this.pos + '%';
+      $('sr-knob').style.transform = `rotate(${Math.round(-130 + this.pos * 2.6)}deg)`;
+      const lit = Math.round(this.sig * 5);
+      $('sr-bars').querySelectorAll('i').forEach((el, i) => el.classList.toggle('on', i < lit));
+      const { best } = this.nearest();
+      const caught = best && this.sig > 0.45;
+      document.querySelectorAll('#sr-dial .sr-city').forEach((el) => el.classList.toggle('is-on', !!caught && el.dataset.key === best.key));
+      const freq = (87.5 + this.pos * 0.205).toFixed(1);
+      const gaps = tr('radioGap').split('|');
+      if (!caught && !this.inGap) this.gapI = (this.gapI + 1) % gaps.length; // щоразу інша фраза
+      this.inGap = !caught;
+      const label = caught ? `${best.name} · ${freq}` : gaps[this.gapI % gaps.length];
+      const st = $('sr-station');
+      if (st.textContent !== label) st.textContent = label;
+      const dial = $('sr-dial');
+      dial.setAttribute('aria-valuenow', Math.round(this.pos));
+      dial.setAttribute('aria-valuetext', label);
+    },
+    /* Яскравіше, поки шкалу чіпають; за кілька секунд — знову ледь жевріє */
+    wake(ms = 6000) {
+      const root = $('sleep-radio');
+      root.classList.add('is-awake');
+      clearTimeout(this.idleTimer);
+      this.idleTimer = setTimeout(() => { if (!this.drag) root.classList.remove('is-awake'); }, ms);
+    },
+    /* Відпустили — стрілка доходить до найближчої станції */
+    snap() {
+      const { best } = this.nearest();
+      if (!best) return;
+      const from = this.pos, to = this.SLOT[best.key], dist = Math.abs(to - from);
+      if (dist < 0.2) { this.pos = to; this._update(); return; }
+      // повільно, як рука, що обережно докручує ручку
+      const dur = Math.min(4200, 1400 + dist * 160), t0 = performance.now();
+      clearTimeout(this.anim);
+      const step = (now) => {
+        if (!this.on || this.drag) return;
+        const k = Math.min(1, (now - t0) / dur), e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        this.pos = from + (to - from) * e;
+        this._update();
+        if (k < 1) this.anim = setTimeout(() => step(performance.now()), 33);
+      };
+      this.anim = setTimeout(() => step(performance.now()), 33);
+    },
+    moveTo(pos) { this.pos = Math.min(97, Math.max(3, pos)); this._update(); },
+    bind() {
+      const dial = $('sr-dial');
+      dial.addEventListener('pointerdown', (e) => {
+        if (!this.on) return;
+        // шкала — не вихід: утримання пальця тут не закриває сон
+        e.stopPropagation(); e.preventDefault(); holdCancel();
+        clearTimeout(this.anim);
+        try { dial.setPointerCapture(e.pointerId); } catch (err) { /* noop */ }
+        this.drag = { x: e.clientX, pos: this.pos, w: dial.getBoundingClientRect().width };
+        this.wake();
+      });
+      dial.addEventListener('pointermove', (e) => {
+        if (!this.drag) return;
+        e.stopPropagation();
+        this.moveTo(this.drag.pos + ((e.clientX - this.drag.x) / this.drag.w) * 100);
+        this.wake();
+      });
+      const end = (e) => {
+        if (!this.drag) return;
+        e.stopPropagation();
+        this.drag = null; this.snap(); this.wake();
+      };
+      dial.addEventListener('pointerup', end);
+      dial.addEventListener('pointercancel', end);
+      dial.addEventListener('keydown', (e) => {
+        if (!this.on || !['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+        e.preventDefault();
+        const dir = e.key === 'ArrowRight' ? 1 : -1;
+        const slots = this.list.map((l) => this.SLOT[l.key]).sort((a, b) => a - b);
+        const next = dir > 0 ? slots.find((x) => x > this.pos + 0.5) : slots.reverse().find((x) => x < this.pos - 0.5);
+        if (next == null) return;
+        this.wake();
+        // повз шипіння до сусідньої станції
+        this.drag = null; this.pos = next - dir * 9; this._update(); this.snap();
+      });
+    },
+  };
+
+  /* «Радіо»: одна передача для запису й для голосу телефону. Звучить
+     станція, на якій стоїть шкала; перемикання обриває фразу, а нова
+     станція починається з середини — ніби передача вже йшла. */
   async function runRadio(t) {
-    const rl = radioLang();
-    if (!rl) { runCountdown(t); return; }
-    const list = RADIO_TEXT[rl.key];
-    let bag = [];
+    if (!radioLang()) { runCountdown(t); return; }
     sleepText.classList.remove('is-word');
     sleepText.textContent = '';
+    Tuner.start();
     const started = performance.now();
+    const bags = {}, prog = {}; // bags — фрази голосу телефону, prog — де ми в записаній передачі
+    const first = Tuner.current();
+    if (first && first.rec) Clips.preload(radioClip(first.key, 1));
     await wait(2500, t);
     for (;;) {
       const p = Math.min(1, (performance.now() - started) / sleepMs());
       if (p >= 1 || t.cancelled) break;
-      if (bag.length === 0) bag = list.map((_, i) => i).sort(() => Math.random() - 0.5);
-      const line = list[bag.pop()];
-      const vol = (1 - p * 0.6) * SPEECH_BASE_VOLUME;
       if (settings.bg !== 'off') Sound.setNoiseLevel(NOISE_LEVEL[settings.bg] * (1 - p * 0.6), 2);
-      // чекаємо кінця фрази (з запасом, якщо синтезатор не повідомить)
-      await Promise.race([
-        Speech.speakForeign(line, rl.tag, 0.82 - p * 0.12, vol),
-        new Promise((r) => setTimeout(r, 25000)),
-      ]);
+      const rl = Tuner.current(), sig = Tuner.switched;
+      if (!rl) { await Promise.race([sig, wait(1500, t)]); if (t.cancelled) return; continue; }
+      const mid = Tuner.mid; Tuner.mid = false;
+      const rec = rl.rec && Sound.ready;
+      let between = true; // пауза як між пунктами чи як між реченнями
+      if (rec) {
+        // пункт звучить повністю, шматок за шматком; наступний пункт — випадковий
+        // (усі пункти по разу, потім нове коло). Першим — пункт із вітанням.
+        const secs = RADIO_SECTIONS[rl.key], starts = radioStarts(rl.key);
+        const st = prog[rl.key] || (prog[rl.key] = { bag: [], next: 1, end: 0, last: -1, started: false });
+        if (mid || st.next > st.end) {
+          if (!st.bag.length) {
+            st.bag = secs.map((_, i) => i).sort(() => Math.random() - 0.5);
+            if (st.bag.length > 1 && st.bag[st.bag.length - 1] === st.last) st.bag.unshift(st.bag.pop());
+            if (!st.started && !mid) { st.bag = st.bag.filter((i) => i !== 0); st.bag.push(0); } // pop(): вітання першим
+          }
+          const s = st.bag.pop();
+          st.last = s; st.next = starts[s]; st.end = starts[s] + secs[s] - 1;
+          // зловили станцію шкалою — передача вже йде: з довільного шматка цього пункту
+          if (mid) st.next += Math.floor(Math.random() * secs[s]);
+        }
+        st.started = true;
+        const i = st.next++;
+        between = st.next > st.end;
+        const vol = (1 - p * 0.6) * SPEECH_BASE_VOLUME * (VOICE_BOOST[settings.bg] || 1);
+        Clips.play(radioClip(rl.key, i), vol, null, { bus: Tuner.au && Tuner.au.bus, mid });
+        if (!between) Clips.preload(radioClip(rl.key, st.next));
+        await Promise.race([Clips.finished, wait(40000, t), sig]);
+      } else {
+        const list = RADIO_TEXT[rl.key];
+        if (!bags[rl.key] || !bags[rl.key].length) bags[rl.key] = list.map((_, i) => i).sort(() => Math.random() - 0.5);
+        let line = list[bags[rl.key].pop()];
+        if (mid) { // з середини речення
+          const w = line.split(' ');
+          if (w.length > 4) line = w.slice(1 + Math.floor(Math.random() * (w.length / 2))).join(' ');
+        }
+        const vol = (1 - p * 0.6) * SPEECH_BASE_VOLUME;
+        // чекаємо кінця фрази (з запасом, якщо синтезатор не повідомить)
+        await Promise.race([
+          Speech.speakForeign(line, rl.tag, 0.82 - p * 0.12, vol),
+          new Promise((r) => setTimeout(r, 25000)),
+          sig,
+        ]);
+      }
       if (t.cancelled) return;
-      // пауза як між реченнями у звичайному мовленні; під кінець ледь довша
-      await wait(120 + Math.random() * 160 + p * 500, t);
+      if (Tuner.switched !== sig) continue; // станцію перемкнули — одразу далі
+      // пауза. Запис: усередині пункту — як між реченнями, між пунктами — довша тиша;
+      // голос телефону — як між реченнями
+      const gap = !rec ? 120 + Math.random() * 160 + p * 500
+        : between ? 1800 + Math.random() * 1500 + p * 2000 : 250 + Math.random() * 300 + p * 400;
+      await Promise.race([wait(gap, t), sig]);
+      if (t.cancelled) return;
     }
     endSleep(t);
   }
@@ -2166,6 +2657,7 @@
      тишина и снятие Wake Lock — телефон может погасить экран сам. */
   async function endSleep(t) {
     sleepText.classList.add('fade');
+    Tuner.stop(2);
     $('sleep-radio').classList.add('fade');
     clearInterval(moonTimer); paintMoon(1); // повний місяць — читання завершене
     $('sleep-time').classList.add('fade');
@@ -2373,13 +2865,13 @@
     };
   }
   /* ---- Фонові сцени за бульбашками ----
-     Три спокійні сцени змінюють одна одну кожні SCENE_MS (або кнопкою
-     внизу) з плавним перетіканням: дощ, краплі на склі, хвилі. У режимі
+     Три спокійні сцени перемикає лише сам користувач — кнопкою внизу,
+     з плавним перетіканням: дощ, краплі на склі, хвилі. У режимі
      «Звук + Вібро» кожна має свій тихий звук. Кольори — сіро-зелені,
      без синього. */
   const SCENES = ['rain', 'glass', 'waves'];
   const SCENE_KEYS = { rain: 'scRain', glass: 'scGlass', waves: 'scWaves' };
-  const SCENE_MS = 50000, SCENE_FADE = 2500;
+  const SCENE_FADE = 2500;
   const scene = { i: 0, prev: -1, since: 0, rain: [], glass: [] };
 
   /* ---- Краплі на склі ----
@@ -2578,37 +3070,62 @@
     ctx.restore();
   }
 
-  /* ---- Хвилі: гра з водою ----
-     Нічне море: сутінкове небо, місяць і його доріжка на воді, дальні
-     хвилі. Передня вода — жива поверхня (рівняння хвилі на стовпчиках):
-     дотик робить сплеск із бризками, рух пальцем жене хвилю, хвилі
-     розходяться, відбиваються від країв і поволі заспокоюються. */
-  const sea = { step: 6, cols: 0, y: null, v: null, spray: [], stars: [], drag: null, lastSplash: 0 };
+  /* ---- Хвилі: тихе нічне море ----
+     Сутінкове небо, місяць і його доріжка на воді, дальні хвилі. Дотик до
+     води пускає лише ледь помітну брижу й кола, що повільно розходяться, —
+     без сплесків і різких звуків. Місяць і зорі можна пересувати пальцем;
+     місячна доріжка йде слідом за місяцем. */
+  const sea = { step: 6, cols: 0, y: null, v: null, rings: [], stars: [], drag: null, moon: { x: 0.7, y: 0.17 } };
   function seaInit(w, h) {
     sea.cols = Math.ceil(w / sea.step) + 2;
     sea.y = new Float32Array(sea.cols);
     sea.v = new Float32Array(sea.cols);
-    sea.spray = [];
-    sea.stars = Array.from({ length: 26 }, () => ({ x: Math.random(), y: Math.random() * 0.4, r: 0.5 + Math.random() * 1.1, ph: Math.random() * 6 }));
+    sea.rings = [];
+    // більшість зірок дрібні, кожна п'ята — велика, з м'яким сяйвом
+    if (!sea.stars.length) sea.stars = Array.from({ length: 44 }, (_, i) => ({
+      x: Math.random(), y: Math.random() * 0.36, ph: Math.random() * 6,
+      sp: 900 + Math.random() * 1800, // у кожної зірки свій ритм мерехтіння
+      r: i % 5 === 0 ? 1.7 + Math.random() * 1.1 : 0.5 + Math.random() * 1.1,
+    }));
     sea.w = w; sea.h = h;
   }
+  const seaHorizon = (h) => h * 0.42;
+  const seaMoonR = (w, h) => Math.min(w, h) * 0.045;
   const seaBase = (h) => h * 0.6;
   const seaSwell = (x, now) => Math.sin(x / 120 + now / 1500) * 7 + Math.sin(x / 47 - now / 2300) * 2.5;
   function seaSurface(i, now) {
     return seaBase(sea.h) + seaSwell(i * sea.step, now) + sea.y[Math.max(0, Math.min(sea.cols - 1, i))];
   }
   function seaStep(dt) {
-    const K = 760, S = 9, D = 1.3, n = sea.cols, y = sea.y, v = sea.v;
+    // м'яка вода: повільні хвилі, сильне згасання, висота брижі — кілька пікселів
+    const K = 420, S = 6, D = 2.2, n = sea.cols, y = sea.y, v = sea.v;
     const steps = Math.max(1, Math.ceil(dt / 0.008)), h = dt / steps;
     for (let s = 0; s < steps; s++) {
       for (let i = 0; i < n; i++) {
         const l = y[i > 0 ? i - 1 : 0], r = y[i < n - 1 ? i + 1 : n - 1];
         v[i] += (K * (l + r - 2 * y[i]) - S * y[i] - D * v[i]) * h;
       }
-      for (let i = 0; i < n; i++) y[i] = Math.max(-70, Math.min(70, y[i] + v[i] * h));
+      for (let i = 0; i < n; i++) y[i] = Math.max(-6, Math.min(6, y[i] + v[i] * h));
     }
-    for (const p of sea.spray) { p.vy += 520 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; }
-    sea.spray = sea.spray.filter((p) => p.life > 0);
+    for (const r of sea.rings) r.age += dt;
+    sea.rings = sea.rings.filter((r) => r.age < r.life);
+    seaDrift(dt);
+  }
+  /* Небо саме повільно пливе зліва направо: місяць — пологою дугою
+     (вище посередині), зорі — ще повільніше. Те, що тримають пальцем,
+     стоїть; відпустили — пливе далі з нового місця. */
+  function seaDrift(dt) {
+    const d = sea.drag, m = sea.moon;
+    if (!d || d.kind !== 'moon') {
+      m.x += dt * 0.0042;
+      m.y = Math.max(0.05, Math.min(0.5, m.y + dt * (m.x - 0.5) * 0.004));
+      if (m.x > 1.12) m.x = -0.12; // зайшов за край — виходить з іншого (дуга симетрична, висота та сама)
+    }
+    for (const s of sea.stars) {
+      if (d && d.star === s) continue;
+      s.x += dt * 0.0016;
+      if (s.x > 1.01) s.x -= 1.02;
+    }
   }
   /* Поштовх води біля x: plus — униз (сплеск), minus — угору */
   function seaPush(x, amount, spread = 4) {
@@ -2619,33 +3136,53 @@
       sea.v[i] += amount * Math.exp(-(j * j) / (2 * spread * spread));
     }
   }
-  function seaTouch(p, now) {
-    if (!sea.y) return;
-    seaPush(p.x, 240, 4);
-    const sy = seaSurface(Math.round(p.x / sea.step), now);
-    for (let k = 0; k < 14; k++) {
-      const a = -Math.PI / 2 + (Math.random() - 0.5) * 1.6, sp = 120 + Math.random() * 200;
-      sea.spray.push({ x: p.x + (Math.random() - 0.5) * 14, y: sy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 0.7 + Math.random() * 0.6, r: 1 + Math.random() * 2 });
-    }
-    Haptic.play(14);
-    if (soundOn()) Sound.splash(0.7);
-    sea.lastSplash = now;
+  /* Тихі кола на воді в точці дотику (у перспективі — сплющені еліпси) */
+  function seaRing(p, strength = 1) {
+    if (sea.rings.length > 24) sea.rings.shift();
+    sea.rings.push({ x: p.x, y: p.y, age: 0, life: 2.6 + strength, k: strength });
   }
-  function seaDrag(p, now) {
-    if (!sea.y || !sea.drag) return;
-    const dx = p.x - sea.drag.x, dy = p.y - sea.drag.y;
-    sea.drag = p;
-    // палець униз тисне воду, угору — тягне; бічний рух жене хвилю вперед
-    seaPush(p.x, Math.max(-160, Math.min(160, dy * 10 + Math.abs(dx) * 2.5)), 3);
-    if (soundOn() && Math.hypot(dx, dy) > 18 && now - sea.lastSplash > 420) {
-      Sound.splash(Math.min(1, Math.hypot(dx, dy) / 60) * 0.5);
-      sea.lastSplash = now;
+  /* Дотик: місяць чи зірку — бере, щоб пересунути; воду — ледь колише */
+  function seaTouch(p) {
+    if (!sea.y) return;
+    const { w, h } = bubbles.view, hy = seaHorizon(h), mr = seaMoonR(w, h);
+    if (Math.hypot(p.x - sea.moon.x * w, p.y - sea.moon.y * h) < mr * 2.6) {
+      sea.drag = { kind: 'moon', dx: sea.moon.x * w - p.x, dy: sea.moon.y * h - p.y };
+      return;
+    }
+    if (p.y < hy) {
+      let best = null, bd = 26;
+      for (const s of sea.stars) { const d = Math.hypot(p.x - s.x * w, p.y - s.y * h); if (d < bd) { bd = d; best = s; } }
+      if (best) sea.drag = { kind: 'star', star: best, dx: best.x * w - p.x, dy: best.y * h - p.y };
+      return;
+    }
+    seaPush(p.x, 26, 5);
+    seaRing(p, 1);
+    if (soundOn()) Sound.plop(1);
+    sea.drag = { kind: 'water', x: p.x, y: p.y, dist: 0 };
+  }
+  function seaDrag(p) {
+    const d = sea.drag;
+    if (!sea.y || !d) return;
+    const { w, h } = bubbles.view, hy = seaHorizon(h), mr = seaMoonR(w, h);
+    if (d.kind === 'moon') {
+      // місяць можна опустити за обрій — він ховається у воду
+      sea.moon.x = Math.max(mr, Math.min(w - mr, p.x + d.dx)) / w;
+      sea.moon.y = Math.max(mr * 1.5, Math.min(hy + mr * 1.4, p.y + d.dy)) / h;
+    } else if (d.kind === 'star') {
+      d.star.x = Math.max(0.01, Math.min(0.99, (p.x + d.dx) / w));
+      d.star.y = Math.max(0.01, Math.min((hy - 6) / h, (p.y + d.dy) / h));
+    } else if (p.y > hy) {
+      // палець по воді лишає ледь помітний слід із брижі
+      const moved = Math.hypot(p.x - d.x, p.y - d.y);
+      d.dist += moved; d.x = p.x; d.y = p.y;
+      seaPush(p.x, Math.min(12, moved * 0.6), 3);
+      if (d.dist > 38) { seaRing(p, 0.5); d.dist = 0; if (soundOn()) Sound.plop(0.45); }
     }
   }
   function drawSea(ctx, w, h, dt, now) {
     if (!sea.y || sea.w !== w || sea.h !== h) seaInit(w, h);
     seaStep(dt);
-    const light = isLight(), hy = h * 0.42, base = seaBase(h);
+    const light = isLight(), hy = seaHorizon(h), base = seaBase(h);
     // небо
     const sky = ctx.createLinearGradient(0, 0, 0, hy);
     if (light) { sky.addColorStop(0, '#B9C7D3'); sky.addColorStop(1, '#EBD8C6'); }
@@ -2653,11 +3190,23 @@
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, w, hy + 2);
     if (!light) for (const s of sea.stars) {
-      ctx.fillStyle = `rgba(240,232,215,${0.25 + 0.35 * (0.5 + 0.5 * Math.sin(now / 1700 + s.ph))})`;
-      ctx.beginPath(); ctx.arc(s.x * w, s.y * h, s.r, 0, Math.PI * 2); ctx.fill();
+      // повільне дихання світла + ледь помітне тремтіння, як у справжніх зірок
+      const tw = Math.max(0, Math.min(1, 0.5 + 0.42 * Math.sin(now / s.sp + s.ph) + 0.14 * Math.sin(now / 170 + s.ph * 3)));
+      const sx = s.x * w, sy = s.y * h;
+      if (s.r > 1.6) { // велика зірка — з тихим сяйвом
+        const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, s.r * 5);
+        g.addColorStop(0, `rgba(240,232,215,${0.22 + 0.12 * tw})`);
+        g.addColorStop(1, 'rgba(240,232,215,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(sx - s.r * 5, sy - s.r * 5, s.r * 10, s.r * 10);
+      }
+      ctx.fillStyle = `rgba(240,232,215,${(s.r > 1.6 ? 0.55 : 0.25) + 0.35 * tw})`;
+      ctx.beginPath(); ctx.arc(sx, sy, s.r, 0, Math.PI * 2); ctx.fill();
     }
     // місяць
-    const mx = w * 0.7, my = h * 0.17, mr = Math.min(w, h) * 0.045;
+    const mx = sea.moon.x * w, my = sea.moon.y * h, mr = seaMoonR(w, h);
+    // наскільки місяць над обрієм: 1 — високо, 0 — сховався у воду; доріжка гасне разом із ним
+    const moonUp = Math.max(0, Math.min(1, (hy - my + mr) / (mr * 2.6)));
     const glow = ctx.createRadialGradient(mx, my, mr * 0.5, mx, my, mr * 5);
     glow.addColorStop(0, light ? 'rgba(255,250,235,.55)' : 'rgba(244,227,195,.28)');
     glow.addColorStop(1, 'rgba(244,227,195,0)');
@@ -2676,7 +3225,7 @@
       const t = (yy - hy) / (h - hy), half = 6 + t * w * 0.16;
       const shift = Math.sin(yy * 0.13 + now / 600) * half * 0.5;
       const len = half * (0.4 + 0.6 * (0.5 + 0.5 * Math.sin(yy * 0.71 + now / 380)));
-      ctx.fillStyle = light ? `rgba(255,255,255,${0.5 * (1 - t)})` : `rgba(244,227,195,${0.42 * (1 - t * 0.8)})`;
+      ctx.fillStyle = light ? `rgba(255,255,255,${0.5 * (1 - t) * moonUp})` : `rgba(244,227,195,${0.42 * (1 - t * 0.8) * moonUp})`;
       ctx.fillRect(mx + shift - len / 2, yy, len, 1.6);
     }
     // дальні хвилі (паралакс)
@@ -2701,39 +3250,42 @@
     ctx.lineTo(w, h); ctx.closePath();
     ctx.fillStyle = water;
     ctx.fill();
-    // світлий гребінь і піна там, де вода швидко здіймається
+    // світлий гребінь
     ctx.beginPath();
     for (let i = 0; i < sea.cols; i++) (i ? ctx.lineTo : ctx.moveTo).call(ctx, i * sea.step, pts[i]);
     ctx.lineWidth = 1.6;
     ctx.strokeStyle = light ? 'rgba(255,255,255,.6)' : 'rgba(190,230,225,.38)';
     ctx.stroke();
-    for (let i = 1; i < sea.cols - 1; i++) {
-      const rise = -sea.v[i];
-      if (rise < 50) continue;
-      const a = Math.min(0.7, (rise - 50) / 260);
-      ctx.fillStyle = `rgba(235,248,245,${a})`;
-      ctx.beginPath(); ctx.arc(i * sea.step + Math.sin(i * 7.3) * 2, pts[i] - 1, 1 + a * 2.2, 0, Math.PI * 2); ctx.fill();
+    // місячна доріжка і на передній воді — під місяцем, куди б його не пересунули
+    for (let yy = top + 6; yy < h; yy += 7) {
+      const t = (yy - top) / (h - top), half = w * (0.06 + t * 0.12);
+      const shift = Math.sin(yy * 0.09 + now / 900) * half * 0.4;
+      const len = half * (0.3 + 0.7 * (0.5 + 0.5 * Math.sin(yy * 0.53 + now / 520)));
+      ctx.fillStyle = light ? `rgba(255,255,255,${0.22 * (1 - t) * moonUp})` : `rgba(244,227,195,${0.2 * (1 - t * 0.7) * moonUp})`;
+      ctx.fillRect(mx + shift - len / 2, yy, len, 1.4);
     }
+    // тихі кола від дотиків — лише на воді, нижче обрію; далі від берега
+    // (ближче до обрію) — менші, як у перспективі
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0, hy + 1, w, h - hy); ctx.clip();
+    ctx.lineWidth = 1.2;
+    for (const r of sea.rings) {
+      const k = r.age / r.life, depth = 0.3 + 0.7 * Math.max(0, Math.min(1, (r.y - hy) / (h - hy)));
+      const rad = (8 + k * (60 + 50 * r.k)) * depth;
+      ctx.strokeStyle = light ? `rgba(255,255,255,${0.45 * (1 - k) * r.k})` : `rgba(210,235,230,${0.32 * (1 - k) * r.k})`;
+      ctx.beginPath(); ctx.ellipse(r.x, r.y, rad, rad * 0.3, 0, 0, Math.PI * 2); ctx.stroke();
+      if (k > 0.15) {
+        const r2 = rad * 0.6;
+        ctx.beginPath(); ctx.ellipse(r.x, r.y, r2, r2 * 0.3, 0, 0, Math.PI * 2); ctx.stroke();
+      }
+    }
+    ctx.restore();
     // відблиск місяця на передній воді
     const gl = ctx.createRadialGradient(mx, base + 20, 0, mx, base + 20, w * 0.35);
-    gl.addColorStop(0, light ? 'rgba(255,255,255,.16)' : 'rgba(244,227,195,.1)');
+    gl.addColorStop(0, light ? `rgba(255,255,255,${0.16 * moonUp})` : `rgba(244,227,195,${0.1 * moonUp})`);
     gl.addColorStop(1, 'rgba(244,227,195,0)');
     ctx.fillStyle = gl;
     ctx.fillRect(0, top, w, h - top);
-    // бризки
-    for (const p of sea.spray) {
-      ctx.fillStyle = `rgba(225,242,240,${Math.min(0.8, p.life)})`;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
-    }
-    // підказка на початку
-    const since = now - scene.since;
-    if (since < 7000) {
-      ctx.globalAlpha *= Math.min(1, since / 800, (7000 - since) / 1200);
-      ctx.fillStyle = light ? 'rgba(30,50,55,.75)' : 'rgba(230,225,215,.7)';
-      ctx.font = `600 ${Math.round(15 * (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fs')) || 1))}px Nunito, system-ui, sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.fillText(tr('wavesHint'), w / 2, h * 0.84);
-    }
   }
   const sceneWeight = (name, now) => {
     const k = Math.min(1, (now - scene.since) / SCENE_FADE);
@@ -2757,7 +3309,6 @@
     const dt = bubbles.lastT ? Math.min(0.05, (now - bubbles.lastT) / 1000) : 0;
     bubbles.lastT = now;
     ctx.clearRect(0, 0, w, h);
-    if (now - scene.since > SCENE_MS) setScene(scene.i + 1, now);
     const k = Math.min(1, (now - scene.since) / SCENE_FADE);
     if (scene.prev >= 0 && k < 1) drawScene(SCENES[scene.prev], 1 - k, dt, now);
     drawScene(SCENES[scene.i], scene.prev >= 0 ? k : 1, dt, now);
@@ -2800,7 +3351,7 @@
     const p = pointIn($('bubbles-canvas'), e);
     const now = performance.now();
     if (glassWeight(now) > 0.5) { glassTap(p); return; }
-    if (sceneWeight('waves', now) > 0.5) { sea.drag = p; seaTouch(p, now); return; }
+    if (sceneWeight('waves', now) > 0.5) { seaTouch(p); return; }
     for (let i = bubbles.items.length - 1; i >= 0; i--) {
       const b = bubbles.items[i], x = bubbleX(b);
       if (Math.hypot(p.x - x, p.y - b.y) > b.r + 10) continue;
@@ -3239,7 +3790,7 @@
     });
     $('bubbles-canvas').addEventListener('pointermove', (e) => {
       if (!sea.drag) return;
-      seaDrag(pointIn($('bubbles-canvas'), e), performance.now());
+      seaDrag(pointIn($('bubbles-canvas'), e));
     });
     ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((ev) => $('bubbles-canvas').addEventListener(ev, () => { sea.drag = null; }));
     $('scene-btn').addEventListener('click', () => setScene(scene.i + 1, performance.now()));
@@ -3270,6 +3821,7 @@
       $('home-anchor-text').textContent = has ? quoteAnchor() : tr('anchorAdd');
       const h = new Date().getHours();
       $('home-greet').textContent = tr(h >= 5 && h < 12 ? 'greetMorning' : h >= 12 && h < 18 ? 'greetDay' : h >= 18 && h < 23 ? 'greetEvening' : 'greetNight');
+      $('home-greet').parentNode.classList.toggle('is-night', h >= 18 || h < 5);
     }
     screens.forEach((el) => { el.hidden = el.id !== id; });
     document.body.dataset.screen = id;
@@ -3305,6 +3857,7 @@
     ground.token = null;
     Haptic.stop();
     stopVoice();
+    Tuner.stop();
     Sound.stopAmbient(0.8);
     Sound.stopNoise(0.8);
     Wake.off();
@@ -3404,12 +3957,17 @@
     paintRadioLangs();
     const pick = radioLang();
     stopVoice();
-    if (pick) Speech.speakForeign(RADIO_TEXT[pick.key][0], pick.tag, 0.82, SPEECH_BASE_VOLUME, true);
+    if (pick && pick.rec && Sound.ready) {
+      // зразок — перші секунди вступу; таймер не зачепить інший звук, що почався після
+      Clips.play(radioClip(pick.key, 1), SPEECH_BASE_VOLUME);
+      const g = Clips.gen;
+      setTimeout(() => { if (Clips.gen === g) Clips.stop(); }, 5000);
+    } else if (pick) Speech.speakForeign(RADIO_TEXT[pick.key][0], pick.tag, 0.82, SPEECH_BASE_VOLUME, true);
   }
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 53;
+  const APP_VERSION = 72;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
@@ -3433,6 +3991,11 @@
   // Сайт застосунку: ним діляться, поки «Якоря» ще немає в магазинах
   const WEB_URL = 'https://yulianachera-del.github.io/yakir/';
   const APP_ID = 'ua.yakir.app';
+  /* Добровільна підтримка: посилання на сторінку донату. Порожнє — рядок
+     у налаштуваннях не показується. У застосунку з магазинів рядок
+     ховаємо: Google Play і App Store вимагають, щоб «чайові» розробнику
+     йшли через їхню оплату, тож зовнішнє посилання є лише на сайті. */
+  const DONATE_URL = '';
   const STORE_URL = PLATFORM === 'ios'
     ? WEB_URL // TODO: посилання на App Store після публікації
     : `https://play.google.com/store/apps/details?id=${APP_ID}`;
@@ -3611,6 +4174,7 @@
     });
     // Поділитися
     $('btn-share').addEventListener('click', shareApp);
+    if (DONATE_URL && !NATIVE) { $('donate-link').href = DONATE_URL; $('donate-link').hidden = false; }
     // Скинути все — лише після підтвердження
     $('reset-ask').addEventListener('click', () => {
       $('reset-ask').hidden = true; $('reset-confirm').hidden = false;
@@ -3641,7 +4205,7 @@
 
   function init() {
     Speech.init();
-    Clips.init();
+    Clips.init().then(() => paintRadioLangs()); // записане радіо з'являється після переліку файлів
 
     // Любой первый жест размораживает AudioContext (нужно при каждом запуске)
     document.addEventListener('pointerdown', () => Sound.unlock(), { capture: true });
@@ -3692,7 +4256,6 @@
       const last = n === 3;
       $('intro-next').hidden = last;
       $('btn-intro').hidden = !last;
-      $('intro-bad').hidden = !last;
       $('intro-skip').style.visibility = last ? 'hidden' : '';
     };
     showIntroStep(1);
@@ -3700,7 +4263,6 @@
     $('intro-next').addEventListener('click', () => { Sound.unlock(); showIntroStep(introStep + 1); });
     $('intro-skip').addEventListener('click', finishIntro);
     $('btn-intro').addEventListener('click', finishIntro);
-    $('intro-bad').addEventListener('click', () => { finishIntro(); startFlowA(); });
 
     $('btn-calm').addEventListener('click', () => { Sound.unlock(); startFlowA(); });
     $('btn-sleep').addEventListener('click', () => { Sound.unlock(); updateVoiceHint(); showScreen('s-b1'); });
@@ -3768,6 +4330,7 @@
     // «Моя опора»
     $('home-anchor').addEventListener('click', () => openAnchor(goHome));
     $('anchor-exit').addEventListener('click', closeAnchor);
+    $('anchor-input').addEventListener('input', paintAnchorCount);
     $('anchor-save').addEventListener('click', () => {
       const value = $('anchor-input').value.trim();
       Store.set('anchorText', value);
@@ -3801,6 +4364,7 @@
     const b2 = $('s-b2');
     b2.addEventListener('pointerdown', (e) => { e.preventDefault(); holdStart(e); });
     ['pointerup', 'pointercancel', 'pointerleave'].forEach((ev) => b2.addEventListener(ev, holdCancel));
+    Tuner.bind();
 
     // Стартовий екран: головна або одразу вправа (якщо так обрано в Налаштуваннях)
     if (Store.get('seen', '') !== '1') showScreen('s-intro');
