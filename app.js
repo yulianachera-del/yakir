@@ -2367,6 +2367,150 @@
     const list = radioLangs();
     return list.find((l) => l.key === settings.radioLang) || list[0] || null;
   }
+  /* ---- Мелодії між пунктами «Радіо» ----
+     Коротка тиха заставка (8–11 с), як між блоками новин на старому радіо:
+     тихо починається, трохи наростає й стихає. Інструменти синтезуються тут
+     же, без файлів; струнні — дуже м'які (щипок згладжений, верхи зрізані).
+     У кожної мови свої мелодії, вони чергуються. Обрано за пробою (листопад 2026). */
+  const Jingles = {
+    live: [],
+    cache: new Map(),
+    stop() { this.live.forEach((o) => { try { o.stop(); } catch (e) { /* noop */ } }); this.live = []; },
+    _osc(type, f, t, end, gain, out) {
+      const o = Sound.ctx.createOscillator();
+      o.type = type; o.frequency.value = f;
+      o.connect(gain).connect(out); o.start(t); o.stop(end);
+      this.live.push(o);
+      o.onended = () => { const i = this.live.indexOf(o); if (i >= 0) this.live.splice(i, 1); };
+      return o;
+    },
+    inst: {
+      celesta(J, c, out, f, t, d, v) {
+        [[1, 1], [4, 0.08]].forEach(([m, a]) => {
+          const g = c.createGain(), e = t + Math.max(1.2, d * 1.6) / Math.sqrt(m);
+          g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.11 * v * a, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, e);
+          J._osc('sine', f * m, t, e + 0.05, g, out);
+        });
+      },
+      box(J, c, out, f, t, d, v) {
+        [[1, 1], [3, 0.12], [5.4, 0.03]].forEach(([m, a]) => {
+          const g = c.createGain(), e = t + 1.6 / Math.sqrt(m);
+          g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.08 * v * a, t + 0.006); g.gain.exponentialRampToValueAtTime(0.0001, e);
+          J._osc('sine', f * m, t, e + 0.05, g, out);
+        });
+      },
+      vibe(J, c, out, f, t, d, v) {
+        const g = c.createGain(), e = t + d + 1.8, trem = c.createGain(), lfo = c.createOscillator(), lg = c.createGain();
+        g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.09 * v, t + 0.02); g.gain.setTargetAtTime(0.0001, t + 0.05, (d + 1.2) / 3);
+        trem.gain.value = 0.75; lfo.frequency.value = 4.2; lg.gain.value = 0.25;
+        lfo.connect(lg).connect(trem.gain); lfo.start(t); lfo.stop(e); J.live.push(lfo);
+        trem.connect(out);
+        J._osc('sine', f, t, e, g, trem);
+        const g2 = c.createGain();
+        g2.gain.setValueAtTime(0.0001, t); g2.gain.exponentialRampToValueAtTime(0.012 * v, t + 0.01); g2.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+        J._osc('sine', f * 4, t, t + 0.7, g2, trem);
+      },
+      flute(J, c, out, f, t, d, v) {
+        const g = c.createGain(), e = t + d + 0.25, lfo = c.createOscillator(), lg = c.createGain();
+        g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.07 * v, t + 0.12); g.gain.setValueAtTime(0.07 * v, e - 0.25); g.gain.linearRampToValueAtTime(0.0001, e);
+        const o = J._osc('sine', f, t, e + 0.05, g, out);
+        lfo.frequency.value = 5; lg.gain.value = f * 0.004; lfo.connect(lg).connect(o.frequency); lfo.start(t); lfo.stop(e + 0.05); J.live.push(lfo);
+        const g2 = c.createGain();
+        g2.gain.setValueAtTime(0.0001, t); g2.gain.linearRampToValueAtTime(0.008 * v, t + 0.12); g2.gain.linearRampToValueAtTime(0.0001, e);
+        J._osc('sine', f * 2, t, e + 0.05, g2, out);
+      },
+      keys(J, c, out, f, t, d, v) {
+        [[1, 1], [2, 0.18], [3, 0.05]].forEach(([m, a]) => {
+          const g = c.createGain();
+          g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.06 * v * a, t + 0.015); g.gain.setTargetAtTime(0.0001, t + 0.03, (d + 0.8) / (2 + m));
+          J._osc('sine', f * m, t, t + d + 1.2, g, out);
+        });
+      },
+      pad(J, c, out, f, t, d, v) {
+        const g = c.createGain(), e = t + d + 0.8;
+        g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.025 * v, t + 0.6); g.gain.setValueAtTime(0.025 * v, t + d); g.gain.linearRampToValueAtTime(0.0001, e);
+        [-0.6, 0.6].forEach((dt) => J._osc('sine', f + dt, t, e + 0.05, g, out));
+      },
+      // щипкова струна, дуже м'яко (Карплус — Стронг); буфери кешуються
+      pluck(J, c, out, f, t, d, v, soft = 0.12) {
+        const sr = c.sampleRate, len = Math.floor(sr * Math.min(3, d + 1.6)), N = Math.max(2, Math.round(sr / f));
+        const key = f.toFixed(1) + '|' + soft + '|' + len;
+        let buf = J.cache.get(key);
+        if (!buf) {
+          buf = c.createBuffer(1, len, sr);
+          const y = buf.getChannelData(0);
+          for (let i = 0; i < N; i++) y[i] = Math.random() * 2 - 1;
+          for (let k = 0; k < 4; k++) for (let i = 1; i < N; i++) y[i] = y[i] * soft + y[i - 1] * (1 - soft);
+          for (let i = N; i < len; i++) y[i] = 0.497 * (y[i - N] + y[i - N + 1]);
+          J.cache.set(key, buf);
+        }
+        const s = c.createBufferSource(), g = c.createGain(), lp = c.createBiquadFilter();
+        s.buffer = buf; lp.type = 'lowpass'; lp.frequency.value = 1300; lp.Q.value = 0.5;
+        g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.13 * v, t + 0.035); g.gain.setTargetAtTime(0.0001, t + d + 0.2, 0.35);
+        s.connect(lp).connect(g).connect(out); s.start(t); s.stop(t + len / sr);
+        J.live.push(s);
+      },
+      mando(J, c, out, f, t, d, v) {
+        const n = Math.max(2, Math.round(d * 5));
+        for (let i = 0; i < n; i++) J.inst.pluck(J, c, out, f, t + i / 5, 0.5, v * (0.55 - 0.25 * i / n) * (i % 2 ? 0.75 : 1), 0.16);
+      },
+      cimb(J, c, out, f, t, d, v) {
+        J.inst.pluck(J, c, out, f, t, d, v * 0.75, 0.16);
+        J.inst.pluck(J, c, out, f * 1.002, t + 0.12, d, v * 0.25, 0.16);
+      },
+    },
+    /* Мелодії: [доля, MIDI-нота або акорд, тривалість у долях, інструмент, гучність] */
+    LIST: (() => {
+      const ch = (b, n, d, i = 'pad', v = 1) => [b, n, d, i, v];
+      const arp = (chords, step, dur, inst, vol) => chords.flatMap((c, k) => c.map((n, i) => [k * c.length * step + i * step, n, dur, inst, vol(k, i)]));
+      return [
+        { bpm: 84, len: 9, gain: 2.8, notes: [[0, 69, 1, 'celesta'], [1, 72, 1, 'celesta'], [2, 77, 1, 'celesta'], [3, 76, 2, 'celesta'], [5, 72, 1, 'celesta'], [6, 74, 1, 'celesta'], [7, 72, 1, 'celesta', 0.9], [8, 69, 1, 'celesta', 0.85], [9, 72, 3, 'celesta', 0.8],
+          ch(0, [53, 57, 60], 3), ch(3, [48, 55, 60], 3), ch(6, [46, 53, 58], 3), ch(9, [53, 57, 60], 3)] }, // 0 Вечірній вальс
+        { bpm: 72, len: 10, gain: 2.2, notes: [[0, 74, 1, 'flute'], [1, 71, 1.5, 'flute'], [2.5, 67, 0.5, 'flute', 0.9], [3, 69, 1, 'flute'], [4, 71, 1, 'flute'], [5, 74, 1, 'flute'], [6, 76, 1, 'flute'], [7, 74, 1, 'flute', 0.9], [8, 71, 1, 'flute', 0.85], [9, 67, 2.6, 'flute', 0.8],
+          ch(0, [55, 59, 62], 4), ch(4, [48, 52, 55], 2), ch(6, [50, 54, 57], 2), ch(8, [55, 59, 62], 4)] }, // 1 Колискова флейти
+        { bpm: 66, len: 10, gain: 2.55, notes: [...arp([[62, 66, 69, 73], [59, 62, 66, 69], [55, 59, 62, 66], [57, 61, 64, 69]], 0.5, 1.5, 'vibe', (k) => 0.9 - k * 0.05),
+          [8, [62, 66, 69, 74], 3, 'vibe', 0.7], ch(0, [50, 57], 2), ch(2, [47, 54], 2), ch(4, [43, 50], 2), ch(6, [45, 52], 2), ch(8, [50, 57], 3)] }, // 2 Вібрафон біля моря
+        { bpm: 100, len: 8.5, gain: 3.6, notes: [[0, 88, 1, 'box'], [1, 86, 1, 'box'], [2, 84, 1, 'box'], [3, 79, 1, 'box'], [4, 81, 1, 'box'], [5, 79, 1, 'box'], [6, 76, 2, 'box'], [8, 77, 1, 'box', 0.9], [9, 76, 1, 'box', 0.9], [10, 74, 1, 'box', 0.85], [11, 79, 1, 'box', 0.85], [12, 84, 2, 'box', 0.8],
+          ch(0, [60, 64, 67], 4, 'pad', 0.7), ch(4, [57, 60, 64], 4, 'pad', 0.7), ch(8, [53, 57, 60], 2, 'pad', 0.7), ch(10, [55, 59, 62], 2, 'pad', 0.7), ch(12, [60, 64, 67], 3, 'pad', 0.7)] }, // 3 Музична скринька
+        { bpm: 58, len: 10, gain: 2.65, notes: [[0, [53, 57, 60, 64], 2, 'keys'], [2, [52, 55, 59, 62], 2, 'keys'], [4, [50, 53, 57, 60], 2, 'keys', 0.9], [6, [48, 52, 55, 59], 3, 'keys', 0.85],
+          [0.5, 77, 1, 'keys', 0.8], [1.5, 76, 0.5, 'keys', 0.7], [2.5, 74, 1, 'keys', 0.8], [4.5, 72, 1, 'keys', 0.75], [6.5, 71, 0.5, 'keys', 0.7], [7, 72, 2, 'keys', 0.7]] }, // 4 Нічні акорди
+        { bpm: 92, len: 10.5, gain: 5.8, notes: [...arp([[45, 52, 57, 60, 64, 60, 57, 52], [41, 48, 53, 57, 60, 57, 53, 48], [43, 50, 55, 59, 62, 59, 55, 50]], 0.5, 1.2, 'pluck', (k, i) => (i === 0 ? 1 : 0.7)),
+          [12, 48, 3, 'pluck'], [12.25, 52, 3, 'pluck', 0.7], [12.5, 55, 3, 'pluck', 0.7], [12.75, 60, 3, 'pluck', 0.7], [13, 64, 3, 'pluck', 0.75]] }, // 5 Гітарний перебір
+        { bpm: 80, len: 10, gain: 6.8, notes: [[0, 71, 1, 'mando'], [1, 74, 1, 'mando'], [2, 79, 2, 'mando'], [4, 76, 1, 'mando'], [5, 74, 1, 'mando'], [6, 72, 2, 'mando', 0.9], [8, 71, 1, 'mando', 0.85], [9, 69, 1, 'mando', 0.8], [10, 67, 2, 'mando', 0.75],
+          [0, 43, 2, 'pluck', 0.8], [2, 50, 2, 'pluck', 0.6], [4, 48, 2, 'pluck', 0.8], [6, 52, 2, 'pluck', 0.6], [8, 50, 2, 'pluck', 0.8], [10, 43, 2.5, 'pluck', 0.7]] }, // 6 Мандоліна на терасі
+        { bpm: 84, len: 11, gain: 3.3, notes: [[0, 71, 1, 'pluck', 0.9], [1, 69, 1, 'pluck', 0.85], [2, 67, 1, 'pluck', 0.85], [3, 66, 1, 'pluck', 0.85], [4, 64, 2, 'pluck', 0.9], [6, 67, 1, 'pluck', 0.85], [7, 71, 1, 'pluck', 0.85], [8, 69, 1, 'pluck', 0.85], [9, 67, 1, 'pluck', 0.8], [10, 66, 1, 'pluck', 0.8], [11, 62, 1, 'pluck', 0.8], [12, 67, 3, 'pluck', 0.85],
+          ch(0, [52, 59, 64], 4, 'pad', 0.8), ch(4, [48, 55, 60], 4, 'pad', 0.8), ch(8, [50, 57, 62], 4, 'pad', 0.8), ch(12, [43, 55, 59, 62], 3, 'pad', 0.8),
+          [0, 40, 2, 'pluck', 0.6], [4, 36, 2, 'pluck', 0.6], [8, 38, 2, 'pluck', 0.6], [12, 43, 3, 'pluck', 0.6]] }, // 7 Сутінки над річкою
+        { bpm: 76, len: 10, gain: 2.7, notes: [...[62, 65, 69, 72, 74, 72, 69, 65, 67, 70, 74, 77, 74, 70, 67, 65].map((n, i) => [i * 0.5, n, 1, 'cimb', 0.8 - (i % 4) * 0.05]),
+          [8, 65, 3, 'cimb', 0.75], [8.15, 69, 3, 'cimb', 0.6], [8.3, 72, 3, 'cimb', 0.6],
+          ch(0, [50, 57, 62], 2), ch(2, [53, 57, 60], 2), ch(4, [46, 53, 58], 2), ch(6, [48, 55, 60], 2), ch(8, [53, 57, 60], 3)] }, // 8 Цимбали здалеку
+      ];
+    })(),
+    // по дві мелодії на мову (румунська — три: її передача найдовша)
+    BY_LANG: { es: [5, 0], it: [6, 3], pt: [7, 1], ro: [8, 2, 4] },
+    turn: {},
+    /* Наступна мелодія мови; повертає її тривалість у секундах (0 — нічого) */
+    play(lang, level, dryOut) {
+      const set = this.BY_LANG[lang];
+      if (!Sound.ready || !set) return 0;
+      const k = this.turn[lang] = ((this.turn[lang] ?? -1) + 1) % set.length;
+      const J = this.LIST[set[k]], c = Sound.ctx, t = c.currentTime, len = J.len, b = 60 / J.bpm;
+      // загальна хвиля гучності: тихо → трохи гучніше → стихає
+      // gain — вирівнювання: кожна мелодія ~5 дБ тихіша за голос (виміряно, листопад 2026)
+      const out = c.createGain(), lv = J.gain * level * (VOICE_BOOST[settings.bg] || 1);
+      out.gain.setValueAtTime(0.0001, t);
+      out.gain.linearRampToValueAtTime(0.55 * lv, t + 1.2);
+      out.gain.linearRampToValueAtTime(0.85 * lv, t + len * 0.45);
+      out.gain.linearRampToValueAtTime(0.5 * lv, t + len * 0.8);
+      out.gain.linearRampToValueAtTime(0.0001, t + len + 1.8);
+      out.connect(dryOut || Sound._voice()); out.connect(Sound._echoIn());
+      const t0 = t + 0.3; // запас: буфери струн готуються наперед
+      J.notes.forEach(([beat, m, dur, inst, v = 1]) => [].concat(m).forEach((n) =>
+        this.inst[inst](this, c, out, 440 * Math.pow(2, (n - 69) / 12), t0 + beat * b, dur * b, v)));
+      return len + 1.8;
+    },
+  };
+
   /* ---- Шкала налаштування «Радіо» ----
      Кожна мова — «станція» на своєму місці шкали (місто). Тягнеш шкалу —
      стрілка їде, між станціями шипить ефір, біля станції голос
@@ -2393,6 +2537,7 @@
       this.wake(4000);
     },
     stop(fade = 0.6) {
+      Jingles.stop();
       this.on = false; this.drag = null;
       clearTimeout(this.anim); clearTimeout(this.idleTimer);
       const a = this.au; this.au = null;
@@ -2486,10 +2631,10 @@
       if (best && s > 0.5 && best.key !== this.key) {
         this.key = best.key; this.mid = true;
         settings.radioLang = best.key; Store.set('radioLang', best.key);
-        stopVoice(); this._signal();
+        stopVoice(); Jingles.stop(); this._signal();
         paintRadioLangs();
       } else if (s < 0.2 && this.key) {
-        this.key = null; stopVoice(); this._signal();
+        this.key = null; stopVoice(); Jingles.stop(); this._signal();
       }
       if (best && s > 0.85 && this.buzzed !== best.key) { this.buzzed = best.key; Haptic.play(14); }
       if (s < 0.3) this.buzzed = null;
@@ -2643,12 +2788,21 @@
       }
       if (t.cancelled) return;
       if (Tuner.switched !== sig) continue; // станцію перемкнули — одразу далі
-      // пауза. Запис: усередині пункту — як між реченнями, між пунктами — довша тиша;
-      // голос телефону — як між реченнями
-      const gap = !rec ? 120 + Math.random() * 160 + p * 500
-        : between ? 1800 + Math.random() * 1500 + p * 2000 : 250 + Math.random() * 300 + p * 400;
-      await Promise.race([wait(gap, t), sig]);
-      if (t.cancelled) return;
+      if (rec && between) {
+        // між пунктами — коротка тиша, тиха мелодія-заставка, і далі наступний пункт
+        await Promise.race([wait(800 + Math.random() * 500, t), sig]);
+        if (t.cancelled) return;
+        if (Tuner.switched === sig) {
+          const jl = Jingles.play(rl.key, 1 - p * 0.6, Tuner.au && Tuner.au.bus);
+          await Promise.race([wait(Math.max(0, jl * 1000 - 600) + p * 1500, t), sig]);
+          if (t.cancelled) return;
+        }
+      } else {
+        // усередині пункту — як між реченнями; голос телефону — так само
+        const gap = !rec ? 120 + Math.random() * 160 + p * 500 : 250 + Math.random() * 300 + p * 400;
+        await Promise.race([wait(gap, t), sig]);
+        if (t.cancelled) return;
+      }
     }
     endSleep(t);
   }
@@ -3967,7 +4121,7 @@
 
   /* ================= 8a. Налаштування ================= */
   // Збільшувати разом із CACHE у sw.js
-  const APP_VERSION = 72;
+  const APP_VERSION = 74;
   const ICONS = ['default', 'bright', 'calm'];
 
   /* Іконку на головному екрані телефона веб-застосунок змінити не може —
